@@ -8,8 +8,6 @@ const router = createBrowserRouter([
     path: "/",
     element: isLogin ? (
       <div>
-        Home
-        <Outlet />
       </div>
     ) : (
       <h1>Login dulu</h1>
