@@ -3,7 +3,7 @@ export default function InputForm({
   children,
   name,
   placeholderText,
-  widthClass,
+  customStyles,
   type
 }) {
     return (
@@ -16,7 +16,8 @@ export default function InputForm({
                 id={id}
                 name={name}
                 placeholder={placeholderText}
-                className={`text-formColor p-2 mt-1 border border-solid border-formColor rounded-lg text-sm ${widthClass}`}
+                className={`text-formColor p-2 mt-1 border border-solid border-formColor rounded-lg text-sm ${customStyles}`}
+                required
             />
         </div>
     );

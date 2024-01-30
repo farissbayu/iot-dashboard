@@ -1,18 +1,31 @@
-import React from "react";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet, RouterProvider, createBrowserRouter, useNavigate } from "react-router-dom";
+import LoginPage from "../pages/auth/LoginPage";
+import RegisterPage from "../pages/auth/RegisterPage";
 
-const isLogin = true;
+const isLogin = false;
+
+function ProtectedRoute({children}) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!isLogin) {
+      navigate("login", {replace: true});
+    }
+  }, [navigate]);
+
+  return children;
+}
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: isLogin ? (
-      <div>
-      </div>
-    ) : (
-      <h1>Login dulu</h1>
-    ),
+    element: <ProtectedRoute><div>hello<Outlet /></div></ProtectedRoute>,
     children: [
+      {
+        path: "home",
+        element: <h1>home</h1>,
+      },
       {
         path: "node/:username",
         element: <h1>Node list</h1>,
@@ -64,8 +77,12 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "login",
+    element: <LoginPage />,
+  },
+  {
     path: "register",
-    element: <h1>Register</h1>,
+    element: <RegisterPage />,
   },
   {
     path: "forget-password",
