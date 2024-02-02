@@ -1,30 +1,29 @@
-import React, { useEffect } from "react";
-import { Outlet, RouterProvider, createBrowserRouter, useNavigate } from "react-router-dom";
-import LoginPage from "../pages/auth/LoginPage";
-import RegisterPage from "../pages/auth/RegisterPage";
+// Utilities
+import React from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { ProtectedRoute } from "./ProtectedRoute";
 
-const isLogin = false;
-
-function ProtectedRoute({children}) {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if(!isLogin) {
-      navigate("login", {replace: true});
-    }
-  }, [navigate]);
-
-  return children;
-}
+// Pages
+import LoginPage, { loginAction } from "../pages/auth/LoginPage";
+import RegisterPage, { registerAction } from "../pages/auth/RegisterPage";
+import ForgetPasswordPage, {
+  forgetPasswordAction,
+} from "../pages/auth/ForgetPasswordPage";
+import Layout from "../pages/Layout";
+import Home from "../pages/Home";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <ProtectedRoute><div>hello<Outlet /></div></ProtectedRoute>,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       {
-        path: "home",
-        element: <h1>home</h1>,
+        index: true,
+        element: <Home />,
       },
       {
         path: "node/:username",
@@ -78,15 +77,18 @@ const router = createBrowserRouter([
   },
   {
     path: "login",
+    action: loginAction,
     element: <LoginPage />,
   },
   {
     path: "register",
+    action: registerAction,
     element: <RegisterPage />,
   },
   {
     path: "forget-password",
-    element: <h1>Forget Password</h1>,
+    action: forgetPasswordAction,
+    element: <ForgetPasswordPage />,
   },
 ]);
 

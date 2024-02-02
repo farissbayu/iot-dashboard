@@ -1,0 +1,10 @@
+export default function Home() {
+  return (
+    <div className="bg-pageBackground h-screen flex">
+      <div className="bg-white rounded-lg w-3/4 h-2/3 m-auto flex flex-col items-center justify-around">
+        <h1 className="font-bold text-secondary text-[40px] text-center">Welcome to IoT Dashboard</h1>
+        <img src="/iot-dashboard-home.png" className="w-2/3"></img>
+      </div>
+    </div>
+  );
+}
