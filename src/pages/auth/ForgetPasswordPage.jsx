@@ -40,7 +40,7 @@ export default function ForgetPasswordPage() {
   );
 }
 
-export const forgetPasswordAction = async ({ request }) => {
+export const action = async ({ request }) => {
   const data = await request.formData();
 
   const registerBody = {

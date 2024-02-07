@@ -1,7 +1,7 @@
-export default function ButtonSecondary({ onClick, children, width, type }) {
+export default function ButtonSecondary({ onClick, children, customStyles, type }) {
   return (
     <button
-      className={`${width} px-8 py-2 text-center text-secondary text-xl rounded-2xl border-2 border-solid border-secondary transition hover:shadow-md duration-300 ease-in-out`}
+      className={`${customStyles} px-8 py-2 text-center text-secondary rounded-2xl border-2 border-solid border-secondary bg-white transition hover:shadow-md duration-300 ease-in-out`}
       onClick={onClick}
       type={type}
     >

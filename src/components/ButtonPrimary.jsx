@@ -6,7 +6,7 @@ export default function ButtonPrimary({
 }) {
   return (
     <button
-      className={`px-8 py-2 text-center text-white text-xl bg-primary rounded-2xl ${customStyles} hover:shadow-lg duration-300 ease-in-out`}
+      className={`px-8 py-2 text-center text-white bg-primary rounded-2xl ${customStyles} hover:shadow-lg duration-300 ease-in-out`}
       onClick={onClick}
       type={type}
     >

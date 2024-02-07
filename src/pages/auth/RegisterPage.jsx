@@ -48,7 +48,7 @@ export default function RegisterPage() {
   );
 }
 
-export const registerAction = async ({ request }) => {
+export const action = async ({ request }) => {
   const data = await request.formData();
 
   const registerBody = {

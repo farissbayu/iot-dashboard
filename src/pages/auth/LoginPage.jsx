@@ -67,7 +67,7 @@ export default function LoginPage() {
   );
 }
 
-export const loginAction = async ({ request }) => {
+export const action = async ({ request }) => {
   const data = await request.formData();
 
   const loginBody = {

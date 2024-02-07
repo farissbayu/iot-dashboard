@@ -4,13 +4,15 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 // Pages
-import LoginPage, { loginAction } from "../pages/auth/LoginPage";
-import RegisterPage, { registerAction } from "../pages/auth/RegisterPage";
+import LoginPage, { action as loginAction } from "../pages/auth/LoginPage";
+import RegisterPage, { action as registerAction } from "../pages/auth/RegisterPage";
 import ForgetPasswordPage, {
-  forgetPasswordAction,
+  action as forgetPasswordAction,
 } from "../pages/auth/ForgetPasswordPage";
 import Layout from "../pages/Layout";
 import Home from "../pages/Home";
+import ProfilePage from "../pages/profile/ProfilePage";
+import ChangePasswordPage, { action as changePasswordAction } from "../pages/profile/ChangePasswordPage";
 
 const router = createBrowserRouter([
   {
@@ -67,11 +69,12 @@ const router = createBrowserRouter([
       },
       {
         path: "profile/:username",
-        element: <h1>Profile detail</h1>,
+        element: <ProfilePage />,
       },
       {
         path: "profile/:username/change-password",
-        element: <h1>Change password</h1>,
+        action: changePasswordAction,
+        element: <ChangePasswordPage />,
       },
     ],
   },
