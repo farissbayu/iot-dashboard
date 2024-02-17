@@ -1,6 +1,5 @@
-import { Form, redirect } from "react-router-dom";
-import InputForm from "../../components/InputForm";
-import ButtonPrimary from "../../components/ButtonPrimary";
+import { redirect } from "react-router-dom";
+import ForgetPasswordForm from "../../components/ForgetPasswordForm";
 
 export default function ForgetPasswordPage() {
   return (
@@ -10,31 +9,7 @@ export default function ForgetPasswordPage() {
         <h1 className="text-darkFont font-bold text-3xl mb-2 md:text-5xl mb-4">
           Forget Password
         </h1>
-        <Form
-          method="post"
-          id="forget-password-form"
-          className="w-5/6 flex flex-col justify-around"
-        >
-          <InputForm
-            id="username"
-            name="username"
-            placeholderText="user"
-            type="text"
-          >
-            Username
-          </InputForm>
-          <InputForm
-            id="email"
-            name="email"
-            placeholderText="qwerty@email.com"
-            type="text"
-          >
-            Email
-          </InputForm>
-          <ButtonPrimary customStyles="w-full mt-8" type="submit">
-            Request
-          </ButtonPrimary>
-        </Form>
+        <ForgetPasswordForm />
       </div>
     </div>
   );

@@ -1,7 +1,12 @@
 import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
-  const isAdmin = true;
+  const user = {
+    id: 1,
+    username: "Faris",
+    email: "faris@email.com",
+    isAdmin: true,
+  };
 
   const activeStyle = ({ isActive }) =>
     isActive
@@ -24,7 +29,7 @@ export default function Sidebar() {
         className="flex flex-col text-center items-center text-navFont flex-1 py-4 relative"
       >
         <NavLink
-            to="node/:username"
+            to={`node/${user.username.toLowerCase()}`}
             style={activeStyle}
             className="w-5/6 py-3 hover:underline"
           >
@@ -33,13 +38,13 @@ export default function Sidebar() {
           <NavLink to="hardware" style={activeStyle} className="w-5/6 py-3 hover:underline">
             Hardware
           </NavLink>
-          {isAdmin && (
-            <NavLink to="user-list" style={activeStyle} className="w-5/6 py-3 hover:underline">
+          {user.isAdmin && (
+            <NavLink to="userlist" style={activeStyle} className="w-5/6 py-3 hover:underline">
               User
             </NavLink>
           )}
         <NavLink
-          to="profile/:username"
+          to={`profile/${user.username.toLowerCase()}`}
           style={activeStyle}
           className="w-5/6 py-3 absolute bottom-0 mb-4 hover:underline"
         >

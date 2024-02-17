@@ -20,7 +20,9 @@ export default {
         formColor: '#848484',
         white: '#FFFFFF',
         navFont: '#F8F8F8',
-        pageBackground: '#F2F2F2'
+        pageBackground: '#F2F2F2',
+        buttonRed: "#C60000",
+        buttonGreen: "#00B007"
       }
     },
   },

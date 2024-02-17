@@ -1,9 +1,8 @@
-import InputForm from "../../components/InputForm";
-import ButtonPrimary from "../../components/ButtonPrimary";
 import ButtonSecondary from "../../components/ButtonSecondary";
-import { NavLink, Form, redirect } from "react-router-dom";
+import { NavLink, redirect } from "react-router-dom";
+import LoginForm from "../../components/LoginForm";
 
-export default function LoginPage() { 
+export default function LoginPage() {
   return (
     <div className="bg-pageBackground flex items-center justify-center h-screen">
       {/* Container */}
@@ -27,27 +26,7 @@ export default function LoginPage() {
           <h1 className="text-darkFont font-bold text-3xl lg:text-5xl mb-2">
             Login
           </h1>
-          <Form method="post" id="login-form" className="w-full space-y-4">
-            <InputForm
-              id="email"
-              name="email"
-              placeholderText="qwerty@email.com"
-              type="text"
-            >
-              Email
-            </InputForm>
-            <InputForm
-              id="password"
-              name="password"
-              placeholderText="********"
-              type="password"
-            >
-              Password
-            </InputForm>
-            <ButtonPrimary customStyles="w-full" type="submit">
-              Login
-            </ButtonPrimary>
-          </Form>
+          <LoginForm />
           <div
             id="divider"
             className="my-4 border-t border-formColor w-full"

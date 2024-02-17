@@ -10,7 +10,7 @@ export default function ProfilePage() {
     isAdmin: false,
   };
 
-  const handleButtonNavigation = () => navigate("change-password");
+  const handleButtonNavigation = () => navigate(`/profile/${user.username.toLowerCase()}/change-password`);
 
   return (
     <div className="bg-pageBackground h-screen flex flex-col items-center space-y-4">

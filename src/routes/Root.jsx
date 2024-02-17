@@ -5,14 +5,22 @@ import { ProtectedRoute } from "./ProtectedRoute";
 
 // Pages
 import LoginPage, { action as loginAction } from "../pages/auth/LoginPage";
-import RegisterPage, { action as registerAction } from "../pages/auth/RegisterPage";
+import RegisterPage, {
+  action as registerAction,
+} from "../pages/auth/RegisterPage";
 import ForgetPasswordPage, {
   action as forgetPasswordAction,
 } from "../pages/auth/ForgetPasswordPage";
 import Layout from "../pages/Layout";
 import Home from "../pages/Home";
 import ProfilePage from "../pages/profile/ProfilePage";
-import ChangePasswordPage, { action as changePasswordAction } from "../pages/profile/ChangePasswordPage";
+import ChangePasswordPage, {
+  action as changePasswordAction,
+} from "../pages/profile/ChangePasswordPage";
+import UserListPage from "../pages/user/UserListPage";
+import HardwareListPage from "../pages/hardware/HardwareListPage";
+import HardwareDetailPage from "../pages/hardware/HardwareDetailPage";
+import HardwareCreatePage, {action as createHardwareAction} from "../pages/hardware/HardwareCreatePage";
 
 const router = createBrowserRouter([
   {
@@ -45,27 +53,24 @@ const router = createBrowserRouter([
       },
       {
         path: "hardware/",
-        element: <h1>Hardware list</h1>,
+        element: <HardwareListPage />,
       },
       {
         path: "hardware/:id/detail",
-        element: <h1>Hardware detail</h1>,
+        element: <HardwareDetailPage />,
       },
       {
         path: "hardware/create",
-        element: <h1>Create hardware</h1>,
+        action: createHardwareAction,
+        element: <HardwareCreatePage />,
       },
       {
         path: "hardware/:id/edit",
         element: <h1>Edit hardware</h1>,
       },
       {
-        path: "user-list",
-        element: <h1>User list</h1>,
-      },
-      {
-        path: "user-list/detail",
-        element: <h1>User detail</h1>,
+        path: "userlist",
+        element: <UserListPage />,
       },
       {
         path: "profile/:username",

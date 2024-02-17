@@ -1,6 +1,6 @@
-import { Form, redirect } from "react-router-dom";
-import InputForm from "../../components/InputForm";
-import ButtonPrimary from "../../components/ButtonPrimary";
+import { redirect } from "react-router-dom";
+
+import RegisterForm from "../../components/RegisterForm";
 
 export default function RegisterPage() {
   return (
@@ -10,39 +10,7 @@ export default function RegisterPage() {
         <h1 className="text-darkFont font-bold text-3xl mb-2 md:text-5xl mb-4">
           Register
         </h1>
-        <Form
-          method="post"
-          id="register-form"
-          className="w-5/6 flex flex-col justify-around"
-        >
-          <InputForm
-            id="username"
-            name="username"
-            placeholderText="user"
-            type="text"
-          >
-            Username
-          </InputForm>
-          <InputForm
-            id="email"
-            name="email"
-            placeholderText="qwerty@email.com"
-            type="text"
-          >
-            Email
-          </InputForm>
-          <InputForm
-            id="password"
-            name="password"
-            placeholderText="********"
-            type="password"
-          >
-            Password
-          </InputForm>
-          <ButtonPrimary customStyles="w-full mt-8" type="submit">
-            Register
-          </ButtonPrimary>
-        </Form>
+        <RegisterForm />
       </div>
     </div>
   );

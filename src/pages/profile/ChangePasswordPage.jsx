@@ -11,7 +11,7 @@ export default function ProfilePage() {
   return (
     <div className="bg-pageBackground h-screen flex">
       <div className="w-full mt-8 mx-8 flex flex-col">
-        <ButtonSecondary customStyles="w-1/6 py-1" onClick={() => (navigate(-1))}>{"<"} Back</ButtonSecondary>
+        <ButtonSecondary customStyles="w-2/12 py-1" onClick={() => (navigate(-1))}>{"<"} Back</ButtonSecondary>
         <div className="w-2/3 bg-white shadow-md rounded-lg mx-auto mt-4 flex flex-col items-center py-12 px-8 space-y-4">
           <h1 className="text-4xl font-bold text-darkFont">Change Password</h1>
           <Form
