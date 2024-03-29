@@ -2,17 +2,18 @@ import { Form } from "react-router-dom";
 import InputForm from "./InputForm";
 import ButtonPrimary from "./ButtonPrimary";
 
-export default function ForgetPasswordForm() {
+export default function ForgetPasswordForm({onSubmit}) {
   return (
-    <Form
+    <form
       method="post"
       id="forget-password-form"
-      className="w-5/6 flex flex-col justify-around"
+      className="w-5/6 flex flex-col justify-around space-y-4"
+      onSubmit={onSubmit}
     >
       <InputForm
         id="username"
         name="username"
-        placeholderText="user"
+        placeholder="user"
         type="text"
       >
         Username
@@ -20,7 +21,7 @@ export default function ForgetPasswordForm() {
       <InputForm
         id="email"
         name="email"
-        placeholderText="qwerty@email.com"
+        placeholder="qwerty@email.com"
         type="text"
       >
         Email
@@ -28,6 +29,6 @@ export default function ForgetPasswordForm() {
       <ButtonPrimary customStyles="w-full mt-8" type="submit">
         Request
       </ButtonPrimary>
-    </Form>
+    </form>
   );
 }

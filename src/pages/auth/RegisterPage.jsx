@@ -1,8 +1,30 @@
-import { redirect } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 import RegisterForm from "../../components/RegisterForm";
+import { register } from "../../api/auth-requests";
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const registerBody = {
+      email: formData.get("email"),
+      username: formData.get("username"),
+      password: formData.get("password"),
+      status: false
+    };
+
+    try {
+      const message = await register(registerBody)
+      console.log(message);
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.log(error.message || "Failed to register.");
+    }
+  }
+
   return (
     <div className="bg-pageBackground flex items-center justify-center h-screen">
       {/* Container */}
@@ -10,21 +32,8 @@ export default function RegisterPage() {
         <h1 className="text-darkFont font-bold text-3xl mb-2 md:text-5xl mb-4">
           Register
         </h1>
-        <RegisterForm />
+        <RegisterForm onSubmit={handleSubmit} />
       </div>
     </div>
   );
 }
-
-export const action = async ({ request }) => {
-  const data = await request.formData();
-
-  const registerBody = {
-    username: data.get("username"),
-    email: data.get("email"),
-    password: data.get("password"),
-  };
-
-  console.log(registerBody);
-  return redirect("/login");
-};

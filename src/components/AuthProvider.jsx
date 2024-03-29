@@ -1,19 +1,63 @@
 import { createContext, useContext, useState } from "react";
 
-const AuthContext = createContext(undefined);
+const apiUrl = 'http://localhost:8080/api/v1/';
 
-export default function AuthProvider({children, isLoggedIn}) {
-    const [token] = useState(isLoggedIn ? 'token' : null);
+const AuthContext = createContext();
 
-    return <AuthContext.Provider value={token}>{children}</AuthContext.Provider>;
-}
+export default function AuthProvider({ children }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') !== null); 
 
-export const useAuth = () => {
-    const context = useContext(AuthContext);
+  async function login(loginBody) {
+    const response = await fetch(apiUrl + "user/login", {
+      method: "POST",
+      body: JSON.stringify(loginBody),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await response.json();
 
-    if (context === undefined) {
-        throw new Error('useAuth must be used within an AuthProvider');
+    if (!response.ok) {
+      throw new Error("Failed to login.");
     }
 
-    return context;
+    const token = responseData.data.token;
+    const user = {
+      id_user: responseData.data.id_user,
+      username: responseData.data.username,
+      email: responseData.data.email,
+      status: responseData.data.status,
+      is_admin: responseData.data.is_admin,
+    };
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("userData", JSON.stringify(user));
+    setIsLoggedIn(true);
+    return { message: "Login successful." };
+  }
+
+  function logout() {
+    setIsLoggedIn(false);
+    
+    localStorage.removeItem("token");
+    localStorage.removeItem("userData");
+
+    console.log("Logout successful");
+  }
+
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+
+  return context;
 }

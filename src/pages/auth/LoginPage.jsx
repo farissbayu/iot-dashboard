@@ -1,8 +1,29 @@
 import ButtonSecondary from "../../components/ButtonSecondary";
-import { NavLink, redirect } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import LoginForm from "../../components/LoginForm";
+import { useAuth } from "../../components/AuthProvider";
 
 export default function LoginPage() {
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const loginBody = {
+      username: formData.get("username"),
+      password: formData.get("password"),
+    };
+
+    try {
+      const message = await auth.login(loginBody);
+      console.log(message);
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.log(error.message || "Failed to login.");
+    }
+  }
+
   return (
     <div className="bg-pageBackground flex items-center justify-center h-screen">
       {/* Container */}
@@ -26,13 +47,15 @@ export default function LoginPage() {
           <h1 className="text-darkFont font-bold text-3xl lg:text-5xl mb-2">
             Login
           </h1>
-          <LoginForm />
-          <div
-            id="divider"
-            className="my-4 border-t border-formColor w-full"
-          ></div>
+          <LoginForm onSubmit={handleSubmit} />
+
+          <hr id="divider" className="my-4 border-t border-formColor w-full" />
+
+          {/* TODO: Ubah ke button biasa, tanpa navlink */}
           <NavLink to="/register">
-            <ButtonSecondary type="button">Register</ButtonSecondary>
+            <ButtonSecondary type="button" customStyles="px-16">
+              Register
+            </ButtonSecondary>
           </NavLink>
           <NavLink
             to="/forget-password"
@@ -45,15 +68,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-export const action = async ({ request }) => {
-  const data = await request.formData();
-
-  const loginBody = {
-    email: data.get("email"),
-    password: data.get("password"),
-  };
-
-  console.log(loginBody);
-  return redirect("/");
-};

@@ -1,6 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ButtonSecondary from "../../components/ButtonSecondary";
 import HardwareDetailItem from "../../components/HardwareDetailItem";
+import { useEffect } from "react";
 
 const hardwareData = {
   id_hardware: 2,
@@ -47,9 +48,9 @@ export default function HardwareDetailPage() {
     <div className="bg-pageBackground h-screen flex">
       <div
         id="main-container"
-        className="w-full mx-8 pt-8 w-full flex flex-col space-y-4"
+        className="w-full m-8 flex flex-col space-y-4"
       >
-        <ButtonSecondary customStyles="w-1/6 py-1" onClick={() => navigate(-1)}>
+        <ButtonSecondary customStyles="w-1/12 py-1" onClick={() => navigate(-1)}>
           {"<"} Back
         </ButtonSecondary>
         <HardwareDetailItem hardware={hardware} />
@@ -73,7 +74,7 @@ export default function HardwareDetailPage() {
                 <tbody>
                   {nodes.map((node) => {
                     return (
-                      <tr className="shadow-lg bg-white hover:bg-gray-50">
+                      <tr key={node.id} className="shadow-lg bg-white hover:bg-gray-50">
                         <td className="p-4 max-w-8">{node.id_node}</td>
                         <td className="p-4 max-w-32 word-wrap break-words">
                           {node.name}

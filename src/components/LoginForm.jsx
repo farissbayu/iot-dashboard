@@ -1,14 +1,13 @@
-import { Form } from "react-router-dom";
 import InputForm from "./InputForm";
 import ButtonPrimary from "./ButtonPrimary";
 
-export default function LoginForm() {
+export default function LoginForm({ onSubmit }) {
   return (
-    <Form method="post" id="login-form" className="w-full space-y-4">
+    <form id="login-form" className="w-full space-y-4" onSubmit={onSubmit}>
       <InputForm
-        id="email"
-        name="email"
-        placeholderText="qwerty@email.com"
+        id="username"
+        name="username"
+        placeholder="John Doe"
         type="text"
       >
         Email
@@ -16,7 +15,7 @@ export default function LoginForm() {
       <InputForm
         id="password"
         name="password"
-        placeholderText="********"
+        placeholder="********"
         type="password"
       >
         Password
@@ -24,6 +23,6 @@ export default function LoginForm() {
       <ButtonPrimary customStyles="w-full" type="submit">
         Login
       </ButtonPrimary>
-    </Form>
+    </form>
   );
 }

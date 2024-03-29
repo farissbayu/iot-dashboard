@@ -1,17 +1,26 @@
-import React from "react";
-import { Form, useNavigate, redirect } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Form, useNavigate, redirect, useParams } from "react-router-dom";
 
 import ButtonSecondary from "../../components/ButtonSecondary";
 import ButtonPrimary from "../../components/ButtonPrimary";
 import InputForm from "../../components/InputForm";
 
 export default function ProfilePage() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const params = useParams();
+  useEffect(() => {
+    console.log(params);
+  },[])
 
   return (
     <div className="bg-pageBackground h-screen flex">
       <div className="w-full mt-8 mx-8 flex flex-col">
-        <ButtonSecondary customStyles="w-2/12 py-1" onClick={() => (navigate(-1))}>{"<"} Back</ButtonSecondary>
+        <ButtonSecondary
+          customStyles="w-1/12 py-1"
+          onClick={() => navigate(-1)}
+        >
+          {"<"} Back
+        </ButtonSecondary>
         <div className="w-2/3 bg-white shadow-md rounded-lg mx-auto mt-4 flex flex-col items-center py-12 px-8 space-y-4">
           <h1 className="text-4xl font-bold text-darkFont">Change Password</h1>
           <Form
@@ -46,13 +55,13 @@ export default function ProfilePage() {
 }
 
 export const action = async ({ request }) => {
-    const data = await request.formData();
-  
-    const passwordBody = {
-      currentPassword: data.get("currentPassword"),
-      newPassword: data.get("newPassword"),
-    };
-  
-    console.log(passwordBody);
-    return redirect("/profile/:username");
+  const data = await request.formData();
+
+  const passwordBody = {
+    currentPassword: data.get("currentPassword"),
+    newPassword: data.get("newPassword"),
   };
+
+  console.log(passwordBody);
+  return redirect("/profile/:username");
+};

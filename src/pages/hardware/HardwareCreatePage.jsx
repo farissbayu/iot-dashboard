@@ -1,8 +1,6 @@
-import React from "react";
-
+import { Form, redirect, useNavigate } from "react-router-dom";
 import ButtonSecondary from "../../components/ButtonSecondary";
 import ButtonPrimary from "../../components/ButtonPrimary";
-import { Form, redirect, useNavigate } from "react-router-dom";
 import InputForm from "../../components/InputForm";
 import TextArea from "../../components/TextArea";
 
@@ -18,7 +16,7 @@ export default function HardwareCreatePage() {
     <div className="bg-pageBackground h-screen flex">
       <div className="w-full mt-8 mx-8 flex flex-col">
         <ButtonSecondary
-          customStyles="w-2/12 py-1"
+          customStyles="w-[150px] py-1 px-1"
           onClick={() => navigate(-1)}
         >
           {"<"} Back
@@ -51,17 +49,28 @@ export default function HardwareCreatePage() {
               <label htmlFor="hardwareType" className="text-formColor text-sm">
                 Hardware Type
               </label>
+              <select
+                id="hardwareType"
+                name="hardwareType"
+                className="text-black p-2 mt-1 border border-solid border-formColor rounded-lg text-sm"
+              >
+                {hardwareType.map((type, index) => {
+                  return (
+                    <option
+                      key={index}
+                      value={type.toLowerCase()}
+                      className="text-black"
+                    >
+                      {type}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
-            <select id="hardwareType" name="hardwareType" className="text-black p-2 mt-1 border border-solid border-formColor rounded-lg text-sm">
-              {hardwareType.map((type, index) => {
-                return (
-                  <option key={index} value={type.toLowerCase()} className="text-black">{type}</option>
-                );
-              })}
-            </select>
+
             <ButtonPrimary customStyles="w-full" type="submit">
-        Create Hardware
-      </ButtonPrimary>
+              Create Hardware
+            </ButtonPrimary>
           </Form>
         </div>
       </div>
@@ -69,15 +78,15 @@ export default function HardwareCreatePage() {
   );
 }
 
-export const action = async ({request}) => {
-    const data = await request.formData();
+export const action = async ({ request }) => {
+  const data = await request.formData();
 
-    const hardwareBody = {
-        name: data.get('name'),
-        description: data.get('description'),
-        hardwareType: data.get('hardwareType'),
-    };
+  const hardwareBody = {
+    name: data.get("name"),
+    description: data.get("description"),
+    hardwareType: data.get("hardwareType"),
+  };
 
-    console.log(hardwareBody);
-    return redirect('/hardware');
+  console.log(hardwareBody);
+  return redirect("/hardware");
 };

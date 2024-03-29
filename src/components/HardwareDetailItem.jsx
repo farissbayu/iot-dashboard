@@ -1,8 +1,8 @@
 export default function HardwareDetailItem({hardware}) {
     return (
-        <div id="hardware-container" className="flex flex-col space-y-4">
+        <div id="hardware-container" className="flex flex-col items-center space-y-4">
           <h1 className="font-bold text-3xl text-darkFont">{hardware.name}</h1>
-          <div className="w-full rounded-lg bg-white shadow-md grid grid-cols-2 p-2">
+          <div className="w-full rounded-lg bg-white shadow-md grid grid-cols-2 p-4">
             <p className="whitespace-normal break-all">Hardware id</p>
             <p className="whitespace-normal break-all">
               {hardware.id_hardware}

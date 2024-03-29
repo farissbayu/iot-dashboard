@@ -2,17 +2,18 @@ import { Form } from "react-router-dom";
 import InputForm from "./InputForm";
 import ButtonPrimary from "./ButtonPrimary";
 
-export default function RegisterForm() {
+export default function RegisterForm({onSubmit}) {
   return (
-    <Form
+    <form
       method="post"
       id="register-form"
-      className="w-5/6 flex flex-col justify-around"
+      className="w-5/6 flex flex-col justify-around space-y-4"
+      onSubmit={onSubmit}
     >
       <InputForm
         id="username"
         name="username"
-        placeholderText="user"
+        placeholder="user"
         type="text"
       >
         Username
@@ -20,7 +21,7 @@ export default function RegisterForm() {
       <InputForm
         id="email"
         name="email"
-        placeholderText="qwerty@email.com"
+        placeholder="qwerty@email.com"
         type="text"
       >
         Email
@@ -28,7 +29,7 @@ export default function RegisterForm() {
       <InputForm
         id="password"
         name="password"
-        placeholderText="********"
+        placeholder="********"
         type="password"
       >
         Password
@@ -36,6 +37,6 @@ export default function RegisterForm() {
       <ButtonPrimary customStyles="w-full mt-8" type="submit">
         Register
       </ButtonPrimary>
-    </Form>
+    </form>
   );
 }
