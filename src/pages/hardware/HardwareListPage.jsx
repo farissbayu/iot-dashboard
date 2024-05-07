@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import ButtonPrimary from "../../components/ButtonPrimary";
 import HardwareListItem from "../../components/HardwareListItem";
 import { hardwares } from "../../data/hardwares.js";
 import Table from "../../components/Table.jsx";
 import TableHead from "../../components/TableHead.jsx";
+import Button from "../../components/ui/Button.jsx";
 
 export default function HardwareListPage() {
   const navigate = useNavigate();
@@ -17,9 +17,9 @@ export default function HardwareListPage() {
         <div id="top-container" className="flex flex-row justify-between mt-8">
           <h1 className="font-bold text-4xl text-darkFont">Hardwares</h1>
           {isAdmin && (
-            <ButtonPrimary onClick={() => navigate("create")}>
+            <Button onClick={() => navigate("create")} buttonType="primary">
               Create hardware
-            </ButtonPrimary>
+            </Button>
           )}
         </div>
         <div id="table-container">

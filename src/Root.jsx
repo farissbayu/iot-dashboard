@@ -1,6 +1,6 @@
 // Utilities
-import AuthProvider from "../components/AuthProvider";
-import Routes from "./Routes";
+import AuthProvider from "./store/AuthProvider";
+import Routes from "./routes/Routes";
 
 export default function Root() {
   return (

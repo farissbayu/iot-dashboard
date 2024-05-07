@@ -1,9 +1,8 @@
 import { Form, redirect, useNavigate } from "react-router-dom";
-import ButtonSecondary from "../../components/ButtonSecondary";
-import ButtonPrimary from "../../components/ButtonPrimary";
-import InputForm from "../../components/InputForm";
+import Input from "../../components/ui/Input";
 import { hardwares } from "../../data/hardwares";
 import { useEffect, useState } from "react";
+import Button from "../../components/ui/Button";
 
 export default function NodeCreatePage() {
   const [sensors, setSensors] = useState([]);
@@ -45,12 +44,13 @@ export default function NodeCreatePage() {
   return (
     <div className="bg-pageBackground min-h-screen max-h-full flex">
       <div className="w-full my-8 mx-8 flex flex-col">
-        <ButtonSecondary
+        <Button
           customStyles="w-[150px] py-1 px-1"
           onClick={() => navigate(-1)}
+          buttonType="secondary"
         >
           {"<"} Back
-        </ButtonSecondary>
+        </Button>
         <div className="w-2/3 bg-white shadow-md rounded-lg mx-auto mt-4 flex flex-col items-center py-16 px-4 space-y-4">
           <h1 className="text-4xl font-bold text-darkFont">Create Node</h1>
           <Form
@@ -59,22 +59,22 @@ export default function NodeCreatePage() {
             className="w-3/4 flex flex-col justify-around py-2 space-y-4"
           >
             <h2 className="text-center text-2xl text-darkFont">Node data</h2>
-            <InputForm
+            <Input
               id="name"
               name="name"
               placeholder="Node name"
               type="text"
             >
               Name
-            </InputForm>
-            <InputForm
+            </Input>
+            <Input
               id="location"
               name="location"
               placeholder="Node location"
               type="text"
             >
               Location
-            </InputForm>
+            </Input>
             <div className="flex flex-col space-y-2">
               <label htmlFor="hardware" className="text-formColor text-sm">
                 Hardware
@@ -104,7 +104,7 @@ export default function NodeCreatePage() {
                   key={index}
                   className="flex flex-row w-full space-x-4 items-end justify-between"
                 >
-                  <InputForm
+                  <Input
                     id={`hardware-sensor-${index}`}
                     name={`hardware_sensor_${index}`}
                     placeholder="Hardware sensor"
@@ -115,8 +115,8 @@ export default function NodeCreatePage() {
                     }
                   >
                     Type
-                  </InputForm>
-                  <InputForm
+                  </Input>
+                  <Input
                     id={`field-sensor-${index}`}
                     name={`field_sensor_${index}`}
                     placeholder="Field sensor"
@@ -127,7 +127,7 @@ export default function NodeCreatePage() {
                     }
                   >
                     Field name
-                  </InputForm>
+                  </Input>
 
                   {index !== sensors.length - 1 ? (
                     <button
@@ -149,7 +149,7 @@ export default function NodeCreatePage() {
                 </div>
               );
             })}
-            <ButtonPrimary type="submit">Create</ButtonPrimary>
+            <Button type="submit" buttonType="primary">Create</Button>
           </Form>
         </div>
       </div>

@@ -1,8 +1,7 @@
-import { Form } from "react-router-dom";
-import InputForm from "./InputForm";
-import ButtonPrimary from "./ButtonPrimary";
+import Input from "../components/ui/Input";
+import Button from "./ui/Button";
 
-export default function ForgetPasswordForm({onSubmit}) {
+export default function ForgotPassword({onSubmit, loading}) {
   return (
     <form
       method="post"
@@ -10,25 +9,25 @@ export default function ForgetPasswordForm({onSubmit}) {
       className="w-5/6 flex flex-col justify-around space-y-4"
       onSubmit={onSubmit}
     >
-      <InputForm
+      <Input
         id="username"
         name="username"
-        placeholder="user"
+        placeholder="John doe"
         type="text"
       >
         Username
-      </InputForm>
-      <InputForm
+      </Input>
+      <Input
         id="email"
         name="email"
         placeholder="qwerty@email.com"
         type="text"
       >
         Email
-      </InputForm>
-      <ButtonPrimary customStyles="w-full mt-8" type="submit">
-        Request
-      </ButtonPrimary>
+      </Input>
+      <Button customStyles="w-full mt-8" type="submit" buttonType="primary">
+        {loading ? "Loading..." : "Request"}
+      </Button>
     </form>
   );
 }

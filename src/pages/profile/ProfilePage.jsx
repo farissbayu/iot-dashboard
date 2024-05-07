@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ButtonPrimary from "../../components/ButtonPrimary";
+import Button from "../../components/ui/Button";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -10,7 +10,8 @@ export default function ProfilePage() {
     isAdmin: false,
   };
 
-  const handleButtonNavigation = () => navigate(`/profile/${user.username.toLowerCase()}/change-password`);
+  const handleButtonNavigation = () =>
+    navigate(`/profile/${user.username.toLowerCase()}/change-password`);
 
   return (
     <div className="bg-pageBackground h-screen flex flex-col items-center space-y-4">
@@ -47,12 +48,13 @@ export default function ProfilePage() {
           id="button-container"
           className="flex justify-end items-end mr-4 mb-4"
         >
-          <ButtonPrimary
+          <Button
             customStyles="w-3/8"
             onClick={handleButtonNavigation}
+            buttonType="primary"
           >
             Change password
-          </ButtonPrimary>
+          </Button>
         </div>
       </div>
     </div>

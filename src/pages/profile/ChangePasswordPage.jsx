@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Form, useNavigate, redirect, useParams } from "react-router-dom";
 
-import ButtonSecondary from "../../components/ButtonSecondary";
-import ButtonPrimary from "../../components/ButtonPrimary";
-import InputForm from "../../components/InputForm";
+import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -15,12 +14,13 @@ export default function ProfilePage() {
   return (
     <div className="bg-pageBackground h-screen flex">
       <div className="w-full mt-8 mx-8 flex flex-col">
-        <ButtonSecondary
+        <Button
           customStyles="w-1/12 py-1"
           onClick={() => navigate(-1)}
+          buttonType="secondary"
         >
           {"<"} Back
-        </ButtonSecondary>
+        </Button>
         <div className="w-2/3 bg-white shadow-md rounded-lg mx-auto mt-4 flex flex-col items-center py-12 px-8 space-y-4">
           <h1 className="text-4xl font-bold text-darkFont">Change Password</h1>
           <Form
@@ -28,25 +28,25 @@ export default function ProfilePage() {
             id="change-password-form"
             className="w-3/4 flex flex-col justify-around space-y-4"
           >
-            <InputForm
+            <Input
               id="current-password"
               name="currentPassword"
               placeholderText="********"
               type="password"
             >
               Current password
-            </InputForm>
-            <InputForm
+            </Input>
+            <Input
               id="new-password"
               name="newPassword"
               placeholderText="********"
               type="password"
             >
               New password
-            </InputForm>
-            <ButtonPrimary customStyles="w-full text-base mt-4" type="submit">
+            </Input>
+            <Button customStyles="w-full text-base mt-4" type="submit" buttonType="primary">
               Change password
-            </ButtonPrimary>
+            </Button>
           </Form>
         </div>
       </div>

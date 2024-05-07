@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import ButtonSecondary from "../../components/ButtonSecondary";
 import { NODE_DETAIL, dataArray } from "../../data/nodeDetail.js";
 import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
+import Button from "../../components/ui/Button.jsx";
 
 const { sensor } = NODE_DETAIL;
 const labels = dataArray.map((data) => data.date);
@@ -13,12 +13,13 @@ export default function NodeDetailPage() {
   return (
     <div className="bg-pageBackground min-h-screen max-h-full flex">
       <div id="main-container" className="w-full my-8 mx-16 flex flex-col space-y-4">
-        <ButtonSecondary
+        <Button
           customStyles="w-1/12 py-1"
           onClick={() => navigate(-1)}
+          buttonType="secondary"
         >
           {"<"} Back
-        </ButtonSecondary>
+        </Button>
         <h1 className="font-bold text-3xl text-darkFont text-center">
           {NODE_DETAIL.name}
         </h1>

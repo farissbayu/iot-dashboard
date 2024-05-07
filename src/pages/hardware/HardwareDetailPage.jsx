@@ -1,7 +1,6 @@
-import { useNavigate, useParams } from "react-router-dom";
-import ButtonSecondary from "../../components/ButtonSecondary";
+import { useNavigate } from "react-router-dom";
 import HardwareDetailItem from "../../components/HardwareDetailItem";
-import { useEffect } from "react";
+import Button from "../../components/ui/Button";
 
 const hardwareData = {
   id_hardware: 2,
@@ -50,9 +49,9 @@ export default function HardwareDetailPage() {
         id="main-container"
         className="w-full m-8 flex flex-col space-y-4"
       >
-        <ButtonSecondary customStyles="w-1/12 py-1" onClick={() => navigate(-1)}>
+        <Button customStyles="w-1/12 py-1" onClick={() => navigate(-1)} buttonType="secondary">
           {"<"} Back
-        </ButtonSecondary>
+        </Button>
         <HardwareDetailItem hardware={hardware} />
         <div id="used-in-container" className="flex flex-col items-center">
           {nodes.length == 0 ? (

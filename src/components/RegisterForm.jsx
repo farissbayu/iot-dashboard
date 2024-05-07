@@ -1,8 +1,7 @@
-import { Form } from "react-router-dom";
-import InputForm from "./InputForm";
-import ButtonPrimary from "./ButtonPrimary";
+import Input from "../components/ui/Input";
+import Button from "./ui/Button";
 
-export default function RegisterForm({onSubmit}) {
+export default function RegisterForm({onSubmit, loading}) {
   return (
     <form
       method="post"
@@ -10,33 +9,33 @@ export default function RegisterForm({onSubmit}) {
       className="w-5/6 flex flex-col justify-around space-y-4"
       onSubmit={onSubmit}
     >
-      <InputForm
+      <Input
         id="username"
         name="username"
         placeholder="user"
         type="text"
       >
         Username
-      </InputForm>
-      <InputForm
+      </Input>
+      <Input
         id="email"
         name="email"
         placeholder="qwerty@email.com"
         type="text"
       >
         Email
-      </InputForm>
-      <InputForm
+      </Input>
+      <Input
         id="password"
         name="password"
         placeholder="********"
         type="password"
       >
         Password
-      </InputForm>
-      <ButtonPrimary customStyles="w-full mt-8" type="submit">
-        Register
-      </ButtonPrimary>
+      </Input>
+      <Button customStyles="w-full mt-8" type="submit" buttonType="primary">
+        {loading ? "Loading..." : "Register"}
+      </Button>
     </form>
   );
 }

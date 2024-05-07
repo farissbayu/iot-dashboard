@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import ButtonPrimary from "../../components/ButtonPrimary";
 import { nodes } from "../../data/nodes.js";
 import NodeListItem from "../../components/NodeListItem";
 import { useState } from "react";
 import Table from "../../components/Table.jsx";
 import TableHead from "../../components/TableHead.jsx";
+import Button from "../../components/ui/Button.jsx";
 
 export default function NodeListPage() {
   const [query, setQuery] = useState("");
@@ -19,9 +19,9 @@ export default function NodeListPage() {
       >
         <div id="top-container" className="flex flex-row justify-between mt-8">
           <h1 className="font-bold text-4xl text-darkFont">Nodes</h1>
-          <ButtonPrimary onClick={() => navigate("create")}>
+          <Button onClick={() => navigate("create")} buttonType="primary">
             Create node
-          </ButtonPrimary>
+          </Button>
         </div>
         <input
           type="search"

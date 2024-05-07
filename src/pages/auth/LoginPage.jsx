@@ -1,28 +1,58 @@
-import ButtonSecondary from "../../components/ButtonSecondary";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useApi from "../../hooks/useApi";
+import { useAuth } from "../../store/AuthProvider";
+import { login } from "../../api/auth-request";
+
 import LoginForm from "../../components/LoginForm";
-import { useAuth } from "../../components/AuthProvider";
+import Button from "../../components/ui/Button";
 
 export default function LoginPage() {
   const auth = useAuth();
   const navigate = useNavigate();
+  const { loading, data, sendRequest } = useApi();
 
   async function handleSubmit(event) {
     event.preventDefault();
+
     const formData = new FormData(event.target);
     const loginBody = {
       username: formData.get("username"),
       password: formData.get("password"),
     };
 
+    const { url, config } = login(loginBody);
+    
     try {
-      const message = await auth.login(loginBody);
-      console.log(message);
-      navigate("/", { replace: true });
+      await sendRequest(url, config);
     } catch (error) {
-      console.log(error.message || "Failed to login.");
+      console.error("Error:", error);
     }
   }
+
+  function handleNavigate(type) {
+    switch (type) {
+      case "register":
+        navigate("/register");
+        break;
+      case "forgot-password":
+        navigate("/forgot-password");
+        break;
+    }
+  }
+
+  useEffect(() => {
+    if (data) {
+      const { token, username, id_user, is_admin } = data.data;
+      const userData = {
+        username,
+        userId: id_user,
+        isAdmin: is_admin,
+      };
+      auth.setUserData(token, userData);
+      navigate("/", { replace: true });
+    }
+  });
 
   return (
     <div className="bg-pageBackground flex items-center justify-center h-screen">
@@ -47,22 +77,25 @@ export default function LoginPage() {
           <h1 className="text-darkFont font-bold text-3xl lg:text-5xl mb-2">
             Login
           </h1>
-          <LoginForm onSubmit={handleSubmit} />
+          <LoginForm onSubmit={handleSubmit} loading={loading} />
 
           <hr id="divider" className="my-4 border-t border-formColor w-full" />
 
           {/* TODO: Ubah ke button biasa, tanpa navlink */}
-          <NavLink to="/register">
-            <ButtonSecondary type="button" customStyles="px-16">
-              Register
-            </ButtonSecondary>
-          </NavLink>
-          <NavLink
-            to="/forget-password"
-            className="text-primary text-sm my-4 hover:underline"
+          <Button
+            type="button"
+            customStyles="px-16"
+            buttonType="secondary"
+            onClick={() => handleNavigate("register")}
           >
-            forget password?
-          </NavLink>
+            Register
+          </Button>
+          <button
+            className="text-primary text-sm my-4 hover:underline"
+            onClick={() => handleNavigate("forgot-password")}
+          >
+            forgot password?
+          </button>
         </div>
       </div>
     </div>

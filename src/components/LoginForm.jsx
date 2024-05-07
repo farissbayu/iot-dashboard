@@ -1,7 +1,7 @@
-import InputForm from "./InputForm";
-import ButtonPrimary from "./ButtonPrimary";
+import InputForm from "./ui/Input";
+import Button from "./ui/Button";
 
-export default function LoginForm({ onSubmit }) {
+export default function LoginForm({ onSubmit, loading }) {
   return (
     <form id="login-form" className="w-full space-y-4" onSubmit={onSubmit}>
       <InputForm
@@ -10,7 +10,7 @@ export default function LoginForm({ onSubmit }) {
         placeholder="John Doe"
         type="text"
       >
-        Email
+        Username
       </InputForm>
       <InputForm
         id="password"
@@ -20,9 +20,9 @@ export default function LoginForm({ onSubmit }) {
       >
         Password
       </InputForm>
-      <ButtonPrimary customStyles="w-full" type="submit">
-        Login
-      </ButtonPrimary>
+      <Button customStyles="w-full" type="submit" buttonType="primary">
+        {loading ? "Loading..." : "Login"}
+      </Button>
     </form>
   );
 }

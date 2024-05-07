@@ -1,8 +1,7 @@
 import { Form, redirect, useNavigate } from "react-router-dom";
-import ButtonSecondary from "../../components/ButtonSecondary";
-import ButtonPrimary from "../../components/ButtonPrimary";
-import InputForm from "../../components/InputForm";
+import Input from "../../components/ui/Input";
 import TextArea from "../../components/TextArea";
+import Button from "../../components/ui/Button";
 
 const hardwareType = [
   "Microcontroller Unit",
@@ -15,12 +14,13 @@ export default function HardwareCreatePage() {
   return (
     <div className="bg-pageBackground h-screen flex">
       <div className="w-full mt-8 mx-8 flex flex-col">
-        <ButtonSecondary
+        <Button
           customStyles="w-[150px] py-1 px-1"
           onClick={() => navigate(-1)}
+          buttonType="secondary"
         >
           {"<"} Back
-        </ButtonSecondary>
+        </Button>
         <div className="w-5/6 bg-white shadow-md rounded-lg mx-auto mt-4 flex flex-col items-center py-16 px-4 space-y-4">
           <h1 className="text-4xl font-bold text-darkFont">Create Hardware</h1>
           <Form
@@ -28,14 +28,14 @@ export default function HardwareCreatePage() {
             id="create-hardware-form"
             className="w-2/3 flex flex-col justify-around space-y-4"
           >
-            <InputForm
+            <Input
               id="name"
               name="name"
               placeholderText="Hardware name"
               type="text"
             >
               Name
-            </InputForm>
+            </Input>
             <TextArea
               id="description"
               name="description"
@@ -68,9 +68,9 @@ export default function HardwareCreatePage() {
               </select>
             </div>
 
-            <ButtonPrimary customStyles="w-full" type="submit">
+            <Button customStyles="w-full" type="submit" buttonType="primary">
               Create Hardware
-            </ButtonPrimary>
+            </Button>
           </Form>
         </div>
       </div>

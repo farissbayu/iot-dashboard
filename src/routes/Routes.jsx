@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // Pages
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
-import ForgetPasswordPage from "../pages/auth/ForgetPasswordPage";
+import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
 import Layout from "../pages/Layout";
 import Home from "../pages/Home";
 import ProfilePage from "../pages/profile/ProfilePage";
@@ -22,12 +22,16 @@ import NodeDetailPage from "../pages/node/NodeDetailPage";
 import NodeCreatePage, {
   action as createNodeAction,
 } from "../pages/node/NodeCreatePage";
+import LoggedInRoute from "./LoggedInRoute";
+import UnAuthenticated from "./UnAuthenticated";
 
- const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Layout />
+      <LoggedInRoute>
+        <Layout />
+      </LoggedInRoute>
     ),
     children: [
       {
@@ -85,18 +89,30 @@ import NodeCreatePage, {
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <UnAuthenticated>
+        <LoginPage />
+      </UnAuthenticated>
+    ),
   },
   {
     path: "/register",
-    element: <RegisterPage />,
+    element: (
+      <UnAuthenticated>
+        <RegisterPage />
+      </UnAuthenticated>
+    ),
   },
   {
-    path: "/forget-password",
-    element: <ForgetPasswordPage />,
+    path: "/forgot-password",
+    element: (
+      <UnAuthenticated>
+        <ForgotPasswordPage />
+      </UnAuthenticated>
+    ),
   },
 ]);
 
 export default function Routes() {
-  return <RouterProvider router={router} />
+  return <RouterProvider router={router} />;
 }

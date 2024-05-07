@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
-import { getUserDetail } from "../api/user-profile";
+import { useAuth } from "../store/AuthProvider";
+import { useState } from "react";
 
 export default function Sidebar() {
-  const auth = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { clearUserData } = useAuth();
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("userData")) || null;
+  const { username, isAdmin } = JSON.parse(localStorage.getItem("userData"));
 
   const activeStyle = ({ isActive }) =>
     isActive
@@ -17,8 +17,12 @@ export default function Sidebar() {
       : null;
 
   function handleLogout() {
-    auth.logout();
-    navigate("/login", { replace: true });
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      clearUserData();
+      navigate("/login", { replace: true });
+    }, 1000);
   }
 
   return (
@@ -34,7 +38,7 @@ export default function Sidebar() {
         className="flex flex-col text-center items-center text-navFont flex-1 py-4 relative"
       >
         <NavLink
-          to={`node/${user.username.toLowerCase()}`}
+          to={`node/${username.toLowerCase()}`}
           style={activeStyle}
           className="w-5/6 py-3 hover:underline"
         >
@@ -47,7 +51,7 @@ export default function Sidebar() {
         >
           Hardware
         </NavLink>
-        {user.is_admin && (
+        {isAdmin && (
           <NavLink
             to="userlist"
             style={activeStyle}
@@ -57,7 +61,7 @@ export default function Sidebar() {
           </NavLink>
         )}
         <NavLink
-          to={`profile/${user.username.toLowerCase()}`}
+          to={`profile/${username.toLowerCase()}`}
           style={activeStyle}
           className="w-5/6 py-3 absolute bottom-0 mb-4 hover:underline"
         >
@@ -69,7 +73,7 @@ export default function Sidebar() {
         className="w-5/6 py-3 mx-auto mb-6 text-white hover:underline"
         onClick={handleLogout}
       >
-        Logout
+        {loading ? "Logging out..." : "Logout"}
       </button>
     </aside>
   );
