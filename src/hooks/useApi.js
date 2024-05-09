@@ -1,20 +1,16 @@
 import { useState } from "react";
 
-export default function useApi() {
+export default function useApi(initialData) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(initialData);
 
   const sendRequest = async function sendRequest(url, config = {}) {
     setLoading(true);
     try {
-      const response = await sendHttpRequest(url, config);
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Something went wrong.");
-      }
-      const responseData = await response.json();
-      setData(responseData);
+      const res = await sendHttpRequest(url, config);
+      const data = res;
+      setData(data);
     } catch (error) {
       setError("Operation failed.");
     } finally {
@@ -26,10 +22,13 @@ export default function useApi() {
 }
 
 async function sendHttpRequest(url, config) {
-  let response = {};
   try {
-    response = await fetch(url, config);
-    return response;
+    const response = await fetch(url, config);
+    const json = await response.json();
+    if (!response.ok) {
+      throw new Error(json.message || "Something went wrong.");
+    }
+    return json;
   } catch (error) {
     throw new Error("Something went wrong.");
   }
