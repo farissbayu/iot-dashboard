@@ -8,15 +8,15 @@ export default function HardwareListItem({ hardware, isAdmin }) {
 
   return (
     <tr className="shadow-lg bg-white hover:bg-gray-50">
-      <td className="p-4 max-w-8">{hardware.id}</td>
+      <td className="p-4 max-w-4">{hardware.id_hardware}</td>
       <td className="p-4 max-w-16 word-wrap break-words">{hardware.name}</td>
       <td className="p-4 max-w-16 word-wrap break-words">{hardware.type}</td>
-      <td className="p-4 max-w-48 word-wrap break-words">
+      <td className="p-4 max-w-48 overflow-hidden whitespace-nowrap overflow-ellipsis break-words">
         {hardware.description}
       </td>
       <td className="p-4 max-w-20 flex flex-row space-x-2">
         <ButtonDetailItem
-          onClick={() => navigate(`${hardware.id}/detail`)}
+          onClick={() => navigate(`${hardware.id_hardware}/detail`)}
         />
         {isAdmin ? (
           <>

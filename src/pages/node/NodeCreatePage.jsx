@@ -1,13 +1,13 @@
 import { Form, redirect, useNavigate } from "react-router-dom";
 import Input from "../../components/ui/Input";
-import { hardwares } from "../../data/hardwares";
+// import { hardwares } from "../../data/hardwares";
 import { useEffect, useState } from "react";
 import Button from "../../components/ui/Button";
 
 export default function NodeCreatePage() {
   const [sensors, setSensors] = useState([]);
   const navigate = useNavigate();
-  const hardwareData = hardwares.map((hardware) => hardware.name);
+  // const hardwareData = hardwares.map((hardware) => hardware.name);
 
   const handleSensorChange = (index, sensorType, event) => {
     const { value } = event.target;

@@ -4,22 +4,17 @@ import { useEffect, useState } from "react";
 import { getUserDetail } from "../../api/user-request";
 import useApi from "../../hooks/useApi";
 
-const token = localStorage.getItem("token");
-const { userId } = JSON.parse(localStorage.getItem("userData"));
+const token = localStorage.getItem("token") || "";
+const { userId } = JSON.parse(localStorage.getItem("userData")) || -1;
 const { url, config } = getUserDetail(token, userId);
 
 export default function ProfilePage() {
-  const {
-    data: user,
-    loading,
-    error,
-    sendRequest,
-  } = useApi({
+  const { data, loading, error, sendRequest } = useApi({
     code: -1,
     status: "",
     data: {},
   });
-  // const [user, setUser] = useState();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,8 +29,8 @@ export default function ProfilePage() {
     fetchUser();
   }, []);
 
-  // const handleButtonNavigation = () =>
-  //   navigate(`/profile/${user.username.toLowerCase()}/change-password`);
+  const handleButtonNavigation = () =>
+    navigate(`/profile/${data.data.username.toLowerCase()}/change-password`);
 
   if (loading) {
     return <p>Loading...</p>;
@@ -44,7 +39,7 @@ export default function ProfilePage() {
   return (
     <div className="bg-pageBackground h-screen flex flex-col items-center space-y-4">
       <h1 className="text-4xl font-bold text-darkFont mt-8">
-        {user.data.username + "'s profile"}
+        {data.data.username + "'s profile"}
       </h1>
       <div
         id="profile-container"
@@ -55,19 +50,19 @@ export default function ProfilePage() {
             <tbody>
               <tr id="profile-user-id">
                 <td>User Id</td>
-                <td>{user.data.id_user}</td>
+                <td>{data.data.id_user}</td>
               </tr>
               <tr id="profile-username">
                 <td>Username</td>
-                <td>{user.data.username}</td>
+                <td>{data.data.username}</td>
               </tr>
               <tr id="profile-email">
                 <td>Email</td>
-                <td>{user.data.email}</td>
+                <td>{data.data.email}</td>
               </tr>
               <tr id="profile-role">
                 <td>role</td>
-                <td>{user.data.is_admin ? "Admin" : "User"}</td>
+                <td>{data.data.is_admin ? "Admin" : "User"}</td>
               </tr>
             </tbody>
           </table>
@@ -78,7 +73,7 @@ export default function ProfilePage() {
         >
           <Button
             customStyles="w-3/8"
-            // onClick={handleButtonNavigation}
+            onClick={handleButtonNavigation}
             buttonType="primary"
           >
             Change password

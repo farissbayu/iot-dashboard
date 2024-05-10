@@ -31,7 +31,7 @@ export default function ProfilePage() {
             <Input
               id="current-password"
               name="currentPassword"
-              placeholderText="********"
+              placeholder="********"
               type="password"
             >
               Current password
@@ -39,7 +39,7 @@ export default function ProfilePage() {
             <Input
               id="new-password"
               name="newPassword"
-              placeholderText="********"
+              placeholder="********"
               type="password"
             >
               New password
