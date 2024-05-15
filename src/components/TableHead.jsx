@@ -1,6 +1,6 @@
-export default function TableHead({ children }) {
+export default function TableHead({ children, customStyle }) {
   return (
-    <thead className="text-left text-darkFont text-2xl">
+    <thead className={`text-left text-darkFont ${customStyle}`}>
       {children}
     </thead>
   );

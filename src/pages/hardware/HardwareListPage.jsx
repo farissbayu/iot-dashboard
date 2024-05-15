@@ -67,7 +67,7 @@ export default function HardwareListPage() {
         <div id="top-container" className="flex flex-row justify-between mt-8">
           <h1 className="font-bold text-4xl text-darkFont">Hardwares</h1>
           {isAdmin && (
-            <Button onClick={() => navigate("create")} buttonType="primary">
+            <Button onClick={() => navigate("create")} buttonType="primary" customStyles="bg-primary">
               Create hardware
             </Button>
           )}
@@ -79,30 +79,34 @@ export default function HardwareListPage() {
           value={query}
           onChange={handleSearchChange}
         />
-        <div id="table-container">
-          <Table>
-            <TableHead>
-              <tr>
-                <th className="p-4 max-w-4">Id</th>
-                <th className="p-4 max-w-16">Name</th>
-                <th className="p-4 max-w-16">Type</th>
-                <th className="p-4 max-w-48">Description</th>
-                <th className="p-4 max-w-20">Action</th>
-              </tr>
-            </TableHead>
-            <tbody>
-              {currentItems.map((hardware) => {
-                return (
-                  <HardwareListItem
-                    key={hardware.id_hardware}
-                    hardware={hardware}
-                    isAdmin={isAdmin}
-                  />
-                );
-              })}
-            </tbody>
-          </Table>
-        </div>
+        {(data.code === -1 || data.data.size === 0) && <p>No hardware found.</p>}
+        {(data.data.size !== 0 && data.code !== -1)  && (
+          <div id="table-container">
+            <Table>
+              <TableHead customStyle="text-2xl">
+                <tr>
+                  <th className="p-4 max-w-4">Id</th>
+                  <th className="p-4 max-w-16">Name</th>
+                  <th className="p-4 max-w-16">Type</th>
+                  <th className="p-4 max-w-48">Description</th>
+                  <th className="p-4 max-w-20">Action</th>
+                </tr>
+              </TableHead>
+              <tbody>
+                {currentItems.map((hardware) => {
+                  return (
+                    <HardwareListItem
+                      key={hardware.id_hardware}
+                      hardware={hardware}
+                      isAdmin={isAdmin}
+                    />
+                  );
+                })}
+              </tbody>
+            </Table>
+          </div>
+        )}
+
         <PaginationButtons
           totalPages={totalPages}
           currentPage={currentPage}

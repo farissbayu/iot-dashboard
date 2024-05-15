@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../store/AuthProvider";
 
-export default function LoggedInRoute({children}) {
+export default function Authenticated({children}) {
   const {isLoggedIn, isLoading} = useAuth();
 
   if (isLoading) {

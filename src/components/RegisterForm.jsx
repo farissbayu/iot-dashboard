@@ -33,7 +33,7 @@ export default function RegisterForm({onSubmit, loading}) {
       >
         Password
       </Input>
-      <Button customStyles="w-full mt-8" type="submit" buttonType="primary">
+      <Button customStyles="w-full mt-8 bg-primary" type="submit" buttonType="primary">
         {loading ? "Loading..." : "Register"}
       </Button>
     </form>

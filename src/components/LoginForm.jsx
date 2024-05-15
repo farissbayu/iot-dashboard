@@ -20,7 +20,7 @@ export default function LoginForm({ onSubmit, loading }) {
       >
         Password
       </InputForm>
-      <Button customStyles="w-full" type="submit" buttonType="primary">
+      <Button customStyles="w-full bg-primary" type="submit" buttonType="primary">
         {loading ? "Loading..." : "Login"}
       </Button>
     </form>

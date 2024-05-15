@@ -1,7 +1,7 @@
 import Input from "../components/ui/Input";
 import Button from "./ui/Button";
 
-export default function ForgotPassword({onSubmit, loading}) {
+export default function ForgotPasswordForm({onSubmit, loading}) {
   return (
     <form
       method="post"
@@ -25,7 +25,7 @@ export default function ForgotPassword({onSubmit, loading}) {
       >
         Email
       </Input>
-      <Button customStyles="w-full mt-8" type="submit" buttonType="primary">
+      <Button customStyles="w-full mt-8 bg-primary" type="submit" buttonType="primary">
         {loading ? "Loading..." : "Request"}
       </Button>
     </form>

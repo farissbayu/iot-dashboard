@@ -12,14 +12,16 @@ export function getHardwareList() {
   };
 }
 
-export function getHardwareDetail(hardwareId) {
+export function getHardwareDetail(hardwareId, token) {
   return {
-    url: apiUrl + `hardware/${hardwareId}`,
+    url: apiUrl + `node/hardware/${hardwareId}`,
     config: {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
       },
+      credentials: "include"
     },
   };
 }

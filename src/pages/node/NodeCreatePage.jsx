@@ -4,10 +4,14 @@ import Input from "../../components/ui/Input";
 import { useEffect, useState } from "react";
 import Button from "../../components/ui/Button";
 
+const hardwares = [
+  
+];
+
 export default function NodeCreatePage() {
   const [sensors, setSensors] = useState([]);
   const navigate = useNavigate();
-  // const hardwareData = hardwares.map((hardware) => hardware.name);
+  const hardwareData = hardwares.map((hardware) => hardware.name);
 
   const handleSensorChange = (index, sensorType, event) => {
     const { value } = event.target;
@@ -45,7 +49,7 @@ export default function NodeCreatePage() {
     <div className="bg-pageBackground min-h-screen max-h-full flex">
       <div className="w-full my-8 mx-8 flex flex-col">
         <Button
-          customStyles="w-[150px] py-1 px-1"
+          customStyles="w-[150px] py-1 px-1 border-secondary"
           onClick={() => navigate(-1)}
           buttonType="secondary"
         >

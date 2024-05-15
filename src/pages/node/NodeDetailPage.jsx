@@ -14,7 +14,7 @@ export default function NodeDetailPage() {
     <div className="bg-pageBackground min-h-screen max-h-full flex">
       <div id="main-container" className="w-full my-8 mx-16 flex flex-col space-y-4">
         <Button
-          customStyles="w-1/12 py-1"
+          customStyles="w-1/12 py-1 border-secondary"
           onClick={() => navigate(-1)}
           buttonType="secondary"
         >

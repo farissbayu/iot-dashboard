@@ -19,7 +19,7 @@ export default function NodeListPage() {
       >
         <div id="top-container" className="flex flex-row justify-between mt-8">
           <h1 className="font-bold text-4xl text-darkFont">Nodes</h1>
-          <Button onClick={() => navigate("create")} buttonType="primary">
+          <Button onClick={() => navigate("create")} buttonType="primary" customStyles="bg-primary">
             Create node
           </Button>
         </div>

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext({
   isLoggedIn: false,
@@ -14,6 +15,8 @@ export default function AuthProvider({ children }) {
   function setUserData(token, userData) {
     const userDataString = JSON.stringify(userData);
 
+    Cookies.set("authorization", token, { expires: 365, path: "/" });
+
     localStorage.setItem("token", token);
     localStorage.setItem("userData", userDataString);
 
@@ -21,10 +24,12 @@ export default function AuthProvider({ children }) {
   }
 
   function clearUserData() {
-    setIsLoggedIn(false);
+    Cookies.remove("authorization");
 
     localStorage.removeItem("token");
     localStorage.removeItem("userData");
+
+    setIsLoggedIn(false);
   }
 
   useEffect(() => {

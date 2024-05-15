@@ -12,3 +12,17 @@ export function getUserDetail(token, id) {
     },
   };
 }
+
+export function changePassword(id, body) {
+  return {
+    url: apiUrl + `user/${id}`,
+    config: {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}

@@ -8,9 +8,7 @@ import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
 import Layout from "../pages/Layout";
 import Home from "../pages/Home";
 import ProfilePage from "../pages/profile/ProfilePage";
-import ChangePasswordPage, {
-  action as changePasswordAction,
-} from "../pages/profile/ChangePasswordPage";
+import ChangePasswordPage from "../pages/profile/ChangePasswordPage";
 import UserListPage from "../pages/user/UserListPage";
 import HardwareListPage from "../pages/hardware/HardwareListPage";
 import HardwareDetailPage from "../pages/hardware/HardwareDetailPage";
@@ -22,16 +20,16 @@ import NodeDetailPage from "../pages/node/NodeDetailPage";
 import NodeCreatePage, {
   action as createNodeAction,
 } from "../pages/node/NodeCreatePage";
-import LoggedInRoute from "./LoggedInRoute";
+import Authenticated from "./Authenticated";
 import UnAuthenticated from "./UnAuthenticated";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <LoggedInRoute>
+      <Authenticated>
         <Layout />
-      </LoggedInRoute>
+      </Authenticated>
     ),
     children: [
       {
@@ -82,7 +80,6 @@ const router = createBrowserRouter([
       },
       {
         path: "profile/:username/change-password",
-        action: changePasswordAction,
         element: <ChangePasswordPage />,
       },
     ],
@@ -111,6 +108,10 @@ const router = createBrowserRouter([
       </UnAuthenticated>
     ),
   },
+  {
+    path: "*",
+    element: <p>Error</p>
+  }
 ]);
 
 export default function Routes() {

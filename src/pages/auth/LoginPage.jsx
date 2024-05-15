@@ -84,7 +84,7 @@ export default function LoginPage() {
           {/* TODO: Ubah ke button biasa, tanpa navlink */}
           <Button
             type="button"
-            customStyles="px-16"
+            customStyles="px-16 border-secondary"
             buttonType="secondary"
             onClick={() => handleNavigate("register")}
           >
