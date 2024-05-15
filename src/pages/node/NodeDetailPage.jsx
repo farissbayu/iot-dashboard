@@ -1,18 +1,56 @@
-import { useNavigate } from "react-router-dom";
-import { NODE_DETAIL, dataArray } from "../../data/nodeDetail.js";
-import Chart from "chart.js/auto";
-import { Line } from "react-chartjs-2";
+import { useNavigate, useParams } from "react-router-dom";
+import 'chart.js/auto';
 import Button from "../../components/ui/Button.jsx";
+import { getNodeDetail } from "../../api/node-request.js";
+import useApi from "../../hooks/useApi.js";
+import { useEffect } from "react";
+import Chart from "../../components/Chart.jsx";
 
-const { sensor } = NODE_DETAIL;
-const labels = dataArray.map((data) => data.date);
-const values = dataArray.map((data) => data.value);
+const token = localStorage.getItem("token") || "";
 
 export default function NodeDetailPage() {
+  const { id: nodeId } = useParams();
   const navigate = useNavigate();
+  const { url, config } = getNodeDetail(token, nodeId);
+  const { data, loading, error, sendRequest } = useApi({
+    code: -1,
+    status: "",
+    data: {},
+  });
+
+  useEffect(() => {
+    async function fetchNodeDetail() {
+      try {
+        await sendRequest(url, config);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchNodeDetail();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: ${error}</p>;
+  }
+
+  const node = {
+    id_node: data.data.id_node,
+    name: data.data.name,
+    location: data.data.location
+  } || {};
+  const hardware = data.data.hardware || {};
+  const sensor = data.data.field_sensor || [];
+  console.log(hardware);
+  console.log(sensor);
+
   return (
     <div className="bg-pageBackground min-h-screen max-h-full flex">
-      <div id="main-container" className="w-full my-8 mx-16 flex flex-col space-y-4">
+      <div id="main-container" className="w-full m-8 flex flex-col space-y-4">
         <Button
           customStyles="w-1/12 py-1 border-secondary"
           onClick={() => navigate(-1)}
@@ -21,58 +59,31 @@ export default function NodeDetailPage() {
           {"<"} Back
         </Button>
         <h1 className="font-bold text-3xl text-darkFont text-center">
-          {NODE_DETAIL.name}
+          {node.name}
         </h1>
         <div className="w-full rounded-lg bg-white shadow-md grid grid-cols-2 p-4">
           <p className="whitespace-normal break-all">Node id</p>
-          <p className="whitespace-normal break-all">{NODE_DETAIL.id_node}</p>
+          <p className="whitespace-normal break-all">{node.id_node}</p>
           <p className="whitespace-normal break-all">Location</p>
-          <p className="whitespace-normal break-all">{NODE_DETAIL.location}</p>
+          <p className="whitespace-normal break-all">{node.location}</p>
           <p className="whitespace-normal break-all"> Number of sensors</p>
           <p className="whitespace-normal break-all">{sensor.length}</p>
           <p className="whitespace-normal break-all">Hardware</p>
           <p className="whitespace-normal break-all">
-            {NODE_DETAIL.hardware.type}
+            {hardware.name}
+          </p>
+          <p className="whitespace-normal break-all">Hardware type</p>
+          <p className="whitespace-normal break-all">
+            {hardware.type}
           </p>
         </div>
-        <h2 className="font-bold text-2xl text-darkFont text-center">Sensor</h2>
-        <ul>
-          {sensor.map((data) => {
-            return (
-              <li
-                key={data.id_sensor}
-                className="w-full rounded-lg bg-white shadow-md p-2 my-2 text-center"
-              >
-                {data.name}
-              </li>
-            );
-          })}
-        </ul>
         <h2 className="font-bold text-2xl text-darkFont text-center">Feed</h2>
-        <ul>
-          {sensor.map((data) => {
-            return (
-              <li key={data.id_sensor}>
-                <div className="bg-white flex flex-col items-center p-4 my-4 rounded-lg w-full">
-                  <h3 className="text-xl font-bold text-darkFont">{data.name}</h3>
-                  <Line
-                    data={{
-                      labels: labels,
-                      datasets: [
-                        {
-                          label: data.name,
-                          data: values,
-                          borderColor: "#064FF0",
-                          backgroundColor: "white",
-                        },
-                      ],
-                    }}
-                  />
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {sensor.map((data) => (
+            <Chart key={data.id_sensor} sensor={data}/>
+            
+          ))}
+        </div>
       </div>
     </div>
   );

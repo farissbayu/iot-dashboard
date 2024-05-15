@@ -13,7 +13,7 @@ export function getUserDetail(token, id) {
   };
 }
 
-export function changePassword(id, body) {
+export function changePassword(id, body, token) {
   return {
     url: apiUrl + `user/${id}`,
     config: {

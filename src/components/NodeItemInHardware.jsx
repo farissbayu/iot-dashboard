@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function NodeItemInHardware({node}) {
   return (
     <tr className="shadow-lg bg-white hover:bg-gray-50">

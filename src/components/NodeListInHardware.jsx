@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import NodeItemInHardware from "./NodeItemInHardware";
 import TableHead from "./TableHead";
 
@@ -20,6 +21,7 @@ export default function NodeListInHardware({nodes}) {
               </tr>
             </TableHead>
             <tbody>
+              
               {nodes.map((node) => {
                 return <NodeItemInHardware key={node.id_node} node={node} />;
               })}

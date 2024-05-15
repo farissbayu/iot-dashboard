@@ -3,9 +3,10 @@ import ButtonDetailItem from "./ButtonDetailItem";
 import ButtonEditItem from "./ButtonEditItem";
 import ButtonDeleteItem from "./ButtonDeleteItem";
 
+const { username } = JSON.parse(localStorage.getItem("userData")) || "";
+
 export default function NodeListItem({ node }) {
-  const navigate = useNavigate();
-  const username = "faris";
+  const navigate = useNavigate();  
 
   return (
     <tr className="shadow-lg bg-white hover:bg-gray-50">

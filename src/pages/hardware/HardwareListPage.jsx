@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HardwareListItem from "../../components/HardwareListItem";
@@ -9,19 +10,23 @@ import { getHardwareList } from "../../api/hardware-request.js";
 import PaginationButtons from "../../components/PaginationButton.jsx";
 
 const { isAdmin } = JSON.parse(localStorage.getItem("userData")) || false;
-const { url, config } = getHardwareList();
+const token = localStorage.getItem("token");
+const { url, config } = getHardwareList(token);
 
 export default function HardwareListPage() {
   const navigate = useNavigate();
+
+  const [query, setQuery] = useState("");
+  const keys = ["name", "type", "description"];
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
+
   const { data, loading, error, sendRequest } = useApi({
     code: -1,
     status: "",
     data: [],
   });
-  const [query, setQuery] = useState("");
-  const keys = ["name", "type", "description"];
 
   useEffect(() => {
     async function fetchHardwareList() {
@@ -34,10 +39,6 @@ export default function HardwareListPage() {
 
     fetchHardwareList();
   }, []);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   const filteredItems = data.data.filter((item) =>
     keys.some((key) => item[key].toLowerCase().includes(query))
@@ -58,6 +59,14 @@ export default function HardwareListPage() {
     setCurrentPage(1);
   }
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
   return (
     <div className="bg-pageBackground min-h-screen max-h-full flex">
       <div
@@ -67,7 +76,11 @@ export default function HardwareListPage() {
         <div id="top-container" className="flex flex-row justify-between mt-8">
           <h1 className="font-bold text-4xl text-darkFont">Hardwares</h1>
           {isAdmin && (
-            <Button onClick={() => navigate("create")} buttonType="primary" customStyles="bg-primary">
+            <Button
+              onClick={() => navigate("create")}
+              buttonType="primary"
+              customStyles="bg-primary"
+            >
               Create hardware
             </Button>
           )}
@@ -79,8 +92,10 @@ export default function HardwareListPage() {
           value={query}
           onChange={handleSearchChange}
         />
-        {(data.code === -1 || data.data.size === 0) && <p>No hardware found.</p>}
-        {(data.data.size !== 0 && data.code !== -1)  && (
+        {(data.code === -1 || data.data.size === 0) && (
+          <p>No hardware found.</p>
+        )}
+        {data.data.size !== 0 && data.code !== -1 && (
           <div id="table-container">
             <Table>
               <TableHead customStyle="text-2xl">

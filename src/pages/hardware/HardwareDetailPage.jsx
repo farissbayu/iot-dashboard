@@ -42,7 +42,7 @@ export default function HardwareDetailPage() {
   const nodes = data.data.node || [];
 
   return (
-    <div className="bg-pageBackground h-screen flex">
+    <div className="bg-pageBackground min-h-screen max-h-full flex">
       <div id="main-container" className="w-full m-8 flex flex-col space-y-4">
         <Button
           customStyles="w-1/12 py-1 border-secondary"
