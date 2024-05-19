@@ -90,7 +90,11 @@ export default function ProfilePage() {
             id="button-container"
             className="flex justify-end items-end mr-4 mb-4"
           >
-            <Button customStyles="mx-4 bg-buttonRed" buttonType="primary" onClick={() => setIsModalOpen(true)}>
+            <Button
+              customStyles="mx-4 bg-buttonRed"
+              buttonType="primary"
+              onClick={() => setIsModalOpen(true)}
+            >
               Delete account
             </Button>
             <Button
@@ -105,22 +109,26 @@ export default function ProfilePage() {
       </div>
       {/* Modal dialog */}
       {isModalOpen && (
-        <div className="ml-[200px] fixed inset-0 flex items-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg max-w-md mx-auto">
-            <h2 className="text-xl font-bold mb-4">Are you sure you want to delete your account?</h2>
+            <h2 className="text-xl font-bold mb-4">
+              Are you sure you want to delete your account?
+            </h2>
             <div className="flex justify-center">
-              <button
-                className="bg-buttonRed text-white px-4 py-2 rounded-md mr-4"
+              <Button
+                buttonType="primary"
+                customStyles="bg-buttonRed mx-2"
                 onClick={handleDeleteAccount}
               >
-              {isLoading ? "Deleting..." : "Delete"}
-              </button>
-              <button
-                className="bg-primary text-white px-4 py-2 rounded-md"
+                {isLoading ? "Deleting..." : "Delete"}
+              </Button>
+              <Button
+                buttonType="primary"
+                customStyles="bg-primary mx-2"
                 onClick={() => setIsModalOpen(false)}
               >
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>

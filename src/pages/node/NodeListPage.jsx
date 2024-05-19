@@ -39,9 +39,10 @@ export default function NodeListPage() {
     fetchNodeList();
   }, []);
 
-  const filteredItems = data.data.filter((item) =>
-    keys.some((key) => item.Node[key].toLowerCase().includes(query))
-  );
+  const filteredItems = data.data
+    .filter((item) =>
+      keys.some((key) => item.Node[key].toLowerCase().includes(query))
+    );
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -105,7 +106,9 @@ export default function NodeListPage() {
               </TableHead>
               <tbody>
                 {currentItems.map((node) => {
-                  return <NodeListItem key={node.Node.id_node} node={node.Node} />;
+                  return (
+                    <NodeListItem key={node.Node.id_node} node={node.Node} />
+                  );
                 })}
               </tbody>
             </Table>

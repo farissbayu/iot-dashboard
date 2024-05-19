@@ -18,8 +18,6 @@ export default function Chart({ sensor }) {
       setDisplayedLabels((prevLabels) => [...prevLabels.slice(-9), currentTime]);
     };
     
-    
-
     const interval = setInterval(generateRandomData, 2000);
 
     return () => clearInterval(interval); // Cleanup function to stop interval on unmount
@@ -30,7 +28,6 @@ export default function Chart({ sensor }) {
       className="bg-white p-4 my-4 rounded-lg flex flex-col items-center"
     >
       <h3 className="text-xl font-bold text-darkFont">{sensor.name}</h3>
-      <button>option</button>
       <div className="w-full h-96 overflow-hidden">
         <Line
           data={{

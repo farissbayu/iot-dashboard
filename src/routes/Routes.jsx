@@ -17,9 +17,7 @@ import HardwareCreatePage, {
 } from "../pages/hardware/HardwareCreatePage";
 import NodeListPage from "../pages/node/NodeListPage";
 import NodeDetailPage from "../pages/node/NodeDetailPage";
-import NodeCreatePage, {
-  action as createNodeAction,
-} from "../pages/node/NodeCreatePage";
+import NodeCreatePage from "../pages/node/NodeCreatePage";
 import Authenticated from "./Authenticated";
 import UnAuthenticated from "./UnAuthenticated";
 
@@ -46,7 +44,6 @@ const router = createBrowserRouter([
       },
       {
         path: "node/:username/create",
-        action: createNodeAction,
         element: <NodeCreatePage />,
       },
       {
