@@ -12,9 +12,7 @@ import ChangePasswordPage from "../pages/profile/ChangePasswordPage";
 import UserListPage from "../pages/user/UserListPage";
 import HardwareListPage from "../pages/hardware/HardwareListPage";
 import HardwareDetailPage from "../pages/hardware/HardwareDetailPage";
-import HardwareCreatePage, {
-  action as createHardwareAction,
-} from "../pages/hardware/HardwareCreatePage";
+import HardwareCreatePage from "../pages/hardware/HardwareCreatePage";
 import NodeListPage from "../pages/node/NodeListPage";
 import NodeDetailPage from "../pages/node/NodeDetailPage";
 import NodeCreatePage from "../pages/node/NodeCreatePage";
@@ -60,7 +58,6 @@ const router = createBrowserRouter([
       },
       {
         path: "hardware/create",
-        action: createHardwareAction,
         element: <HardwareCreatePage />,
       },
       {

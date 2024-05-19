@@ -45,8 +45,6 @@ export default function NodeDetailPage() {
   } || {};
   const hardware = data.data.hardware || {};
   const sensor = data.data.field_sensor || [];
-  console.log(hardware);
-  console.log(sensor);
 
   return (
     <div className="bg-pageBackground min-h-screen max-h-full flex">
@@ -80,8 +78,7 @@ export default function NodeDetailPage() {
         <h2 className="font-bold text-2xl text-darkFont text-center">Feed</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {sensor.map((data) => (
-            <Chart key={data.id_sensor} sensor={data}/>
-            
+            <Chart key={data.id_hardware} sensor={data}/>
           ))}
         </div>
       </div>

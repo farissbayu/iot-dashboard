@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import useApi from "../../hooks/useApi";
 import { createNode } from "../../api/node-request";
-import NodeCreateForm from "../../components/form/NodeCreateForm";
+import NodeForm from "../../components/form/NodeCreateForm";
 
-export default function NodeCreatePage() {
+export default function NodeEditPage() {
   const token = localStorage.getItem("token");
   const { userId } = JSON.parse(localStorage.getItem("userData")) || -1;
   const { username } = JSON.parse(localStorage.getItem("userData")) || "name";
@@ -47,7 +47,7 @@ export default function NodeCreatePage() {
         </Button>
         <div className="w-full max-w-2xl bg-white shadow-md rounded-lg mx-auto mt-4 flex flex-col items-center py-16 px-8 space-y-4">
           <h1 className="text-4xl font-bold text-darkFont">Create Node</h1>
-          <NodeCreateForm onSubmit={handleSubmit} submitLoading={loading} />
+          <NodeForm onSubmit={handleSubmit} submitLoading={loading} edit/>
         </div>
       </div>
     </div>

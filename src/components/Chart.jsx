@@ -23,6 +23,8 @@ export default function Chart({ sensor }) {
     return () => clearInterval(interval); // Cleanup function to stop interval on unmount
   }, []);
 
+  console.log(sensor);
+
   return (
     <li
       className="bg-white p-4 my-4 rounded-lg flex flex-col items-center"

@@ -47,7 +47,7 @@ function deleteNode(token, nodeId) {
   return {
     url: apiUrl + `node/${nodeId}`,
     config: {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token,

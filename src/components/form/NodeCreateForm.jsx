@@ -7,7 +7,7 @@ import Button from "../ui/Button";
 import Dropdown from "../ui/Dropdown";
 import Input from "../ui/Input";
 
-export default function CreateNodeForm({ onSubmit, submitLoading }) {
+export default function NodeCreateForm({ onSubmit, submitLoading }) {
   const token = localStorage.getItem("token") || "";
 
   const { url, config } = getHardwareList(token);

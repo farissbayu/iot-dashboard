@@ -23,7 +23,7 @@ export default function HardwareCreatePage() {
         </Button>
         <div className="w-5/6 bg-white shadow-md rounded-lg mx-auto mt-4 flex flex-col items-center py-16 px-4 space-y-4">
           <h1 className="text-4xl font-bold text-darkFont">Create Hardware</h1>
-          <Form
+          <form
             method="post"
             id="create-hardware-form"
             className="w-2/3 flex flex-col justify-around space-y-4"
@@ -31,7 +31,7 @@ export default function HardwareCreatePage() {
             <Input
               id="name"
               name="name"
-              placeholderText="Hardware name"
+              placeholder="Hardware name"
               type="text"
             >
               Name
@@ -39,7 +39,7 @@ export default function HardwareCreatePage() {
             <TextArea
               id="description"
               name="description"
-              placeholderText="Hardware description..."
+              placeholder="Hardware description..."
               row="4"
               col="50"
             >
@@ -58,7 +58,7 @@ export default function HardwareCreatePage() {
                   return (
                     <option
                       key={index}
-                      value={type.toLowerCase()}
+                      value={type}
                       className="text-black"
                     >
                       {type}
@@ -71,22 +71,9 @@ export default function HardwareCreatePage() {
             <Button customStyles="w-full" type="submit" buttonType="primary">
               Create Hardware
             </Button>
-          </Form>
+          </form>
         </div>
       </div>
     </div>
   );
 }
-
-export const action = async ({ request }) => {
-  const data = await request.formData();
-
-  const hardwareBody = {
-    name: data.get("name"),
-    description: data.get("description"),
-    hardwareType: data.get("hardwareType"),
-  };
-
-  console.log(hardwareBody);
-  return redirect("/hardware");
-};

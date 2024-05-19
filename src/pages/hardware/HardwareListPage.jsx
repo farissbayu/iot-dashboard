@@ -9,11 +9,11 @@ import useApi from "../../hooks/useApi.js";
 import { getHardwareList } from "../../api/hardware-request.js";
 import PaginationButtons from "../../components/PaginationButton.jsx";
 
-const { isAdmin } = JSON.parse(localStorage.getItem("userData")) || false;
-const token = localStorage.getItem("token");
-const { url, config } = getHardwareList(token);
-
 export default function HardwareListPage() {
+  const { isAdmin } = JSON.parse(localStorage.getItem("userData")) || false;
+  const token = localStorage.getItem("token");
+  const { url, config } = getHardwareList(token);
+
   const navigate = useNavigate();
 
   const [query, setQuery] = useState("");

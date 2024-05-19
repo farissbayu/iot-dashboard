@@ -1,11 +1,12 @@
+/* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import ButtonDetailItem from "./ButtonDetailItem";
 import ButtonEditItem from "./ButtonEditItem";
 import ButtonDeleteItem from "./ButtonDeleteItem";
 
-const { username } = JSON.parse(localStorage.getItem("userData")) || "";
-
-export default function NodeListItem({ node }) {
+export default function NodeListItem({ node, onDeleteClick }) {
+  const { username } = JSON.parse(localStorage.getItem("userData")) || "";
+  
   const navigate = useNavigate();  
 
   return (
@@ -20,7 +21,7 @@ export default function NodeListItem({ node }) {
         <ButtonEditItem
           onClick={() => navigate(`/node/${username}/${node.id_node}/edit`)}
         />
-        <ButtonDeleteItem />
+        <ButtonDeleteItem onClick={() => onDeleteClick(node.id_node)}/>
       </td>
     </tr>
   );

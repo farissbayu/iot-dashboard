@@ -30,6 +30,8 @@ export default function HardwareDetailPage() {
     fetchHardwareDetail();
   }, []);
 
+  console.log(data);
+
   if (loading) {
     return <p>Loading...</p>;
   }
