@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
@@ -5,7 +6,7 @@ const AuthContext = createContext({
   isLoggedIn: false,
   isLoading: true,
   clearUserData: () => {},
-  setUserData: (token, username, id_user, is_admin) => {},
+  setUserData: () => {},
 });
 
 export default function AuthProvider({ children }) {
@@ -38,7 +39,7 @@ export default function AuthProvider({ children }) {
       setIsLoggedIn(true);
     }
     setIsLoading(false);
-  });
+  }, []);
 
   return (
     <AuthContext.Provider
