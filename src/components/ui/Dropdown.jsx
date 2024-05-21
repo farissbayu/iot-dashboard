@@ -10,8 +10,8 @@ export default function Dropdown({
   loading = false,
   defaultOptionText,
   customStyles,
-  optionKey,
-  optionValue,
+  optionKey = "",
+  optionValue = "",
 }) {
   return (
     <div className={`flex flex-col space-y-2 ${customStyles}`}>
@@ -28,8 +28,8 @@ export default function Dropdown({
         <option value="">{loading ? "Loading..." : defaultOptionText}</option>
         {options.map((option) => (
           <option
-            key={option[optionKey]}
-            value={option[optionValue]}
+            key={option[optionKey] || option}
+            value={option[optionValue] || option}
             className="text-black"
           >
             {option.name}

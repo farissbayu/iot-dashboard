@@ -1,21 +1,48 @@
-import { Form, redirect, useNavigate } from "react-router-dom";
-import Input from "../../components/ui/Input";
-import TextArea from "../../components/TextArea";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
-
-const hardwareType = [
-  "Microcontroller Unit",
-  "Single-Board Computer",
-  "Sensor",
-];
+import HardwareCreateForm from "../../components/form/HardwareCreateForm";
+import useApi from "../../hooks/useApi";
+import { createHardware } from "../../api/hardware-request";
+import { useEffect, useState } from "react";
 
 export default function HardwareCreatePage() {
+  const token = localStorage.getItem("token");
+
+  const [success, setSuccess] = useState(false);
+
+  const { data, loading, sendRequest } = useApi({
+    code: -1,
+    status: "",
+    data: {},
+  });
+
   const navigate = useNavigate();
+
+  async function handleSubmit(formData) {
+    console.log(formData);
+
+    const { url, config } = createHardware(token, formData);
+
+    try {
+      await sendRequest(url, config);
+      setSuccess(true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    if (success) {
+      console.log(data);
+      navigate("/hardware");
+    }
+  }, [data, success, navigate]);
+
   return (
     <div className="bg-pageBackground h-screen flex">
       <div className="w-full mt-8 mx-8 flex flex-col">
         <Button
-          customStyles="w-[150px] py-1 px-1"
+          customStyles="w-[150px] py-1 px-1 border-secondary"
           onClick={() => navigate(-1)}
           buttonType="secondary"
         >
@@ -23,55 +50,7 @@ export default function HardwareCreatePage() {
         </Button>
         <div className="w-5/6 bg-white shadow-md rounded-lg mx-auto mt-4 flex flex-col items-center py-16 px-4 space-y-4">
           <h1 className="text-4xl font-bold text-darkFont">Create Hardware</h1>
-          <form
-            method="post"
-            id="create-hardware-form"
-            className="w-2/3 flex flex-col justify-around space-y-4"
-          >
-            <Input
-              id="name"
-              name="name"
-              placeholder="Hardware name"
-              type="text"
-            >
-              Name
-            </Input>
-            <TextArea
-              id="description"
-              name="description"
-              placeholder="Hardware description..."
-              row="4"
-              col="50"
-            >
-              Description
-            </TextArea>
-            <div className="flex flex-col space-y-2">
-              <label htmlFor="hardwareType" className="text-formColor text-sm">
-                Hardware Type
-              </label>
-              <select
-                id="hardwareType"
-                name="hardwareType"
-                className="text-black p-2 mt-1 border border-solid border-formColor rounded-lg text-sm"
-              >
-                {hardwareType.map((type, index) => {
-                  return (
-                    <option
-                      key={index}
-                      value={type}
-                      className="text-black"
-                    >
-                      {type}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-
-            <Button customStyles="w-full" type="submit" buttonType="primary">
-              Create Hardware
-            </Button>
-          </form>
+          <HardwareCreateForm onSubmit={handleSubmit} submitLoading={loading} />
         </div>
       </div>
     </div>
