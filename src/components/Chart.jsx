@@ -20,7 +20,7 @@ export default function Chart({ sensor }) {
     
     const interval = setInterval(generateRandomData, 2000);
 
-    return () => clearInterval(interval); // Cleanup function to stop interval on unmount
+    return () => clearInterval(interval);
   }, []);
 
   console.log(sensor);

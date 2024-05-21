@@ -9,23 +9,6 @@ export default function NodeDeletionModal({
   modalIsOpen,
   onDeleteNode
 }) {
-  // if (error) {
-  //   return (
-  //     <dialog
-  //       className="bg-white p-6 rounded-lg max-w-md mx-auto"
-  //       open={modalIsOpen}
-  //     >
-  //       <h2 className="text-xl font-bold mb-4">Failed to delete node</h2>
-  //       <Button
-  //         buttonType="primary"
-  //         customStyles="bg-primary mx-2"
-  //         onClick={onCloseModal}
-  //       >
-  //         Cancel
-  //       </Button>
-  //     </dialog>
-  //   );
-  // }
 
   return (
     <dialog
