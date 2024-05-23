@@ -5,17 +5,28 @@ import { useEffect, useState } from "react";
 import { getUserDetail } from "../../api/user-request";
 import useApi from "../../hooks/useApi";
 import { useAuth } from "../../store/AuthProvider";
-
-const token = localStorage.getItem("token") || "";
-const { userId } = JSON.parse(localStorage.getItem("userData")) || -1;
-const { url, config } = getUserDetail(token, userId);
+import DeletionModal from "../../components/DeletionModal";
 
 export default function ProfilePage() {
-  const { clearUserData } = useAuth();
+  const token = localStorage.getItem("token") || "";
+  const { userId } = JSON.parse(localStorage.getItem("userData")) || -1;
+  const [success, setSuccess] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const { data, loading, error, sendRequest } = useApi({
+  const { clearUserData } = useAuth();
+
+  const { url: getUserUrl, config: getUserConfig } = getUserDetail(
+    token,
+    userId
+  );
+  const { sendRequest: deleteUser } = useApi();
+
+  const {
+    data: userData,
+    loading: userLoading,
+    error: userError,
+    sendRequest: getUserData,
+  } = useApi({
     code: -1,
     status: "",
     data: {},
@@ -26,7 +37,7 @@ export default function ProfilePage() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        await sendRequest(url, config);
+        await getUserData(getUserUrl, getUserConfig);
       } catch (error) {
         console.error(error);
       }
@@ -36,30 +47,49 @@ export default function ProfilePage() {
   }, []);
 
   const handleButtonNavigation = () =>
-    navigate(`/profile/${data.data.username.toLowerCase()}/change-password`);
+    navigate(
+      `/profile/${userData.data.username.toLowerCase()}/change-password`
+    );
 
-  function handleDeleteAccount() {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      clearUserData();
-      navigate("/login", { replace: true });
-    }, 1000);
+  function handleOpenModal() {
+    setIsModalOpen(true);
   }
 
-  if (loading) {
+  function handleCloseModal() {
+    setIsModalOpen(false);
+  }
+
+  async function handleDeleteUser() {
+    try {
+      await deleteUser(getUserUrl, getUserConfig);
+      setSuccess(true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        clearUserData();
+        navigate("/login");
+      }, 2000);
+    }
+  }, [success, navigate, clearUserData]);
+
+  if (userLoading) {
     return <p>Loading...</p>;
   }
 
-  if (error) {
-    return <p>Error: ${error}</p>;
+  if (userError) {
+    return <p>Error: ${userError}</p>;
   }
 
   return (
     <>
       <div className="bg-pageBackground h-screen flex flex-col items-center space-y-4">
         <h1 className="text-4xl font-bold text-darkFont mt-8">
-          {data.data.username + "'s profile"}
+          {userData.data.username + "'s profile"}
         </h1>
         <div
           id="profile-container"
@@ -70,19 +100,19 @@ export default function ProfilePage() {
               <tbody>
                 <tr id="profile-user-id">
                   <td>User Id</td>
-                  <td>{data.data.id_user}</td>
+                  <td>{userData.data.id_user}</td>
                 </tr>
                 <tr id="profile-username">
                   <td>Username</td>
-                  <td>{data.data.username}</td>
+                  <td>{userData.data.username}</td>
                 </tr>
                 <tr id="profile-email">
                   <td>Email</td>
-                  <td>{data.data.email}</td>
+                  <td>{userData.data.email}</td>
                 </tr>
                 <tr id="profile-role">
                   <td>role</td>
-                  <td>{data.data.is_admin ? "Admin" : "User"}</td>
+                  <td>{userData.data.is_admin ? "Admin" : "User"}</td>
                 </tr>
               </tbody>
             </table>
@@ -94,7 +124,7 @@ export default function ProfilePage() {
             <Button
               customStyles="mx-4 bg-buttonRed"
               buttonType="primary"
-              onClick={() => setIsModalOpen(true)}
+              onClick={handleOpenModal}
             >
               Delete account
             </Button>
@@ -111,27 +141,12 @@ export default function ProfilePage() {
       {/* Modal dialog */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg max-w-md mx-auto">
-            <h2 className="text-xl font-bold mb-4">
-              Are you sure you want to delete your account?
-            </h2>
-            <div className="flex justify-center">
-              <Button
-                buttonType="primary"
-                customStyles="bg-buttonRed mx-2"
-                onClick={handleDeleteAccount}
-              >
-                {isLoading ? "Deleting..." : "Delete"}
-              </Button>
-              <Button
-                buttonType="primary"
-                customStyles="bg-primary mx-2"
-                onClick={() => setIsModalOpen(false)}
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
+          <DeletionModal
+            title="Are you sure want to delete your account?"
+            onCancel={handleCloseModal}
+            modalIsOpen={isModalOpen}
+            onDelete={handleDeleteUser}
+          />
         </div>
       )}
     </>

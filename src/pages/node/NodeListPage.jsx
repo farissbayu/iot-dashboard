@@ -76,9 +76,9 @@ export default function NodeListPage() {
     setCurrentPage(1);
   }
 
-  function handleOpenModal(nodeId) {
+  function handleOpenModal(currentId) {
     setIsModalOpen(true);
-    setNodeId(nodeId);
+    setNodeId(currentId);
   }
 
   function handleCloseModal() {

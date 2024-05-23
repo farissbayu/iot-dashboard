@@ -27,7 +27,7 @@ function changePassword(id, body, token) {
   };
 }
 
-function getListUser(token) {
+function getUserList(token) {
   return {
     url: apiUrl + "user",
     config: {
@@ -54,4 +54,4 @@ function deleteUser(token, userId) {
   };
 }
 
-export { getUserDetail, changePassword, getListUser, deleteUser };
+export { getUserDetail, changePassword, getUserList, deleteUser };
