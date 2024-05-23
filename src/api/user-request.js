@@ -40,4 +40,18 @@ function getListUser(token) {
   };
 }
 
-export { getUserDetail, changePassword, getListUser };
+function deleteUser(token, userId) {
+  return {
+    url: apiUrl + `user/${userId}`,
+    config: {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      credentials: "include",
+    },
+  };
+}
+
+export { getUserDetail, changePassword, getListUser, deleteUser };

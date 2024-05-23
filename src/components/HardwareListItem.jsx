@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import ButtonDetailItem from "./ButtonDetailItem";
 import ButtonEditItem from "./ButtonEditItem";
 import ButtonDeleteItem from "./ButtonDeleteItem";
 
-export default function HardwareListItem({ hardware, isAdmin }) {
+export default function HardwareListItem({ hardware, isAdmin, onDeleteClick }) {
   const navigate = useNavigate();
 
   return (
@@ -20,10 +21,10 @@ export default function HardwareListItem({ hardware, isAdmin }) {
         />
         {isAdmin ? (
           <>
-            <ButtonEditItem
-              onClick={() => navigate(`${hardware.id}/edit`)}
+            <ButtonEditItem onClick={() => navigate(`${hardware.id}/edit`)} />
+            <ButtonDeleteItem
+              onClick={() => onDeleteClick(hardware.id_hardware)}
             />
-            <ButtonDeleteItem />
           </>
         ) : null}
       </td>

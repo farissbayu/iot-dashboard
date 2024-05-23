@@ -6,13 +6,16 @@ import Table from "../../components/Table.jsx";
 import TableHead from "../../components/TableHead.jsx";
 import Button from "../../components/ui/Button.jsx";
 import useApi from "../../hooks/useApi.js";
-import { getHardwareList } from "../../api/hardware-request.js";
+import { deleteHardware, getHardwareList } from "../../api/hardware-request.js";
 import PaginationButtons from "../../components/PaginationButton.jsx";
+import DeletionModal from "../../components/DeletionModal.jsx";
 
 export default function HardwareListPage() {
   const { isAdmin } = JSON.parse(localStorage.getItem("userData")) || false;
   const token = localStorage.getItem("token");
-  const { url, config } = getHardwareList(token);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hardwareId, setHardwareId] = useState(-1);
 
   const navigate = useNavigate();
 
@@ -22,16 +25,34 @@ export default function HardwareListPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
 
-  const { data, loading, error, sendRequest } = useApi({
+  const { url: getHardwareUrl, config: getHardwareConfig } =
+    getHardwareList(token);
+  const { url: deleteUrl, config: deleteConfig } = deleteHardware(
+    token,
+    hardwareId
+  );
+
+  const {
+    data: hardwareList,
+    loading: hardwareLoading,
+    error: hardwareError,
+    sendRequest: getListHardware,
+  } = useApi({
     code: -1,
     status: "",
     data: [],
   });
 
+  const { sendRequest: deleteHardwareRequest } = useApi({
+    code: -1,
+    status: "",
+    data: {},
+  });
+
   useEffect(() => {
     async function fetchHardwareList() {
       try {
-        await sendRequest(url, config);
+        await getListHardware(getHardwareUrl, getHardwareConfig);
       } catch (error) {
         console.error(error);
       }
@@ -40,7 +61,7 @@ export default function HardwareListPage() {
     fetchHardwareList();
   }, []);
 
-  const filteredItems = data.data.filter((item) =>
+  const filteredItems = hardwareList.data.filter((item) =>
     keys.some((key) => item[key].toLowerCase().includes(query))
   );
 
@@ -59,75 +80,111 @@ export default function HardwareListPage() {
     setCurrentPage(1);
   }
 
-  if (loading) {
+  function handleOpenModal(currentId) {
+    setIsModalOpen(true);
+    setHardwareId(currentId);
+  }
+
+  function handleCloseModal() {
+    setIsModalOpen(false);
+    setHardwareId(-1);
+  }
+
+  async function handleDeleteHardware() {
+    try {
+      await deleteHardwareRequest(deleteUrl, deleteConfig);
+      setIsModalOpen(false);
+      await getListHardware(getHardwareUrl, getHardwareConfig);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  if (hardwareLoading) {
     return <p>Loading...</p>;
   }
 
-  if (error) {
-    return <p>Error: {error}</p>;
+  if (hardwareError) {
+    return <p>Error: {hardwareError}</p>;
   }
 
   return (
-    <div className="bg-pageBackground min-h-screen max-h-full flex">
-      <div
-        id="hardware-list-container"
-        className="w-full mx-8 flex flex-col space-y-4 my-4"
-      >
-        <div id="top-container" className="flex flex-row justify-between mt-8">
-          <h1 className="font-bold text-4xl text-darkFont">Hardwares</h1>
-          {isAdmin && (
-            <Button
-              onClick={() => navigate("create")}
-              buttonType="primary"
-              customStyles="bg-primary"
-            >
-              Create hardware
-            </Button>
-          )}
-        </div>
-        <input
-          type="search"
-          placeholder="search"
-          className="p-2 w-1/4 rounded-md border border-darkFont"
-          value={query}
-          onChange={handleSearchChange}
-        />
-        {(data.code === -1 || data.data.size === 0) && (
-          <p>No hardware found.</p>
-        )}
-        {data.data.size !== 0 && data.code !== -1 && (
-          <div id="table-container">
-            <Table>
-              <TableHead customStyle="text-2xl">
-                <tr>
-                  <th className="p-4 max-w-4">Id</th>
-                  <th className="p-4 max-w-16">Name</th>
-                  <th className="p-4 max-w-16">Type</th>
-                  <th className="p-4 max-w-48">Description</th>
-                  <th className="p-4 max-w-20">Action</th>
-                </tr>
-              </TableHead>
-              <tbody>
-                {currentItems.map((hardware) => {
-                  return (
-                    <HardwareListItem
-                      key={hardware.id_hardware}
-                      hardware={hardware}
-                      isAdmin={isAdmin}
-                    />
-                  );
-                })}
-              </tbody>
-            </Table>
+    <>
+      <div className="bg-pageBackground min-h-screen max-h-full flex">
+        <div
+          id="hardware-list-container"
+          className="w-full mx-8 flex flex-col space-y-4 my-4"
+        >
+          <div
+            id="top-container"
+            className="flex flex-row justify-between mt-8"
+          >
+            <h1 className="font-bold text-4xl text-darkFont">Hardwares</h1>
+            {isAdmin && (
+              <Button
+                onClick={() => navigate("create")}
+                buttonType="primary"
+                customStyles="bg-primary"
+              >
+                Create hardware
+              </Button>
+            )}
           </div>
-        )}
+          <input
+            type="search"
+            placeholder="search"
+            className="p-2 w-1/4 rounded-md border border-darkFont"
+            value={query}
+            onChange={handleSearchChange}
+          />
+          {(hardwareList.code === -1 || hardwareList.data.size === 0) && (
+            <p>No hardware found.</p>
+          )}
+          {hardwareList.data.size !== 0 && hardwareList.code !== -1 && (
+            <div id="table-container">
+              <Table>
+                <TableHead customStyle="text-2xl">
+                  <tr>
+                    <th className="p-4 max-w-4">Id</th>
+                    <th className="p-4 max-w-16">Name</th>
+                    <th className="p-4 max-w-16">Type</th>
+                    <th className="p-4 max-w-48">Description</th>
+                    <th className="p-4 max-w-20">Action</th>
+                  </tr>
+                </TableHead>
+                <tbody>
+                  {currentItems.map((hardware) => {
+                    return (
+                      <HardwareListItem
+                        key={hardware.id_hardware}
+                        hardware={hardware}
+                        isAdmin={isAdmin}
+                        onDeleteClick={handleOpenModal}
+                      />
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </div>
+          )}
 
-        <PaginationButtons
-          totalPages={totalPages}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
+          <PaginationButtons
+            totalPages={totalPages}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        </div>
       </div>
-    </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center bg-black bg-opacity-50">
+          <DeletionModal
+            title={`Are you sure want to delete hardware ${hardwareId}`}
+            onCancel={handleCloseModal}
+            modalIsOpen={isModalOpen}
+            onDelete={handleDeleteHardware}
+          />
+        </div>
+      )}
+    </>
   );
 }

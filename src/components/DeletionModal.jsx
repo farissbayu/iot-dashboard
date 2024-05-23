@@ -1,28 +1,23 @@
 /* eslint-disable react/prop-types */
-import { deleteNode } from "../api/node-request";
-import useApi from "../hooks/useApi";
 import Button from "./ui/Button";
 
-export default function NodeDeletionModal({
-  nodeId,
-  onCloseModal,
+export default function DeletionModal({
+  title,
+  onCancel,
   modalIsOpen,
-  onDeleteNode
+  onDelete,
 }) {
-
   return (
     <dialog
       className="bg-white p-6 rounded-lg max-w-md mx-auto"
       open={modalIsOpen}
     >
-      <h2 className="text-xl font-bold mb-4">
-        Are you sure you want to delete node {nodeId}?
-      </h2>
+      <h2 className="text-xl font-bold mb-4">{title}</h2>
       <div className="flex justify-center">
         <Button
           buttonType="primary"
           customStyles="bg-buttonRed mx-2"
-          onClick={onDeleteNode}
+          onClick={onDelete}
         >
           {/* {loading ? "Deleting..." : "Delete"} */}
           Delete
@@ -30,7 +25,7 @@ export default function NodeDeletionModal({
         <Button
           buttonType="primary"
           customStyles="bg-primary mx-2"
-          onClick={onCloseModal}
+          onClick={onCancel}
         >
           Cancel
         </Button>

@@ -8,7 +8,7 @@ import Button from "../../components/ui/Button.jsx";
 import PaginationButtons from "../../components/PaginationButton.jsx";
 import useApi from "../../hooks/useApi.js";
 import { deleteNode, getNodeList } from "../../api/node-request.js";
-import NodeDeletionModal from "../../components/NodeDeletionModal.jsx";
+import DeletionModal from "../../components/DeletionModal.jsx";
 
 export default function NodeListPage() {
   const token = localStorage.getItem("token");
@@ -41,7 +41,7 @@ export default function NodeListPage() {
   const { sendRequest: deleteNodeRequest } = useApi({
     code: -1,
     status: "",
-    data: [],
+    data: {},
   });
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function NodeListPage() {
 
   function handleCloseModal() {
     setIsModalOpen(false);
-    setNodeId(null);
+    setNodeId(-1);
   }
 
   async function handleDeleteNode() {
@@ -169,11 +169,11 @@ export default function NodeListPage() {
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center bg-black bg-opacity-50">
-          <NodeDeletionModal
-            nodeId={nodeId}
-            onCloseModal={handleCloseModal}
+          <DeletionModal
+            title={`Are you sure want to delete node ${nodeId}`}
+            onCancel={handleCloseModal}
             modalIsOpen={isModalOpen}
-            onDeleteNode={handleDeleteNode}
+            onDelete={handleDeleteNode}
           />
         </div>
       )}
