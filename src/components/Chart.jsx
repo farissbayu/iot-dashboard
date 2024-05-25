@@ -9,26 +9,25 @@ export default function Chart({ sensor }) {
   useEffect(() => {
     const generateRandomData = () => {
       const baseValue = Math.floor(Math.random() * (51 - 20 + 1)) + 20;
-      const difference = Math.floor(Math.random() * (3 - (-1) + 1)) - 1;
+      const difference = Math.floor(Math.random() * (3 - -1 + 1)) - 1;
       const newData = baseValue + difference;
 
       const currentTime = new Date().toLocaleTimeString();
-    
+
       setDisplayedData((prevData) => [...prevData.slice(-9), newData]);
-      setDisplayedLabels((prevLabels) => [...prevLabels.slice(-9), currentTime]);
+      setDisplayedLabels((prevLabels) => [
+        ...prevLabels.slice(-9),
+        currentTime,
+      ]);
     };
-    
+
     const interval = setInterval(generateRandomData, 2000);
 
     return () => clearInterval(interval);
   }, []);
 
-  console.log(sensor);
-
   return (
-    <li
-      className="bg-white p-4 my-4 rounded-lg flex flex-col items-center"
-    >
+    <li className="bg-white p-4 my-4 rounded-lg flex flex-col items-center">
       <h3 className="text-xl font-bold text-darkFont">{sensor.name}</h3>
       <div className="w-full h-96 overflow-hidden">
         <Line
@@ -57,4 +56,3 @@ export default function Chart({ sensor }) {
     </li>
   );
 }
-

@@ -32,6 +32,31 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
     (hardware) => hardware.type === "sensor"
   );
 
+  useEffect(() => {
+    handleAddField();
+  }, []);
+
+  useEffect(() => {
+    async function fetchHardwareList() {
+      try {
+        await requestHardware(url, config);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchHardwareList();
+  }, []);
+
+  console.log(hardwares);
+
+  const idHardwareSensor = [3, 4, 5, 3, 3];
+  const filteredHardware = hardwares.data
+    .filter((item) => idHardwareSensor.includes(item.id_hardware))
+    .map((item) => ({ id_hardware: item.id_hardware, name: item.name }));
+
+  console.log(filteredHardware);
+
   function handleHardwareChange(event) {
     setSelectedHardware(event.target.value);
   }
@@ -59,22 +84,6 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
     updatedSensors[index][field] = value;
     setSensors(updatedSensors);
   }
-
-  useEffect(() => {
-    handleAddField();
-  }, []);
-
-  useEffect(() => {
-    async function fetchHardwareList() {
-      try {
-        await requestHardware(url, config);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchHardwareList();
-  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();

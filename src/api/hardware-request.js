@@ -56,4 +56,25 @@ function deleteHardware(token, hardwareId) {
   };
 }
 
-export { getHardwareList, getHardwareDetail, createHardware, deleteHardware };
+function editHardware(token, hardwareId, hardwareBody) {
+  return {
+    url: apiUrl + `hardware/${hardwareId}`,
+    config: {
+      method: "PUT",
+      body: JSON.stringify(hardwareBody),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      credentials: "include",
+    },
+  };
+}
+
+export {
+  getHardwareList,
+  getHardwareDetail,
+  createHardware,
+  deleteHardware,
+  editHardware,
+};

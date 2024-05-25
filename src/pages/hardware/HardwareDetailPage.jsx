@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate, useParams } from "react-router-dom";
 import HardwareDetailItem from "../../components/HardwareDetailItem";
 import Button from "../../components/ui/Button";
@@ -6,9 +7,8 @@ import useApi from "../../hooks/useApi";
 import { useEffect } from "react";
 import NodeListInHardware from "../../components/NodeListInHardware";
 
-const token = localStorage.getItem("token") || "";
-
 export default function HardwareDetailPage() {
+  const token = localStorage.getItem("token") || "";
   const { id: hardwareId } = useParams();
   const navigate = useNavigate();
   const { url, config } = getHardwareDetail(hardwareId, token);
@@ -53,7 +53,7 @@ export default function HardwareDetailPage() {
         >
           {"<"} Back
         </Button>
-        <HardwareDetailItem hardware={hardware || {}} />
+        <HardwareDetailItem hardware={hardware} />
         <NodeListInHardware nodes={nodes} />
       </div>
     </div>

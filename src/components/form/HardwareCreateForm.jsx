@@ -6,9 +6,9 @@ import Input from "../ui/Input";
 import Dropdown from "../ui/Dropdown";
 
 const hardwareType = [
-  { id: 0, name: "Microcontroller Unit" },
-  { id: 1, name: "Single-Board Computer" },
-  { id: 2, name: "Sensor" },
+  { id: 0, name: "microcontroller unit" },
+  { id: 1, name: "single-board computer" },
+  { id: 2, name: "sensor" },
 ];
 
 export default function HardwareCreateForm({ onSubmit, submitLoading }) {

@@ -21,7 +21,9 @@ export default function HardwareListItem({ hardware, isAdmin, onDeleteClick }) {
         />
         {isAdmin ? (
           <>
-            <ButtonEditItem onClick={() => navigate(`${hardware.id}/edit`)} />
+            <ButtonEditItem
+              onClick={() => navigate(`${hardware.id_hardware}/edit`)}
+            />
             <ButtonDeleteItem
               onClick={() => onDeleteClick(hardware.id_hardware)}
             />

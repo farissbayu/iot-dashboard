@@ -18,6 +18,7 @@ import NodeDetailPage from "../pages/node/NodeDetailPage";
 import NodeCreatePage from "../pages/node/NodeCreatePage";
 import Authenticated from "./Authenticated";
 import UnAuthenticated from "./UnAuthenticated";
+import HardwareEditPage from "../pages/hardware/HardwareEditPage";
 
 const router = createBrowserRouter([
   {
@@ -62,7 +63,7 @@ const router = createBrowserRouter([
       },
       {
         path: "hardware/:id/edit",
-        element: <h1>Edit hardware</h1>,
+        element: <HardwareEditPage />,
       },
       {
         path: "userlist",
@@ -104,8 +105,8 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <p>Error</p>
-  }
+    element: <p>Error</p>,
+  },
 ]);
 
 export default function Routes() {

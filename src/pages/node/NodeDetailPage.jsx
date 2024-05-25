@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import 'chart.js/auto';
+import "chart.js/auto";
 import Button from "../../components/ui/Button.jsx";
 import { getNodeDetail } from "../../api/node-request.js";
 import useApi from "../../hooks/useApi.js";
@@ -30,6 +30,8 @@ export default function NodeDetailPage() {
     fetchNodeDetail();
   }, []);
 
+  console.log(data);
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -38,11 +40,12 @@ export default function NodeDetailPage() {
     return <p>Error: ${error}</p>;
   }
 
-  const node = {
-    id_node: data.data.id_node,
-    name: data.data.name,
-    location: data.data.location
-  } || {};
+  const node =
+    {
+      id_node: data.data.id_node,
+      name: data.data.name,
+      location: data.data.location,
+    } || {};
   const hardware = data.data.hardware || {};
   const sensor = data.data.field_sensor || [];
 
@@ -67,18 +70,14 @@ export default function NodeDetailPage() {
           <p className="whitespace-normal break-all"> Number of sensors</p>
           <p className="whitespace-normal break-all">{sensor.length}</p>
           <p className="whitespace-normal break-all">Hardware</p>
-          <p className="whitespace-normal break-all">
-            {hardware.name}
-          </p>
+          <p className="whitespace-normal break-all">{hardware.name}</p>
           <p className="whitespace-normal break-all">Hardware type</p>
-          <p className="whitespace-normal break-all">
-            {hardware.type}
-          </p>
+          <p className="whitespace-normal break-all">{hardware.type}</p>
         </div>
         <h2 className="font-bold text-2xl text-darkFont text-center">Feed</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {sensor.map((data) => (
-            <Chart key={data.id_hardware} sensor={data}/>
+            <Chart key={data.id_hardware} sensor={data} />
           ))}
         </div>
       </div>
