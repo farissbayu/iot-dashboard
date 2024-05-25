@@ -1,5 +1,6 @@
-import InputForm from "./ui/Input";
-import Button from "./ui/Button";
+/* eslint-disable react/prop-types */
+import InputForm from "../ui/Input";
+import Button from "../ui/Button";
 
 export default function LoginForm({ onSubmit, loading }) {
   return (
@@ -20,7 +21,11 @@ export default function LoginForm({ onSubmit, loading }) {
       >
         Password
       </InputForm>
-      <Button customStyles="w-full bg-primary" type="submit" buttonType="primary">
+      <Button
+        customStyles="w-full bg-primary"
+        type="submit"
+        buttonType="primary"
+      >
         {loading ? "Loading..." : "Login"}
       </Button>
     </form>

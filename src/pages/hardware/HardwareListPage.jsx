@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HardwareListItem from "../../components/HardwareListItem";
-import Table from "../../components/Table.jsx";
-import TableHead from "../../components/TableHead.jsx";
+import Table from "../../components/ui/Table.jsx";
+import TableHead from "../../components/ui/TableHead.jsx";
 import Button from "../../components/ui/Button.jsx";
 import useApi from "../../hooks/useApi.js";
 import { deleteHardware, getHardwareList } from "../../api/hardware-request.js";

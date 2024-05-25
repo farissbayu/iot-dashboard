@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
-import ButtonDetailItem from "./ButtonDetailItem";
-import ButtonEditItem from "./ButtonEditItem";
-import ButtonDeleteItem from "./ButtonDeleteItem";
+import IconButton from "../components/ui/IconButton";
 
 export default function HardwareListItem({ hardware, isAdmin, onDeleteClick }) {
   const navigate = useNavigate();
+
+  const handleDetail = () => navigate(`${hardware.id_hardware}/detail`);
+  const handleEdit = () => navigate(`${hardware.id_hardware}/edit`);
+  const handleDelete = () => onDeleteClick(hardware.id_hardware);
 
   return (
     <tr className="shadow-lg bg-white hover:bg-gray-50">
@@ -16,17 +18,11 @@ export default function HardwareListItem({ hardware, isAdmin, onDeleteClick }) {
         {hardware.description}
       </td>
       <td className="p-4 max-w-20 flex flex-row space-x-2">
-        <ButtonDetailItem
-          onClick={() => navigate(`${hardware.id_hardware}/detail`)}
-        />
+        <IconButton buttonType="detail" onClick={handleDetail} />
         {isAdmin ? (
           <>
-            <ButtonEditItem
-              onClick={() => navigate(`${hardware.id_hardware}/edit`)}
-            />
-            <ButtonDeleteItem
-              onClick={() => onDeleteClick(hardware.id_hardware)}
-            />
+            <IconButton buttonType="edit" onClick={handleEdit} />
+            <IconButton buttonType="delete" onClick={handleDelete} />
           </>
         ) : null}
       </td>

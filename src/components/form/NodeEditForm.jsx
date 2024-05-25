@@ -7,7 +7,7 @@ import Button from "../ui/Button";
 import Dropdown from "../ui/Dropdown";
 import Input from "../ui/Input";
 
-export default function NodeCreateForm({ onSubmit, submitLoading }) {
+export default function NodeEditForm({ onSubmit, submitLoading }) {
   const token = localStorage.getItem("token") || "";
 
   const { url, config } = getHardwareList(token);
@@ -180,7 +180,7 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
         );
       })}
       <Button type="submit" buttonType="primary" customStyles="bg-primary">
-        {submitLoading ? "Loading..." : "Create"}
+        {submitLoading ? "Loading..." : "Edit node"}
       </Button>
     </form>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate, useParams } from "react-router-dom";
 import "chart.js/auto";
 import Button from "../../components/ui/Button.jsx";

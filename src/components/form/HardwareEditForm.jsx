@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import TextArea from "../TextArea";
+import TextArea from "../ui/TextArea";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import Dropdown from "../ui/Dropdown";

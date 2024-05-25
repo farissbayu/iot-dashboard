@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function TableHead({ children, customStyle }) {
   return (
     <thead className={`text-left text-darkFont ${customStyle}`}>

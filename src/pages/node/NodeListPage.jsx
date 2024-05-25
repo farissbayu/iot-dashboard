@@ -2,8 +2,8 @@
 import { useNavigate } from "react-router-dom";
 import NodeListItem from "../../components/NodeListItem";
 import { useEffect, useState } from "react";
-import Table from "../../components/Table.jsx";
-import TableHead from "../../components/TableHead.jsx";
+import Table from "../../components/ui/Table.jsx";
+import TableHead from "../../components/ui/TableHead.jsx";
 import Button from "../../components/ui/Button.jsx";
 import PaginationButtons from "../../components/PaginationButton.jsx";
 import useApi from "../../hooks/useApi.js";

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Table from "../../components/Table";
-import TableHead from "../../components/TableHead";
+import Table from "../../components/ui/Table";
+import TableHead from "../../components//ui/TableHead";
 import UserListItem from "../../components/UserListItem";
 import useApi from "../../hooks/useApi";
 import { deleteUser, getUserList } from "../../api/user-request";

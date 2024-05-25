@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { register } from "../../api/auth-request";
 import { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
-import RegisterForm from "../../components/RegisterForm";
+import RegisterForm from "../../components/form/RegisterForm";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -42,7 +42,9 @@ export default function RegisterPage() {
           <h3 className="text-darkFont font-bold text-2xl mb-1 md:text-3xl mb-1">
             Register success.
           </h3>
-          <h4 className="text-darkFont font-bold text-md mb-2">Check your email for activation!</h4>
+          <h4 className="text-darkFont font-bold text-md mb-2">
+            Check your email for activation!
+          </h4>
           <button
             className="text-primary text-sm my-4 hover:underline"
             onClick={() => navigate("/login", { replace: true })}

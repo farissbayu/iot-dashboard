@@ -1,24 +1,32 @@
 // Utilities
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
+// Custom routes
+import Authenticated from "./Authenticated";
+import UnAuthenticated from "./UnAuthenticated";
+
 // Pages
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
+
 import Layout from "../pages/Layout";
 import Home from "../pages/Home";
+
 import ProfilePage from "../pages/profile/ProfilePage";
 import ChangePasswordPage from "../pages/profile/ChangePasswordPage";
+
 import UserListPage from "../pages/user/UserListPage";
+
 import HardwareListPage from "../pages/hardware/HardwareListPage";
 import HardwareDetailPage from "../pages/hardware/HardwareDetailPage";
 import HardwareCreatePage from "../pages/hardware/HardwareCreatePage";
+import HardwareEditPage from "../pages/hardware/HardwareEditPage";
+
 import NodeListPage from "../pages/node/NodeListPage";
 import NodeDetailPage from "../pages/node/NodeDetailPage";
 import NodeCreatePage from "../pages/node/NodeCreatePage";
-import Authenticated from "./Authenticated";
-import UnAuthenticated from "./UnAuthenticated";
-import HardwareEditPage from "../pages/hardware/HardwareEditPage";
+import NodeEditPage from "../pages/node/NodeEditPage";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +55,7 @@ const router = createBrowserRouter([
       },
       {
         path: "node/:username/:id/edit",
-        element: <h1>Edit node</h1>,
+        element: <NodeEditPage />,
       },
       {
         path: "hardware/",

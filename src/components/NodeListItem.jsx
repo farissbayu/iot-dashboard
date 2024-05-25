@@ -1,13 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
-import ButtonDetailItem from "./ButtonDetailItem";
-import ButtonEditItem from "./ButtonEditItem";
-import ButtonDeleteItem from "./ButtonDeleteItem";
+import IconButton from "../components/ui/IconButton";
 
 export default function NodeListItem({ node, onDeleteClick }) {
   const { username } = JSON.parse(localStorage.getItem("userData")) || "";
-  
-  const navigate = useNavigate();  
+
+  const navigate = useNavigate();
+
+  const handleDetail = () =>
+    navigate(`/node/${username}/${node.id_node}/detail`);
+  const handleEdit = () => navigate(`/node/${username}/${node.id_node}/edit`);
+  const handleDelete = () => onDeleteClick(node.id_node);
 
   return (
     <tr className="shadow-lg bg-white hover:bg-gray-50">
@@ -15,13 +18,9 @@ export default function NodeListItem({ node, onDeleteClick }) {
       <td className="p-4 max-w-48 word-wrap break-words">{node.name}</td>
       <td className="p-4 max-w-24 word-wrap break-words">{node.location}</td>
       <td className="p-4 max-w-20 flex flex-row space-x-2">
-        <ButtonDetailItem
-          onClick={() => navigate(`/node/${username}/${node.id_node }/detail`)}
-        />
-        <ButtonEditItem
-          onClick={() => navigate(`/node/${username}/${node.id_node}/edit`)}
-        />
-        <ButtonDeleteItem onClick={() => onDeleteClick(node.id_node)}/>
+        <IconButton buttonType="detail" onClick={handleDetail} />
+        <IconButton buttonType="edit" onClick={handleEdit} />
+        <IconButton buttonType="delete" onClick={handleDelete} />
       </td>
     </tr>
   );

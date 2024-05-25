@@ -4,7 +4,7 @@ import useApi from "../../hooks/useApi";
 import { useAuth } from "../../store/AuthProvider";
 import { login } from "../../api/auth-request";
 
-import LoginForm from "../../components/LoginForm";
+import LoginForm from "../../components/form/LoginForm";
 import Button from "../../components/ui/Button";
 
 export default function LoginPage() {
