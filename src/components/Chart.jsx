@@ -28,7 +28,8 @@ export default function Chart({ sensor }) {
 
   return (
     <li className="bg-white p-4 my-4 rounded-lg flex flex-col items-center">
-      <h3 className="text-xl font-bold text-darkFont">{sensor.name}</h3>
+      <h3 className="text-xl font-bold text-darkFont">{sensor.field}</h3>
+      <p className="text-darkFont">{sensor.name}</p>
       <div className="w-full h-96 overflow-hidden">
         <Line
           data={{

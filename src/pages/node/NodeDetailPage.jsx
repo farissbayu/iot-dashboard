@@ -3,19 +3,32 @@ import "chart.js/auto";
 import Button from "../../components/ui/Button.jsx";
 import { getNodeDetail } from "../../api/node-request.js";
 import useApi from "../../hooks/useApi.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Chart from "../../components/Chart.jsx";
+import { getHardwareList } from "../../api/hardware-request.js";
 
 const token = localStorage.getItem("token") || "";
 
 export default function NodeDetailPage() {
   const { id: nodeId } = useParams();
   const navigate = useNavigate();
+
+  const [nodeDetail, setNodeDetail] = useState({});
+
   const { url, config } = getNodeDetail(token, nodeId);
+  const { url: getHardwareUrl, config: getHardwareConfig } =
+    getHardwareList(token);
+
   const { data, loading, error, sendRequest } = useApi({
     code: -1,
     status: "",
     data: {},
+  });
+
+  const { data: hardwareListData, sendRequest: fetchListHardware } = useApi({
+    code: -1,
+    status: "",
+    data: [],
   });
 
   useEffect(() => {
@@ -27,10 +40,40 @@ export default function NodeDetailPage() {
       }
     }
 
+    async function fetchHardwareList() {
+      try {
+        await fetchListHardware(getHardwareUrl, getHardwareConfig);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     fetchNodeDetail();
+    fetchHardwareList();
   }, []);
 
-  console.log(data);
+  useEffect(() => {
+    if (data.code === 200) {
+      const nodeSensor = data.data.id_hardware_sensor;
+      const sensorList = hardwareListData.data.filter((hardware) =>
+        nodeSensor.includes(hardware.id_hardware)
+      );
+
+      sensorList.forEach((nodeSensor, index) => {
+        nodeSensor.field = data.data.field_sensor[index];
+      });
+
+      const { id_node, name, location, hardware } = data.data;
+
+      setNodeDetail({
+        id_node,
+        name,
+        location,
+        hardware,
+        sensor: sensorList,
+      });
+    }
+  }, [data, hardwareListData.data]);
 
   if (loading) {
     return <p>Loading...</p>;
@@ -42,12 +85,12 @@ export default function NodeDetailPage() {
 
   const node =
     {
-      id_node: data.data.id_node,
-      name: data.data.name,
-      location: data.data.location,
+      id_node: nodeDetail.id_node,
+      name: nodeDetail.name,
+      location: nodeDetail.location,
     } || {};
-  const hardware = data.data.hardware || {};
-  const sensor = data.data.field_sensor || [];
+  const hardware = nodeDetail.hardware || {};
+  const sensor = nodeDetail.sensor || [];
 
   return (
     <div className="bg-pageBackground min-h-screen max-h-full flex">
