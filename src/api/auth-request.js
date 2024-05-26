@@ -1,6 +1,6 @@
 const apiUrl = import.meta.env.VITE_BASE_URL;
 
-export function login(body) {
+function login(body) {
   return {
     url: apiUrl + "user/login",
     config: {
@@ -13,7 +13,7 @@ export function login(body) {
   };
 }
 
-export function register(body) {
+function register(body) {
   return {
     url: apiUrl + "user/register?send_email=true",
     config: {
@@ -26,7 +26,7 @@ export function register(body) {
   };
 }
 
-export function forgotPassword(body) {
+function forgotPassword(body) {
   return {
     url: apiUrl + "user/forgot-password",
     config: {
@@ -38,3 +38,5 @@ export function forgotPassword(body) {
     },
   };
 }
+
+export { login, register, forgotPassword };

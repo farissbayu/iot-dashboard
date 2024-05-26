@@ -36,7 +36,7 @@ function createNode(token, nodeBody) {
       body: JSON.stringify(nodeBody),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
+        Authorization: "Bearer " + token,
       },
       credentials: "include",
     },
@@ -50,11 +50,26 @@ function deleteNode(token, nodeId) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
+        Authorization: "Bearer " + token,
       },
       credentials: "include",
     },
   };
 }
 
-export { getNodeDetail, getNodeList, createNode, deleteNode };
+function editNode(token, nodeId, nodeBody) {
+  return {
+    url: apiUrl + `node/${nodeId}`,
+    config: {
+      method: "PUT",
+      body: JSON.stringify(nodeBody),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      credentials: "include",
+    },
+  };
+}
+
+export { getNodeDetail, getNodeList, createNode, deleteNode, editNode };

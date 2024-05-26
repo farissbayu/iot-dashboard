@@ -1,21 +1,44 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { getHardwareList } from "../../api/hardware-request";
 import useApi from "../../hooks/useApi";
 import Button from "../ui/Button";
 import Dropdown from "../ui/Dropdown";
 import Input from "../ui/Input";
+import { getHardwareList } from "../../api/hardware-request";
+import { getNodeDetail } from "../../api/node-request";
 
-export default function NodeEditForm({ onSubmit, submitLoading }) {
+export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
   const token = localStorage.getItem("token") || "";
 
-  const { url, config } = getHardwareList(token);
+  const { url: nodeDetailUrl, config: nodeDetailConfig } = getNodeDetail(
+    token,
+    nodeId
+  );
+  const { url: hardwareListUrl, config: hardwareListConfig } =
+    getHardwareList(token);
+
+  const [nodeData, setNodeData] = useState({
+    name: "",
+    location: "",
+    hardware: "",
+    sensor: [],
+  });
 
   const {
-    data: hardwares,
-    loading: hardwareLoading,
-    sendRequest: requestHardware,
+    data: nodeDetailData,
+    // loading: nodeDetailLoading,
+    // error: nodeDetailError,
+    sendRequest: nodeDetailRequest,
+  } = useApi({
+    code: -1,
+    status: "",
+    data: {},
+  });
+
+  const {
+    data: hardwareListData,
+    loading: hardwareListLoading,
+    sendRequest: hardwareListRequest,
   } = useApi({
     code: -1,
     status: "",
@@ -25,10 +48,10 @@ export default function NodeEditForm({ onSubmit, submitLoading }) {
   const [sensors, setSensors] = useState([]);
   const [selectedHardware, setSelectedHardware] = useState("");
 
-  const hardwareData = hardwares.data.filter(
+  const hardwareData = hardwareListData.data.filter(
     (hardware) => hardware.type !== "sensor"
   );
-  const sensorData = hardwares.data.filter(
+  const sensorData = hardwareListData.data.filter(
     (hardware) => hardware.type === "sensor"
   );
 
@@ -39,14 +62,54 @@ export default function NodeEditForm({ onSubmit, submitLoading }) {
   useEffect(() => {
     async function fetchHardwareList() {
       try {
-        await requestHardware(url, config);
+        await hardwareListRequest(hardwareListUrl, hardwareListConfig);
       } catch (error) {
         console.error(error);
       }
     }
 
+    async function fetchNode() {
+      try {
+        await nodeDetailRequest(nodeDetailUrl, nodeDetailConfig);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchNode();
     fetchHardwareList();
   }, []);
+
+  useEffect(() => {
+    if (nodeDetailData.code === 200 && hardwareListData.data.length > 0) {
+      const nodeSensor = nodeDetailData.data.id_hardware_sensor;
+      const sensorList = hardwareListData.data.filter((hardware) =>
+        nodeSensor.includes(hardware.id_hardware)
+      );
+
+      sensorList.forEach((nodeSensor, index) => {
+        nodeSensor.field = nodeDetailData.data.field_sensor[index];
+      });
+
+      const { id_node, name, location, hardware } = nodeDetailData.data;
+
+      setNodeData({
+        id_node,
+        name,
+        location,
+        hardware,
+        sensor: sensorList,
+      });
+
+      setSelectedHardware(hardware.id_hardware); // Set selected hardware
+      setSensors(
+        sensorList.map((sensor) => ({
+          hardware_sensor: sensor.id_hardware,
+          field_sensor: sensor.field,
+        }))
+      );
+    }
+  }, [nodeDetailData, hardwareListData.data]);
 
   function handleHardwareChange(event) {
     setSelectedHardware(event.target.value);
@@ -105,7 +168,16 @@ export default function NodeEditForm({ onSubmit, submitLoading }) {
       onSubmit={handleSubmit}
     >
       <h2 className="text-center text-2xl text-darkFont">Node data</h2>
-      <Input id="name" name="name" placeholder="Node name" type="text">
+      <Input
+        id="name"
+        name="name"
+        placeholder="Node name"
+        type="text"
+        value={nodeData.name || ""}
+        onChange={(e) =>
+          setNodeData((prevState) => ({ ...prevState, name: e.target.value }))
+        }
+      >
         Name
       </Input>
       <Input
@@ -113,6 +185,13 @@ export default function NodeEditForm({ onSubmit, submitLoading }) {
         name="location"
         placeholder="Node location"
         type="text"
+        value={nodeData.location || ""}
+        onChange={(e) =>
+          setNodeData((prevState) => ({
+            ...prevState,
+            location: e.target.value,
+          }))
+        }
       >
         Location
       </Input>
@@ -120,13 +199,13 @@ export default function NodeEditForm({ onSubmit, submitLoading }) {
         id="hardware"
         name="hardware"
         label="Hardware"
-        value={selectedHardware}
         onChange={handleHardwareChange}
         options={hardwareData}
-        loading={hardwareLoading}
+        loading={hardwareListLoading}
         defaultOptionText="Select Hardware"
         optionKey="id_hardware"
         optionValue="id_hardware"
+        value={selectedHardware || ""}
       />
       <h2 className="text-center text-2xl text-darkFont">Node sensor</h2>
       {sensors.map((sensor, index) => {
@@ -142,7 +221,7 @@ export default function NodeEditForm({ onSubmit, submitLoading }) {
               value={sensor.hardware_sensor}
               onChange={(e) => handleSensorChange(e, index, "hardware_sensor")}
               options={sensorData}
-              loading={hardwareLoading}
+              loading={hardwareListLoading}
               defaultOptionText="Select sensor"
               optionKey="id_hardware"
               optionValue="id_hardware"
@@ -153,7 +232,7 @@ export default function NodeEditForm({ onSubmit, submitLoading }) {
               name={`field_sensor_${index}`}
               placeholder="Field sensor"
               type="text"
-              value={sensor.field_sensor}
+              value={sensor.field_sensor || ""}
               onChange={(e) => handleSensorChange(e, index, "field_sensor")}
             >
               {index === 0 && "Field sensor"}

@@ -34,7 +34,6 @@ export default function HardwareEditPage() {
 
   useEffect(() => {
     if (success) {
-      console.log(data);
       navigate("/hardware");
     }
   }, [data, success, navigate]);
