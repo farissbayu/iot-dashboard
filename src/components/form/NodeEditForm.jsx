@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
@@ -82,16 +83,20 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
 
   useEffect(() => {
     if (nodeDetailData.code === 200 && hardwareListData.data.length > 0) {
-      const nodeSensor = nodeDetailData.data.id_hardware_sensor;
+      const { Node: node } = nodeDetailData.data;
+      const nodeSensor = node.id_hardware_sensor;
       const sensorList = hardwareListData.data.filter((hardware) =>
         nodeSensor.includes(hardware.id_hardware)
       );
 
       sensorList.forEach((nodeSensor, index) => {
-        nodeSensor.field = nodeDetailData.data.field_sensor[index];
+        nodeSensor.field = node.field_sensor[index];
       });
 
-      const { id_node, name, location, hardware } = nodeDetailData.data;
+      const { id_node, name, location } = node;
+      const hardware = hardwareListData.data.find(
+        (hardware) => hardware.id_hardware === node.id_hardware_node
+      );
 
       setNodeData({
         id_node,
@@ -101,7 +106,7 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
         sensor: sensorList,
       });
 
-      setSelectedHardware(hardware.id_hardware); // Set selected hardware
+      setSelectedHardware(hardware.id_hardware);
       setSensors(
         sensorList.map((sensor) => ({
           hardware_sensor: sensor.id_hardware,

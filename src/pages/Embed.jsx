@@ -1,22 +1,14 @@
-/* eslint-disable react/prop-types */
 import { Line } from "react-chartjs-2";
-import { useNavigate } from "react-router-dom";
-import IconButton from "../components/ui/IconButton";
+import { useLocation } from "react-router-dom";
 
-export default function Chart({ sensor, nodeId }) {
-  const navigate = useNavigate();
-
-  function handleEmbedPage() {
-    navigate(`/node/embeded/${nodeId}/${sensor.id_feed}`, { state: sensor });
-  }
-
+export default function Embed() {
+  const location = useLocation();
+  const sensor = location.state;
+  console.log(location);
   return (
-    <li className="bg-white p-4 my-4 rounded-lg flex flex-col items-center">
+    <div className="bg-white p-4 my-4 rounded-lg flex flex-col items-center">
       <h3 className="text-xl font-bold text-darkFont">{sensor.field}</h3>
-      <div className="flex flex-row w-full justify-between my-2">
-        <p className="text-darkFont">{sensor.sensor_name}</p>
-        <IconButton buttonType="embed" onClick={handleEmbedPage} />
-      </div>
+      <p className="text-darkFont">{sensor.sensor_name}</p>
 
       <div className="w-full h-96 overflow-hidden">
         <Line
@@ -42,6 +34,6 @@ export default function Chart({ sensor, nodeId }) {
           }}
         />
       </div>
-    </li>
+    </div>
   );
 }

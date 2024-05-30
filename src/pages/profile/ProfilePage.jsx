@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import { useEffect, useState } from "react";
-import { getUserDetail } from "../../api/user-request";
+import { getUserDetail, deleteUser } from "../../api/user-request";
 import useApi from "../../hooks/useApi";
 import { useAuth } from "../../store/AuthProvider";
 import DeletionModal from "../../components/DeletionModal";
@@ -19,7 +19,9 @@ export default function ProfilePage() {
     token,
     userId
   );
-  const { sendRequest: deleteUser } = useApi();
+
+  const { url: deleteUrl, config: deleteConfig } = deleteUser(token, userId);
+  const { sendRequest: deleteUserRequest } = useApi();
 
   const {
     data: userData,
@@ -61,7 +63,7 @@ export default function ProfilePage() {
 
   async function handleDeleteUser() {
     try {
-      await deleteUser(getUserUrl, getUserConfig);
+      await deleteUserRequest(deleteUrl, deleteConfig);
       setSuccess(true);
     } catch (error) {
       console.error(error);

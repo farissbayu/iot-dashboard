@@ -22,7 +22,7 @@ export default function NodeCreatePage() {
     const nodeBody = {
       ...formData,
       id_user: userId,
-      is_public: true,
+      is_public: false,
     };
 
     const { url, config } = createNode(token, nodeBody);

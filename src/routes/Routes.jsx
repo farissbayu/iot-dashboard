@@ -27,6 +27,7 @@ import NodeListPage from "../pages/node/NodeListPage";
 import NodeDetailPage from "../pages/node/NodeDetailPage";
 import NodeCreatePage from "../pages/node/NodeCreatePage";
 import NodeEditPage from "../pages/node/NodeEditPage";
+import Embed from "../pages/Embed";
 
 const router = createBrowserRouter([
   {
@@ -109,6 +110,14 @@ const router = createBrowserRouter([
       <UnAuthenticated>
         <ForgotPasswordPage />
       </UnAuthenticated>
+    ),
+  },
+  {
+    path: "node/embeded/:nodeId/:sensorIndex",
+    element: (
+      <Authenticated>
+        <Embed />
+      </Authenticated>
     ),
   },
   {

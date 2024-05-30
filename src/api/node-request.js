@@ -16,7 +16,7 @@ function getNodeList(token) {
 
 function getNodeDetail(token, nodeId) {
   return {
-    url: apiUrl + `node/by/${nodeId}?limit=1`,
+    url: apiUrl + `node/by/${nodeId}?limit=30`,
     config: {
       method: "GET",
       headers: {

@@ -10,7 +10,7 @@ export default function UserListItem({ user, onDeleteClick }) {
       <td className="p-4 max-w-60 word-wrap break-words">{user.email}</td>
       <td className="p-4 max-w-16">{user.is_admin ? "admin" : "user"}</td>
       <td className="p-4 max-w-16">
-        <IconButton onClick={handleDelete} />
+        <IconButton buttonType="delete" onClick={handleDelete} />
       </td>
     </tr>
   );

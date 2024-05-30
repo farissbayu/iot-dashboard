@@ -7,17 +7,20 @@ import useApi from "../../hooks/useApi.js";
 import { useEffect, useState } from "react";
 import Chart from "../../components/Chart.jsx";
 import { getHardwareList } from "../../api/hardware-request.js";
-
-const token = localStorage.getItem("token") || "";
+import { formatDate } from "../../utils/helper.js";
 
 export default function NodeDetailPage() {
+  const token = localStorage.getItem("token") || "";
   const { id: nodeId } = useParams();
   const navigate = useNavigate();
 
   const [nodeDetail, setNodeDetail] = useState({});
 
-  const { url, config } = getNodeDetail(token, nodeId);
-  const { url: getHardwareUrl, config: getHardwareConfig } =
+  const { url: nodeDetailUrl, config: nodeDetailConfig } = getNodeDetail(
+    token,
+    nodeId
+  );
+  const { url: hardwareListUrl, config: hardwareListConfig } =
     getHardwareList(token);
 
   const { data, loading, error, sendRequest } = useApi({
@@ -35,7 +38,7 @@ export default function NodeDetailPage() {
   useEffect(() => {
     async function fetchNodeDetail() {
       try {
-        await sendRequest(url, config);
+        await sendRequest(nodeDetailUrl, nodeDetailConfig);
       } catch (error) {
         console.error(error);
       }
@@ -43,7 +46,7 @@ export default function NodeDetailPage() {
 
     async function fetchHardwareList() {
       try {
-        await fetchListHardware(getHardwareUrl, getHardwareConfig);
+        await fetchListHardware(hardwareListUrl, hardwareListConfig);
       } catch (error) {
         console.error(error);
       }
@@ -55,16 +58,40 @@ export default function NodeDetailPage() {
 
   useEffect(() => {
     if (data.code === 200) {
-      const nodeSensor = data.data.id_hardware_sensor;
-      const sensorList = hardwareListData.data.filter((hardware) =>
-        nodeSensor.includes(hardware.id_hardware)
-      );
+      const { Node: node, Feed: feed } = data.data;
 
-      sensorList.forEach((nodeSensor, index) => {
-        nodeSensor.field = data.data.field_sensor[index];
+      const times = feed ? feed.map((f) => formatDate(f.time)) : [];
+
+      const sensorList = node.id_hardware_sensor.map((sensor, index) => {
+        let sensorName = "";
+        let value = [];
+
+        if (hardwareListData.code !== -1) {
+          sensorName = hardwareListData.data.find(
+            (hardware) => hardware.id_hardware === sensor
+          ).name;
+        }
+
+        if (feed) {
+          value = feed.map((item) => item.value[index]);
+        }
+        const field = node.field_sensor[index];
+
+        return {
+          id_feed: index,
+          field,
+          sensor_name: sensorName,
+          feed: {
+            time: times,
+            value,
+          },
+        };
       });
 
-      const { id_node, name, location, hardware } = data.data;
+      const { id_node, name, location } = node;
+      const hardware = hardwareListData.data.find(
+        (hardware) => hardware.id_hardware === node.id_hardware_node
+      );
 
       setNodeDetail({
         id_node,
@@ -81,7 +108,7 @@ export default function NodeDetailPage() {
   }
 
   if (error) {
-    return <p>Error: ${error}</p>;
+    return <p>Error: {error}</p>;
   }
 
   const node =
@@ -121,7 +148,7 @@ export default function NodeDetailPage() {
         <h2 className="font-bold text-2xl text-darkFont text-center">Feed</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {sensor.map((data) => (
-            <Chart key={data.id_hardware} sensor={data} />
+            <Chart key={data.id_feed} sensor={data} nodeId={node.id_node} />
           ))}
         </div>
       </div>
