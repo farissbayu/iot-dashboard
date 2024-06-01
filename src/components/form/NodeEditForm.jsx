@@ -84,9 +84,10 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
   useEffect(() => {
     if (nodeDetailData.code === 200 && hardwareListData.data.length > 0) {
       const { Node: node } = nodeDetailData.data;
-      const nodeSensor = node.id_hardware_sensor;
-      const sensorList = hardwareListData.data.filter((hardware) =>
-        nodeSensor.includes(hardware.id_hardware)
+      const sensorList = node.id_hardware_sensor.map((sensor) =>
+        hardwareListData.data.find(
+          (hardware) => hardware.id_hardware === sensor
+        )
       );
 
       sensorList.forEach((nodeSensor, index) => {
