@@ -10,7 +10,13 @@ export default function RegisterForm({ onSubmit, loading }) {
       className="w-5/6 flex flex-col justify-around space-y-4"
       onSubmit={onSubmit}
     >
-      <Input id="username" name="username" placeholder="user" type="text">
+      <Input
+        id="username"
+        name="username"
+        placeholder="user"
+        type="text"
+        required
+      >
         Username
       </Input>
       <Input
@@ -18,6 +24,7 @@ export default function RegisterForm({ onSubmit, loading }) {
         name="email"
         placeholder="qwerty@email.com"
         type="email"
+        required
       >
         Email
       </Input>
@@ -26,6 +33,7 @@ export default function RegisterForm({ onSubmit, loading }) {
         name="password"
         placeholder="********"
         type="password"
+        required
       >
         Password
       </Input>

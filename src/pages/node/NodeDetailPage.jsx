@@ -29,6 +29,8 @@ export default function NodeDetailPage() {
     data: {},
   });
 
+  console.log(error);
+
   const { data: hardwareListData, sendRequest: fetchListHardware } = useApi({
     code: -1,
     status: "",
@@ -57,7 +59,7 @@ export default function NodeDetailPage() {
   }, []);
 
   useEffect(() => {
-    if (data.code === 200) {
+    if (data.code === 200 && hardwareListData.code === 200) {
       const { Node: node, Feed: feed } = data.data;
 
       const times = feed ? feed.map((f) => formatDate(f.time)) : [];
@@ -107,7 +109,7 @@ export default function NodeDetailPage() {
     return <p>Loading...</p>;
   }
 
-  if (error) {
+  if (data.code === -1) {
     return <p>Error: {error}</p>;
   }
 

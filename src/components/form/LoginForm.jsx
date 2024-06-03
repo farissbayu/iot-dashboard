@@ -10,6 +10,7 @@ export default function LoginForm({ onSubmit, loading }) {
         name="username"
         placeholder="John Doe"
         type="text"
+        required
       >
         Username
       </InputForm>
@@ -18,6 +19,7 @@ export default function LoginForm({ onSubmit, loading }) {
         name="password"
         placeholder="********"
         type="password"
+        required
       >
         Password
       </InputForm>

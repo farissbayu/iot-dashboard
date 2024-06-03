@@ -7,7 +7,7 @@ import RegisterForm from "../../components/form/RegisterForm";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const { loading, data, sendRequest } = useApi();
+  const { loading, data, error, sendRequest } = useApi();
   const [registerSuccess, setRegisterSuccess] = useState(false);
 
   async function handleSubmit(event) {
@@ -65,6 +65,9 @@ export default function RegisterPage() {
           Register
         </h1>
         <RegisterForm onSubmit={handleSubmit} loading={loading} />
+        {error && !loading && (
+          <p className="my-2 text-red-500">Register failed. Please try again</p>
+        )}
       </div>
     </div>
   );

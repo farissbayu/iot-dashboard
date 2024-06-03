@@ -10,23 +10,22 @@ import Button from "../../components/ui/Button";
 export default function LoginPage() {
   const auth = useAuth();
   const navigate = useNavigate();
-  const { loading, data, sendRequest } = useApi();
+  const { loading, data, error, sendRequest } = useApi();
 
   async function handleSubmit(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    const loginBody = {
-      username: formData.get("username"),
-      password: formData.get("password"),
-    };
+    const username = formData.get("username");
+    const password = formData.get("password");
 
+    const loginBody = { username, password };
     const { url, config } = login(loginBody);
 
     try {
       await sendRequest(url, config);
     } catch (error) {
-      console.error("Error:", error);
+      console.log("Error:", error);
     }
   }
 
@@ -52,7 +51,7 @@ export default function LoginPage() {
       auth.setUserData(token, userData);
       navigate("/", { replace: true });
     }
-  });
+  }, [auth, data, navigate]);
 
   return (
     <div className="bg-pageBackground flex items-center justify-center h-screen">
@@ -74,6 +73,9 @@ export default function LoginPage() {
             Login
           </h1>
           <LoginForm onSubmit={handleSubmit} loading={loading} />
+          {error && !loading && (
+            <p className="my-2 text-red-500">Login failed. Please try again</p>
+          )}
           <hr id="divider" className="my-4 border-t border-formColor w-full" />
           <Button
             type="button"
