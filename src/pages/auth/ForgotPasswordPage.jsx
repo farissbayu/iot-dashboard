@@ -1,12 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import ForgotPasswordForm from "../../components/form/ForgotPasswordForm";
 import useApi from "../../hooks/useApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { forgotPassword } from "../../api/auth-request";
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
-  const { loading, data, sendRequest } = useApi();
+  const { loading, data, error, sendRequest } = useApi({
+    code: -1,
+    status: "",
+    data: {},
+  });
   const [requestPasswordSuccess, setRequestPasswordSuccess] = useState(false);
 
   async function handleSubmit(event) {
@@ -21,11 +25,19 @@ export default function ForgotPasswordPage() {
 
     try {
       await sendRequest(url, config);
-      setRequestPasswordSuccess(true);
     } catch (error) {
       console.log(error.message || "Failed to request new password.");
     }
   }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (data && data.status === "OK") {
+      setRequestPasswordSuccess(true);
+    }
+  });
+
+  console.log(error);
 
   let content = (
     <>
@@ -33,6 +45,11 @@ export default function ForgotPasswordPage() {
         Forget Password
       </h1>
       <ForgotPasswordForm onSubmit={handleSubmit} loading={loading} />
+      {error && !loading && (
+        <p className="my-2 text-red-500">
+          Forgot password failed. Please try again
+        </p>
+      )}
     </>
   );
 
