@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function Input({ id, children, customStyles, ...props }) {
   return (
     <div className="flex flex-col space-y-2 flex-1">

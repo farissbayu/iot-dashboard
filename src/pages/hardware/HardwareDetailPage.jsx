@@ -11,6 +11,7 @@ export default function HardwareDetailPage() {
   const token = localStorage.getItem("token") || "";
   const { id: hardwareId } = useParams();
   const navigate = useNavigate();
+
   const { url, config } = getHardwareDetail(hardwareId, token);
   const { data, loading, error, sendRequest } = useApi({
     code: -1,
@@ -29,8 +30,6 @@ export default function HardwareDetailPage() {
 
     fetchHardwareDetail();
   }, []);
-
-  console.log(data);
 
   if (loading) {
     return <p>Loading...</p>;

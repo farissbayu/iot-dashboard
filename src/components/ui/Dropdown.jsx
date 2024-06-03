@@ -12,6 +12,7 @@ export default function Dropdown({
   customStyles,
   optionKey = "",
   optionValue = "",
+  isRequired = false,
 }) {
   return (
     <div className={`flex flex-col space-y-2 ${customStyles}`}>
@@ -24,6 +25,7 @@ export default function Dropdown({
         value={value}
         onChange={onChange}
         className="text-black p-2 mt-1 border border-solid border-formColor rounded-lg text-sm w-full"
+        required={isRequired}
       >
         <option value="">{loading ? "Loading..." : defaultOptionText}</option>
         {options.map((option) => (

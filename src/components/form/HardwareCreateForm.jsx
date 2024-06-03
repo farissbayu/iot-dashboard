@@ -39,7 +39,13 @@ export default function HardwareCreateForm({ onSubmit, submitLoading }) {
       className="w-2/3 flex flex-col justify-around space-y-4"
       onSubmit={handleSubmit}
     >
-      <Input id="name" name="name" placeholder="Hardware name" type="text">
+      <Input
+        id="name"
+        name="name"
+        placeholder="Hardware name"
+        type="text"
+        required
+      >
         Name
       </Input>
       <TextArea
@@ -48,6 +54,7 @@ export default function HardwareCreateForm({ onSubmit, submitLoading }) {
         placeholder="Hardware description..."
         row="4"
         col="50"
+        required
       >
         Description
       </TextArea>
@@ -61,6 +68,7 @@ export default function HardwareCreateForm({ onSubmit, submitLoading }) {
         options={hardwareType}
         optionKey="id"
         optionValue="name"
+        isRequired={true}
       />
       <Button
         customStyles="w-full bg-primary"

@@ -105,7 +105,7 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
       onSubmit={handleSubmit}
     >
       <h2 className="text-center text-2xl text-darkFont">Node data</h2>
-      <Input id="name" name="name" placeholder="Node name" type="text">
+      <Input id="name" name="name" placeholder="Node name" type="text" required>
         Name
       </Input>
       <Input
@@ -113,6 +113,7 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
         name="location"
         placeholder="Node location"
         type="text"
+        required
       >
         Location
       </Input>
@@ -127,6 +128,7 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
         defaultOptionText="Select Hardware"
         optionKey="id_hardware"
         optionValue="id_hardware"
+        isRequired={true}
       />
       <h2 className="text-center text-2xl text-darkFont">Node sensor</h2>
       {sensors.map((sensor, index) => {
@@ -147,6 +149,7 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
               optionKey="id_hardware"
               optionValue="id_hardware"
               className="flex-1"
+              isRequired={true}
             />
             <Input
               id={`field-sensor-${index}`}
@@ -155,6 +158,7 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
               type="text"
               value={sensor.field_sensor}
               onChange={(e) => handleSensorChange(e, index, "field_sensor")}
+              required
             >
               {index === 0 && "Field sensor"}
             </Input>

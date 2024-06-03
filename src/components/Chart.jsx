@@ -7,7 +7,10 @@ export default function Chart({ sensor, nodeId }) {
   const navigate = useNavigate();
 
   function handleEmbedPage() {
-    navigate(`/node/embeded/${nodeId}/${sensor.id_feed}`, { state: sensor });
+    navigate(
+      `/node/embeded/${nodeId}/${sensor.id_feed}?sensor-name=${sensor.sensor_name}`,
+      { state: sensor }
+    );
   }
 
   return (

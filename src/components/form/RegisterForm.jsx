@@ -13,7 +13,12 @@ export default function RegisterForm({ onSubmit, loading }) {
       <Input id="username" name="username" placeholder="user" type="text">
         Username
       </Input>
-      <Input id="email" name="email" placeholder="qwerty@email.com" type="text">
+      <Input
+        id="email"
+        name="email"
+        placeholder="qwerty@email.com"
+        type="email"
+      >
         Email
       </Input>
       <Input

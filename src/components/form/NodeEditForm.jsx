@@ -183,6 +183,7 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
         onChange={(e) =>
           setNodeData((prevState) => ({ ...prevState, name: e.target.value }))
         }
+        required
       >
         Name
       </Input>
@@ -198,6 +199,7 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
             location: e.target.value,
           }))
         }
+        required
       >
         Location
       </Input>
@@ -212,6 +214,7 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
         optionKey="id_hardware"
         optionValue="id_hardware"
         value={selectedHardware || ""}
+        isRequired={true}
       />
       <h2 className="text-center text-2xl text-darkFont">Node sensor</h2>
       {sensors.map((sensor, index) => {
@@ -232,6 +235,7 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
               optionKey="id_hardware"
               optionValue="id_hardware"
               className="flex-1"
+              isRequired={true}
             />
             <Input
               id={`field-sensor-${index}`}
@@ -240,6 +244,7 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
               type="text"
               value={sensor.field_sensor || ""}
               onChange={(e) => handleSensorChange(e, index, "field_sensor")}
+              required
             >
               {index === 0 && "Field sensor"}
             </Input>

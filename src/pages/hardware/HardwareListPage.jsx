@@ -43,8 +43,6 @@ export default function HardwareListPage() {
     data: [],
   });
 
-  console.log(hardwareList);
-
   const { sendRequest: deleteHardwareRequest } = useApi({
     code: -1,
     status: "",

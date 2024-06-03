@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router-dom";
 import { register } from "../../api/auth-request";
 import { useEffect, useState } from "react";
