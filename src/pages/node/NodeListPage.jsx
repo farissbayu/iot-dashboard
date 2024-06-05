@@ -15,6 +15,7 @@ export default function NodeListPage() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nodeId, setNodeId] = useState(-1);
+  const [nodeName, setNodeName] = useState("");
 
   const navigate = useNavigate();
 
@@ -54,7 +55,8 @@ export default function NodeListPage() {
     }
 
     fetchNodeList();
-    setNodeId(null);
+    setNodeId(-1);
+    setNodeName("");
   }, []);
 
   const filteredItems = nodeList.data.filter((item) =>
@@ -76,14 +78,16 @@ export default function NodeListPage() {
     setCurrentPage(1);
   }
 
-  function handleOpenModal(currentId) {
+  function handleOpenModal(currentId, currentName) {
     setIsModalOpen(true);
     setNodeId(currentId);
+    setNodeName(currentName);
   }
 
   function handleCloseModal() {
     setIsModalOpen(false);
     setNodeId(-1);
+    setNodeName("");
   }
 
   async function handleDeleteNode() {
@@ -131,10 +135,9 @@ export default function NodeListPage() {
             value={query}
             onChange={handleSearchChange}
           />
-          {(nodeList.code === -1 || nodeList.data.size === 0) && (
-            <p>No user node found.</p>
-          )}
-          {nodeList.data.size !== 0 && nodeList.code !== -1 && (
+          {nodeList.data.size === 0 ? (
+            <p>User not created node yet.</p>
+          ) : (
             <div id="table-container">
               <Table>
                 <TableHead customStyle="text-2xl">
@@ -146,12 +149,13 @@ export default function NodeListPage() {
                   </tr>
                 </TableHead>
                 <tbody>
-                  {currentItems.map((node) => {
+                  {currentItems.map((node, index) => {
                     return (
                       <NodeListItem
                         key={node.Node.id_node}
                         node={node.Node}
                         onDeleteClick={handleOpenModal}
+                        no={index + 1}
                       />
                     );
                   })}
@@ -159,7 +163,6 @@ export default function NodeListPage() {
               </Table>
             </div>
           )}
-
           <PaginationButtons
             totalPages={totalPages}
             currentPage={currentPage}
@@ -170,7 +173,7 @@ export default function NodeListPage() {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center bg-black bg-opacity-50">
           <DeletionModal
-            title={`Are you sure want to delete node ${nodeId}`}
+            title={`Are you sure want to delete node ${nodeName}`}
             onCancel={handleCloseModal}
             modalIsOpen={isModalOpen}
             onDelete={handleDeleteNode}

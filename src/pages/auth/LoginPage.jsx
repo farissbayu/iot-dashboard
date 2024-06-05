@@ -10,7 +10,11 @@ import Button from "../../components/ui/Button";
 export default function LoginPage() {
   const auth = useAuth();
   const navigate = useNavigate();
-  const { loading, data, error, sendRequest } = useApi();
+  const { loading, data, error, sendRequest } = useApi({
+    code: -1,
+    status: "",
+    data: {},
+  });
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -41,7 +45,7 @@ export default function LoginPage() {
   }
 
   useEffect(() => {
-    if (data) {
+    if (data.code === 200) {
       const { token, username, id_user, is_admin } = data.data;
       const userData = {
         username,
@@ -73,8 +77,10 @@ export default function LoginPage() {
             Login
           </h1>
           <LoginForm onSubmit={handleSubmit} loading={loading} />
-          {error && !loading && (
-            <p className="my-2 text-red-500">Login failed. Please try again</p>
+          {(error || (data.code === 400 && !loading)) && (
+            <p className="my-2 text-red-500">
+              {data.message || "Login failed. Please try again"}
+            </p>
           )}
           <hr id="divider" className="my-4 border-t border-formColor w-full" />
           <Button

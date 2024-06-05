@@ -7,7 +7,11 @@ import RegisterForm from "../../components/form/RegisterForm";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const { loading, data, error, sendRequest } = useApi();
+  const { loading, data, error, sendRequest } = useApi({
+    code: -1,
+    status: "",
+    data: {},
+  });
   const [registerSuccess, setRegisterSuccess] = useState(false);
 
   async function handleSubmit(event) {
@@ -30,7 +34,7 @@ export default function RegisterPage() {
   }
 
   useEffect(() => {
-    if (data && data.status === "OK") {
+    if (data && data.code === 200) {
       setRegisterSuccess(true);
     }
   });
@@ -65,8 +69,10 @@ export default function RegisterPage() {
           Register
         </h1>
         <RegisterForm onSubmit={handleSubmit} loading={loading} />
-        {error && !loading && (
-          <p className="my-2 text-red-500">Register failed. Please try again</p>
+        {(error || data.code === 400) && !loading && (
+          <p className="my-2 text-red-500">
+            {data.message || "Register failed. Please try again"}
+          </p>
         )}
       </div>
     </div>

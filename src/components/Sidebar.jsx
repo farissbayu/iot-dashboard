@@ -38,7 +38,7 @@ export default function Sidebar() {
         className="flex flex-col text-center items-center text-navFont flex-1 py-4 relative"
       >
         <NavLink
-          to={`node/${username.toLowerCase()}`}
+          to={"node"}
           style={activeStyle}
           className="w-5/6 py-3 hover:underline"
         >

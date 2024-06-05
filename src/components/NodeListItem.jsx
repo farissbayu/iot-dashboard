@@ -3,13 +3,10 @@ import { useNavigate } from "react-router-dom";
 import IconButton from "../components/ui/IconButton";
 
 export default function NodeListItem({ node, onDeleteClick }) {
-  const { username } = JSON.parse(localStorage.getItem("userData")) || "";
-
   const navigate = useNavigate();
 
-  const handleDetail = () =>
-    navigate(`/node/${username}/${node.id_node}/detail`);
-  const handleEdit = () => navigate(`/node/${username}/${node.id_node}/edit`);
+  const handleDetail = () => navigate(`/node/${node.id_node}/detail`);
+  const handleEdit = () => navigate(`/node/${node.id_node}/edit`);
   const handleDelete = () => onDeleteClick(node.id_node);
 
   return (

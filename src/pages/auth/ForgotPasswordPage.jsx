@@ -32,12 +32,10 @@ export default function ForgotPasswordPage() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (data && data.status === "OK") {
+    if (data && data.code === 200) {
       setRequestPasswordSuccess(true);
     }
   });
-
-  console.log(error);
 
   let content = (
     <>
@@ -45,9 +43,9 @@ export default function ForgotPasswordPage() {
         Forget Password
       </h1>
       <ForgotPasswordForm onSubmit={handleSubmit} loading={loading} />
-      {error && !loading && (
+      {(error || data.code === 400) && !loading && (
         <p className="my-2 text-red-500">
-          Forgot password failed. Please try again
+          {data.message || "Forgot password failed. Please try again"}
         </p>
       )}
     </>

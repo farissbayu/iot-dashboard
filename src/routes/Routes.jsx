@@ -43,19 +43,19 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "node/:username",
+        path: "node/",
         element: <NodeListPage />,
       },
       {
-        path: "node/:username/:id/detail",
+        path: "node/:id/detail",
         element: <NodeDetailPage />,
       },
       {
-        path: "node/:username/create",
+        path: "node/create",
         element: <NodeCreatePage />,
       },
       {
-        path: "node/:username/:id/edit",
+        path: "node/:id/edit",
         element: <NodeEditPage />,
       },
       {
@@ -113,7 +113,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "node/embeded/:nodeId/:sensorIndex",
+    path: "node/:nodeId/:sensorIndex",
     element: (
       <Authenticated>
         <Embed />

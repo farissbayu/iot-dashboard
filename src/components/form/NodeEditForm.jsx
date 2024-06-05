@@ -84,15 +84,20 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
   useEffect(() => {
     if (nodeDetailData.code === 200 && hardwareListData.data.length > 0) {
       const { Node: node } = nodeDetailData.data;
-      const sensorList = node.id_hardware_sensor.map((sensor) =>
-        hardwareListData.data.find(
+      const sensorList = node.id_hardware_sensor.map((sensor, index) => {
+        const { id_hardware, name, type } = hardwareListData.data.find(
           (hardware) => hardware.id_hardware === sensor
-        )
-      );
-
-      sensorList.forEach((nodeSensor, index) => {
-        nodeSensor.field = node.field_sensor[index];
+        );
+        const field = node.field_sensor[index];
+        return {
+          id_hardware,
+          name,
+          type,
+          field,
+        };
       });
+
+      console.log(sensorList);
 
       const { id_node, name, location } = node;
       const hardware = hardwareListData.data.find(
@@ -165,6 +170,8 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
 
     onSubmit(formData);
   }
+
+  console.log(nodeDetailData);
 
   return (
     <form

@@ -29,8 +29,6 @@ export default function NodeEditPage() {
       is_public: 0,
     };
 
-    console.log(nodeBody);
-
     const { url, config } = editNode(token, nodeId, nodeBody);
 
     try {

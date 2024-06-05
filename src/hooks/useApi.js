@@ -12,7 +12,7 @@ export default function useApi(initialData) {
       const data = res;
       setData(data);
     } catch (error) {
-      setError("Operation failed.");
+      setError(error);
     } finally {
       setLoading(false);
     }
