@@ -11,7 +11,7 @@ export default function HardwareListItem({ hardware, isAdmin, onDeleteClick }) {
 
   return (
     <tr className="shadow-lg bg-white hover:bg-gray-50">
-      <td className="p-4 max-w-4">{hardware.id_hardware}</td>
+      <td className="p-4 max-w-4">{hardware.serialNumber}</td>
       <td className="p-4 max-w-16 word-wrap break-words">{hardware.name}</td>
       <td className="p-4 max-w-16 word-wrap break-words">{hardware.type}</td>
       <td className="p-4 max-w-48 overflow-hidden whitespace-nowrap overflow-ellipsis break-words">

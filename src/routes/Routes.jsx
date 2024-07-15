@@ -28,6 +28,7 @@ import NodeDetailPage from "../pages/node/NodeDetailPage";
 import NodeCreatePage from "../pages/node/NodeCreatePage";
 import NodeEditPage from "../pages/node/NodeEditPage";
 import Embed from "../pages/Embed";
+import ErrorPage from "../pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
         <Layout />
       </Authenticated>
     ),
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -95,6 +97,7 @@ const router = createBrowserRouter([
         <LoginPage />
       </UnAuthenticated>
     ),
+    errorElement: <ErrorPage />,
   },
   {
     path: "/register",
@@ -103,6 +106,7 @@ const router = createBrowserRouter([
         <RegisterPage />
       </UnAuthenticated>
     ),
+    errorElement: <ErrorPage />,
   },
   {
     path: "/forgot-password",
@@ -111,6 +115,7 @@ const router = createBrowserRouter([
         <ForgotPasswordPage />
       </UnAuthenticated>
     ),
+    errorElement: <ErrorPage />,
   },
   {
     path: "node/:nodeId/:sensorIndex",
@@ -119,6 +124,7 @@ const router = createBrowserRouter([
         <Embed />
       </Authenticated>
     ),
+    errorElement: <ErrorPage />,
   },
   {
     path: "*",

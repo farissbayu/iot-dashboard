@@ -48,6 +48,7 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
 
   const [sensors, setSensors] = useState([]);
   const [selectedHardware, setSelectedHardware] = useState("");
+  const [warning, setWarning] = useState("");
 
   const hardwareData = hardwareListData.data.filter(
     (hardware) => hardware.type !== "sensor"
@@ -130,11 +131,15 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
     if (event) {
       event.preventDefault();
     }
-    let newSensorField = {
-      hardware_sensor: "",
-      field_sensor: "",
-    };
-    setSensors([...sensors, newSensorField]);
+    if (sensors.length < 10) {
+      let newSensorField = {
+        hardware_sensor: "",
+        field_sensor: "",
+      };
+      setSensors([...sensors, newSensorField]);
+    } else {
+      setWarning("Maksimal sensor yang bisa ditambahkan adalah 10");
+    }
   }
 
   function handleRemoveField(index) {
@@ -276,6 +281,9 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
           </div>
         );
       })}
+      {sensors.length === 10 && (
+        <p className="text-red-500 text-center text-sm">{warning}</p>
+      )}
       <Button type="submit" buttonType="primary" customStyles="bg-primary">
         {submitLoading ? "Loading..." : "Edit node"}
       </Button>

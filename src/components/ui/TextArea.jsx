@@ -20,6 +20,7 @@ export default function TextArea({
         cols={col}
         className={`text-black p-2 mt-1 border border-solid border-formColor rounded-lg text-sm ${customStyles}`}
         {...props}
+        maxLength="255"
       />
     </div>
   );

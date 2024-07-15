@@ -24,6 +24,7 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
 
   const [sensors, setSensors] = useState([]);
   const [selectedHardware, setSelectedHardware] = useState("");
+  const [warning, setWarning] = useState("");
 
   const hardwareData = hardwares.data.filter(
     (hardware) => hardware.type !== "sensor"
@@ -56,11 +57,15 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
     if (event) {
       event.preventDefault();
     }
-    let newSensorField = {
-      hardware_sensor: "",
-      field_sensor: "",
-    };
-    setSensors([...sensors, newSensorField]);
+    if (sensors.length < 10) {
+      let newSensorField = {
+        hardware_sensor: "",
+        field_sensor: "",
+      };
+      setSensors([...sensors, newSensorField]);
+    } else {
+      setWarning("Maksimal sensor yang bisa ditambahkan adalah 10");
+    }
   }
 
   function handleRemoveField(index) {
@@ -162,7 +167,6 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
             >
               {index === 0 && "Field sensor"}
             </Input>
-
             {index !== sensors.length - 1 ? (
               <button
                 type="button"
@@ -183,6 +187,9 @@ export default function NodeCreateForm({ onSubmit, submitLoading }) {
           </div>
         );
       })}
+      {sensors.length === 10 && (
+        <p className="text-red-500 text-center text-sm">{warning}</p>
+      )}
       <Button type="submit" buttonType="primary" customStyles="bg-primary">
         {submitLoading ? "Loading..." : "Create"}
       </Button>

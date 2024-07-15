@@ -11,6 +11,7 @@ export default function Input({ id, children, customStyles, ...props }) {
         id={id}
         className={`text-black p-2 mt-1 border border-solid border-formColor rounded-lg text-sm ${customStyles}`}
         {...props}
+        maxLength="255"
       />
     </div>
   );

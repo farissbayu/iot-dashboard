@@ -8,7 +8,7 @@ import NodeCreateForm from "../../components/form/NodeCreateForm";
 export default function NodeCreatePage() {
   const token = localStorage.getItem("token");
   const { userId } = JSON.parse(localStorage.getItem("userData")) || -1;
-  const { username } = JSON.parse(localStorage.getItem("userData")) || "name";
+  // const { username } = JSON.parse(localStorage.getItem("userData")) || "name";
 
   const { loading, sendRequest } = useApi({
     code: -1,
@@ -29,7 +29,7 @@ export default function NodeCreatePage() {
 
     try {
       await sendRequest(url, config);
-      navigate(`/node/${username}`);
+      navigate("/node");
     } catch (error) {
       console.error("Error:", error);
     }

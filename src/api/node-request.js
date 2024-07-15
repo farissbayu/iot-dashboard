@@ -72,4 +72,27 @@ function editNode(token, nodeId, nodeBody) {
   };
 }
 
-export { getNodeDetail, getNodeList, createNode, deleteNode, editNode };
+function downloadNodeData(token, nodeId, startDate, endDate) {
+  return {
+    url:
+      apiUrl +
+      `channel/download-csv/${nodeId}?start=${startDate} 00:00:00&end=${endDate} 00:00:00`,
+    config: {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      credentials: "include",
+    },
+  };
+}
+
+export {
+  getNodeDetail,
+  getNodeList,
+  createNode,
+  deleteNode,
+  editNode,
+  downloadNodeData,
+};

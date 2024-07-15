@@ -9,6 +9,7 @@ import useApi from "../../hooks/useApi.js";
 import { deleteHardware, getHardwareList } from "../../api/hardware-request.js";
 import PaginationButtons from "../../components/PaginationButton.jsx";
 import DeletionModal from "../../components/DeletionModal.jsx";
+import { generateSerialNumber } from "../../utils/helper.js";
 
 export default function HardwareListPage() {
   const { isAdmin } = JSON.parse(localStorage.getItem("userData")) || false;
@@ -137,15 +138,14 @@ export default function HardwareListPage() {
             value={query}
             onChange={handleSearchChange}
           />
-          {(hardwareList.code === -1 || hardwareList.data.size === 0) && (
+          {hardwareList.code === -1 || hardwareList.data.length === 0 ? (
             <p>No hardware found.</p>
-          )}
-          {hardwareList.data.size !== 0 && hardwareList.code !== -1 && (
+          ) : (
             <div id="table-container">
               <Table>
                 <TableHead customStyle="text-2xl">
                   <tr>
-                    <th className="p-4 max-w-4">Id</th>
+                    <th className="p-4 max-w-4">No.</th>
                     <th className="p-4 max-w-16">Name</th>
                     <th className="p-4 max-w-16">Type</th>
                     <th className="p-4 max-w-48">Description</th>
@@ -153,11 +153,18 @@ export default function HardwareListPage() {
                   </tr>
                 </TableHead>
                 <tbody>
-                  {currentItems.map((hardware) => {
+                  {currentItems.map((hardware, index) => {
                     return (
                       <HardwareListItem
                         key={hardware.id_hardware}
-                        hardware={hardware}
+                        hardware={{
+                          ...hardware,
+                          serialNumber: generateSerialNumber(
+                            index,
+                            currentPage,
+                            itemsPerPage
+                          ),
+                        }}
                         isAdmin={isAdmin}
                         onDeleteClick={handleOpenModal}
                       />
@@ -167,7 +174,6 @@ export default function HardwareListPage() {
               </Table>
             </div>
           )}
-
           <PaginationButtons
             totalPages={totalPages}
             currentPage={currentPage}

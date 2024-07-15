@@ -9,6 +9,7 @@ import PaginationButtons from "../../components/PaginationButton.jsx";
 import useApi from "../../hooks/useApi.js";
 import { deleteNode, getNodeList } from "../../api/node-request.js";
 import DeletionModal from "../../components/DeletionModal.jsx";
+import { generateSerialNumber } from "../../utils/helper.js";
 
 export default function NodeListPage() {
   const token = localStorage.getItem("token");
@@ -135,14 +136,14 @@ export default function NodeListPage() {
             value={query}
             onChange={handleSearchChange}
           />
-          {nodeList.data.size === 0 ? (
+          {nodeList.data.length === 0 ? (
             <p>User not created node yet.</p>
           ) : (
             <div id="table-container">
               <Table>
                 <TableHead customStyle="text-2xl">
                   <tr>
-                    <th className="p-4 max-w-8">Id</th>
+                    <th className="p-4 max-w-8">No.</th>
                     <th className="p-4 max-w-48">Name</th>
                     <th className="p-4 max-w-24">Location</th>
                     <th className="p-4 max-w-20">Action</th>
@@ -153,9 +154,15 @@ export default function NodeListPage() {
                     return (
                       <NodeListItem
                         key={node.Node.id_node}
-                        node={node.Node}
+                        node={{
+                          ...node.Node,
+                          serialNumber: generateSerialNumber(
+                            index,
+                            currentPage,
+                            itemsPerPage
+                          ),
+                        }}
                         onDeleteClick={handleOpenModal}
-                        no={index + 1}
                       />
                     );
                   })}

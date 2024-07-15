@@ -35,6 +35,7 @@ export default function Dropdown({
             className="text-black"
           >
             {option.name}
+            {option.type && ` - ${option.type}`}
           </option>
         ))}
       </select>
