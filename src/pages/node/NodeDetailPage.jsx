@@ -168,36 +168,52 @@ export default function NodeDetailPage() {
           >
             {"<"} Back
           </Button>
-          <div className="w-full flex flex-row justify-between my-2">
-            <h1 className="font-bold text-3xl text-darkFont text-center">
-              {node.name}
-            </h1>
-            <button
-              className="hover:underline"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Download data
-            </button>
-          </div>
+          {(data.code === -1 || data.code === 400) && (
+            <p>Failed to load node detail.</p>
+          )}
+          {data.code === 200 && (
+            <>
+              <div className="w-full flex flex-row justify-between my-2">
+                <h1 className="font-bold text-3xl text-darkFont text-center">
+                  {node.name}
+                </h1>
+                <button
+                  className="hover:underline"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Download data
+                </button>
+              </div>
 
-          <div className="w-full rounded-lg bg-white shadow-md grid grid-cols-2 p-4">
-            <p className="whitespace-normal break-all">Node id</p>
-            <p className="whitespace-normal break-all">{node.id_node}</p>
-            <p className="whitespace-normal break-all">Location</p>
-            <p className="whitespace-normal break-all">{node.location}</p>
-            <p className="whitespace-normal break-all"> Number of sensors</p>
-            <p className="whitespace-normal break-all">{sensor.length}</p>
-            <p className="whitespace-normal break-all">Hardware</p>
-            <p className="whitespace-normal break-all">{hardware.name}</p>
-            <p className="whitespace-normal break-all">Hardware type</p>
-            <p className="whitespace-normal break-all">{hardware.type}</p>
-          </div>
-          <h2 className="font-bold text-2xl text-darkFont text-center">Feed</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {sensor.map((data) => (
-              <Chart key={data.id_feed} sensor={data} nodeId={node.id_node} />
-            ))}
-          </div>
+              <div className="w-full rounded-lg bg-white shadow-md grid grid-cols-2 p-4">
+                <p className="whitespace-normal break-all">Node id</p>
+                <p className="whitespace-normal break-all">{node.id_node}</p>
+                <p className="whitespace-normal break-all">Location</p>
+                <p className="whitespace-normal break-all">{node.location}</p>
+                <p className="whitespace-normal break-all">
+                  {" "}
+                  Number of sensors
+                </p>
+                <p className="whitespace-normal break-all">{sensor.length}</p>
+                <p className="whitespace-normal break-all">Hardware</p>
+                <p className="whitespace-normal break-all">{hardware.name}</p>
+                <p className="whitespace-normal break-all">Hardware type</p>
+                <p className="whitespace-normal break-all">{hardware.type}</p>
+              </div>
+              <h2 className="font-bold text-2xl text-darkFont text-center">
+                Feed
+              </h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {sensor.map((data) => (
+                  <Chart
+                    key={data.id_feed}
+                    sensor={data}
+                    nodeId={node.id_node}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
       {isModalOpen && (

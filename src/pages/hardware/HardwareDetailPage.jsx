@@ -4,13 +4,16 @@ import HardwareDetailItem from "../../components/HardwareDetailItem";
 import Button from "../../components/ui/Button";
 import { getHardwareDetail } from "../../api/hardware-request";
 import useApi from "../../hooks/useApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import NodeListInHardware from "../../components/NodeListInHardware";
 
 export default function HardwareDetailPage() {
   const token = localStorage.getItem("token") || "";
   const { id: hardwareId } = useParams();
   const navigate = useNavigate();
+
+  const [hardware, setHardware] = useState({});
+  const [nodes, setNodes] = useState([]);
 
   const { url, config } = getHardwareDetail(hardwareId, token);
   const { data, loading, error, sendRequest } = useApi({
@@ -31,6 +34,13 @@ export default function HardwareDetailPage() {
     fetchHardwareDetail();
   }, []);
 
+  useEffect(() => {
+    if (data.code === 200) {
+      setHardware(data.data.hardware);
+      setNodes(data.data.node);
+    }
+  }, [data]);
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -38,9 +48,6 @@ export default function HardwareDetailPage() {
   if (error) {
     return <p>Error: ${error}</p>;
   }
-
-  const hardware = data.data.hardware || {};
-  const nodes = data.data.node || [];
 
   return (
     <div className="bg-pageBackground min-h-screen max-h-full flex">
@@ -52,8 +59,15 @@ export default function HardwareDetailPage() {
         >
           {"<"} Back
         </Button>
-        <HardwareDetailItem hardware={hardware} />
-        <NodeListInHardware nodes={nodes} />
+        {(data.code === -1 || data.code === 400) && (
+          <p>Failed to load hardware detail.</p>
+        )}
+        {data.code === 200 && (
+          <>
+            <HardwareDetailItem hardware={hardware} />
+            <NodeListInHardware nodes={nodes} />
+          </>
+        )}
       </div>
     </div>
   );

@@ -4,13 +4,13 @@ import Button from "../../components/ui/Button";
 import useApi from "../../hooks/useApi";
 import { createNode } from "../../api/node-request";
 import NodeCreateForm from "../../components/form/NodeCreateForm";
+import { useEffect } from "react";
 
 export default function NodeCreatePage() {
   const token = localStorage.getItem("token");
   const { userId } = JSON.parse(localStorage.getItem("userData")) || -1;
-  // const { username } = JSON.parse(localStorage.getItem("userData")) || "name";
 
-  const { loading, sendRequest } = useApi({
+  const { data, error, loading, sendRequest } = useApi({
     code: -1,
     status: "",
     data: {},
@@ -29,10 +29,19 @@ export default function NodeCreatePage() {
 
     try {
       await sendRequest(url, config);
-      navigate("/node");
     } catch (error) {
-      console.error("Error:", error);
+      console.error(error);
     }
+  }
+
+  useEffect(() => {
+    if (data.code === 200) {
+      navigate("/node");
+    }
+  }, [data, navigate]);
+
+  if (error) {
+    return <p>{error}</p>;
   }
 
   return (

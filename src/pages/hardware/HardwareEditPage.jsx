@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import HardwareEditForm from "../../components/form/HardwareEditForm";
@@ -11,9 +11,7 @@ export default function HardwareEditPage() {
 
   const navigate = useNavigate();
 
-  const [success, setSuccess] = useState(false);
-
-  const { data, loading, sendRequest } = useApi({
+  const { data, error, loading, sendRequest } = useApi({
     code: -1,
     status: "",
     data: {},
@@ -26,17 +24,20 @@ export default function HardwareEditPage() {
 
     try {
       await sendRequest(url, config);
-      setSuccess(true);
     } catch (error) {
       console.error(error);
     }
   }
 
   useEffect(() => {
-    if (success) {
+    if (data.code === 200) {
       navigate("/hardware");
     }
-  }, [data, success, navigate]);
+  }, [data, navigate]);
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div className="bg-pageBackground h-screen flex">

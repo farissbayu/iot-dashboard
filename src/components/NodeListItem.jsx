@@ -7,7 +7,7 @@ export default function NodeListItem({ node, onDeleteClick }) {
 
   const handleDetail = () => navigate(`/node/${node.id_node}/detail`);
   const handleEdit = () => navigate(`/node/${node.id_node}/edit`);
-  const handleDelete = () => onDeleteClick(node.id_node);
+  const handleDelete = () => onDeleteClick(node.id_node, node.name);
 
   return (
     <tr className="shadow-lg bg-white hover:bg-gray-50">

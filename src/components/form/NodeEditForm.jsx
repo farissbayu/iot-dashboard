@@ -98,8 +98,6 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
         };
       });
 
-      console.log(sensorList);
-
       const { id_node, name, location } = node;
       const hardware = hardwareListData.data.find(
         (hardware) => hardware.id_hardware === node.id_hardware_node
@@ -175,8 +173,6 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
 
     onSubmit(formData);
   }
-
-  console.log(nodeDetailData);
 
   return (
     <form

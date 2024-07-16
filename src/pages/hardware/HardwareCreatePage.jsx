@@ -3,12 +3,10 @@ import Button from "../../components/ui/Button";
 import HardwareCreateForm from "../../components/form/HardwareCreateForm";
 import useApi from "../../hooks/useApi";
 import { createHardware } from "../../api/hardware-request";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function HardwareCreatePage() {
   const token = localStorage.getItem("token");
-
-  const [success, setSuccess] = useState(false);
 
   const { data, loading, sendRequest } = useApi({
     code: -1,
@@ -25,18 +23,16 @@ export default function HardwareCreatePage() {
 
     try {
       await sendRequest(url, config);
-      setSuccess(true);
     } catch (error) {
       console.error(error);
     }
   }
 
   useEffect(() => {
-    if (success) {
-      console.log(data);
+    if (data.code === 200) {
       navigate("/hardware");
     }
-  }, [data, success, navigate]);
+  }, [data, navigate]);
 
   return (
     <div className="bg-pageBackground h-screen flex">

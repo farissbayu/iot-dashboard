@@ -62,15 +62,27 @@ export default function HardwareListPage() {
     fetchHardwareList();
   }, []);
 
-  const filteredItems = hardwareList.data.filter((item) =>
-    keys.some((key) => item[key].toLowerCase().includes(query))
-  );
+  let filteredItems = [];
+  let indexOfLastItem = -1;
+  let indexOfFirstItem = -1;
+  let currentItems = [];
+  let totalPages = -1;
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  if (
+    hardwareList.code === 200 &&
+    hardwareList.data &&
+    hardwareList.data.length > 0
+  ) {
+    filteredItems = hardwareList.data.filter((item) =>
+      keys.some((key) => item[key].toLowerCase().includes(query))
+    );
 
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+    indexOfLastItem = currentPage * itemsPerPage;
+    indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
+    totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  }
 
   function handlePageChange(pageNumber) {
     setCurrentPage(pageNumber);
@@ -112,74 +124,79 @@ export default function HardwareListPage() {
   return (
     <>
       <div className="bg-pageBackground min-h-screen max-h-full flex">
-        <div
-          id="hardware-list-container"
-          className="w-full mx-8 flex flex-col space-y-4 my-4"
-        >
+        {(hardwareList.code === -1 || hardwareList.code === 400) && (
+          <p>Failed to load hardware list.</p>
+        )}
+        {hardwareList.code === 200 && (
           <div
-            id="top-container"
-            className="flex flex-row justify-between mt-8"
+            id="hardware-list-container"
+            className="w-full mx-8 flex flex-col space-y-4 my-4"
           >
-            <h1 className="font-bold text-4xl text-darkFont">Hardwares</h1>
-            {isAdmin && (
-              <Button
-                onClick={() => navigate("create")}
-                buttonType="primary"
-                customStyles="bg-primary"
-              >
-                Create hardware
-              </Button>
-            )}
-          </div>
-          <input
-            type="search"
-            placeholder="search"
-            className="p-2 w-1/4 rounded-md border border-darkFont"
-            value={query}
-            onChange={handleSearchChange}
-          />
-          {hardwareList.code === -1 || hardwareList.data.length === 0 ? (
-            <p>No hardware found.</p>
-          ) : (
-            <div id="table-container">
-              <Table>
-                <TableHead customStyle="text-2xl">
-                  <tr>
-                    <th className="p-4 max-w-4">No.</th>
-                    <th className="p-4 max-w-16">Name</th>
-                    <th className="p-4 max-w-16">Type</th>
-                    <th className="p-4 max-w-48">Description</th>
-                    <th className="p-4 max-w-20">Action</th>
-                  </tr>
-                </TableHead>
-                <tbody>
-                  {currentItems.map((hardware, index) => {
-                    return (
-                      <HardwareListItem
-                        key={hardware.id_hardware}
-                        hardware={{
-                          ...hardware,
-                          serialNumber: generateSerialNumber(
-                            index,
-                            currentPage,
-                            itemsPerPage
-                          ),
-                        }}
-                        isAdmin={isAdmin}
-                        onDeleteClick={handleOpenModal}
-                      />
-                    );
-                  })}
-                </tbody>
-              </Table>
+            <div
+              id="top-container"
+              className="flex flex-row justify-between mt-8"
+            >
+              <h1 className="font-bold text-4xl text-darkFont">Hardwares</h1>
+              {isAdmin && (
+                <Button
+                  onClick={() => navigate("create")}
+                  buttonType="primary"
+                  customStyles="bg-primary"
+                >
+                  Create hardware
+                </Button>
+              )}
             </div>
-          )}
-          <PaginationButtons
-            totalPages={totalPages}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-        </div>
+            <input
+              type="search"
+              placeholder="search"
+              className="p-2 w-1/4 rounded-md border border-darkFont"
+              value={query}
+              onChange={handleSearchChange}
+            />
+            {hardwareList.code === -1 || hardwareList.data.length === 0 ? (
+              <p>No hardware found.</p>
+            ) : (
+              <div id="table-container">
+                <Table>
+                  <TableHead customStyle="text-2xl">
+                    <tr>
+                      <th className="p-4 max-w-4">No.</th>
+                      <th className="p-4 max-w-16">Name</th>
+                      <th className="p-4 max-w-16">Type</th>
+                      <th className="p-4 max-w-48">Description</th>
+                      <th className="p-4 max-w-20">Action</th>
+                    </tr>
+                  </TableHead>
+                  <tbody>
+                    {currentItems.map((hardware, index) => {
+                      return (
+                        <HardwareListItem
+                          key={hardware.id_hardware}
+                          hardware={{
+                            ...hardware,
+                            serialNumber: generateSerialNumber(
+                              index,
+                              currentPage,
+                              itemsPerPage
+                            ),
+                          }}
+                          isAdmin={isAdmin}
+                          onDeleteClick={handleOpenModal}
+                        />
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </div>
+            )}
+            <PaginationButtons
+              totalPages={totalPages}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center bg-black bg-opacity-50">

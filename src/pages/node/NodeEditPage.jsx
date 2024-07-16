@@ -4,17 +4,14 @@ import Button from "../../components/ui/Button";
 import useApi from "../../hooks/useApi";
 import { editNode } from "../../api/node-request";
 import NodeEditForm from "../../components/form/NodeEditForm";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function NodeEditPage() {
   const token = localStorage.getItem("token");
   const { id: nodeId } = useParams();
   const { userId } = JSON.parse(localStorage.getItem("userData")) || -1;
-  const { username } = JSON.parse(localStorage.getItem("userData")) || "name";
 
-  const [success, setSuccess] = useState(false);
-
-  const { data, loading, sendRequest } = useApi({
+  const { data, loading, error, sendRequest } = useApi({
     code: -1,
     status: "",
     data: {},
@@ -29,21 +26,26 @@ export default function NodeEditPage() {
       is_public: 0,
     };
 
+    console.log(nodeBody);
+
     const { url, config } = editNode(token, nodeId, nodeBody);
 
     try {
       await sendRequest(url, config);
-      setSuccess(true);
     } catch (error) {
-      console.error("Error:", error);
+      return <p>Error</p>;
     }
   }
 
   useEffect(() => {
-    if (success) {
-      navigate(`/node/${username}`);
+    if (data.code === 200) {
+      navigate(`/node`);
     }
-  }, [data, success, navigate]);
+  }, [data, navigate]);
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div className="bg-pageBackground min-h-screen max-h-full flex">

@@ -60,15 +60,23 @@ export default function NodeListPage() {
     setNodeName("");
   }, []);
 
-  const filteredItems = nodeList.data.filter((item) =>
-    keys.some((key) => item.Node[key].toLowerCase().includes(query))
-  );
+  let filteredItems = [];
+  let indexOfLastItem = -1;
+  let indexOfFirstItem = -1;
+  let currentItems = [];
+  let totalPages = -1;
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  if (nodeList.code === 200 && nodeList.data && nodeList.data.length > 0) {
+    filteredItems = nodeList.data.filter((item) =>
+      keys.some((key) => item.Node[key].toLowerCase().includes(query))
+    );
 
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+    indexOfLastItem = currentPage * itemsPerPage;
+    indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
+    totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  }
 
   function handlePageChange(pageNumber) {
     setCurrentPage(pageNumber);
@@ -112,70 +120,75 @@ export default function NodeListPage() {
   return (
     <>
       <div className="bg-pageBackground min-h-screen max-h-full flex">
-        <div
-          id="node-list-container"
-          className="w-full mx-8 flex flex-col space-y-4 my-4"
-        >
+        {(nodeList.code === -1 || nodeList.code === 400) && (
+          <p>Failed to load node list.</p>
+        )}
+        {nodeList.code === 200 && (
           <div
-            id="top-container"
-            className="flex flex-row justify-between mt-8"
+            id="node-list-container"
+            className="w-full mx-8 flex flex-col space-y-4 my-4"
           >
-            <h1 className="font-bold text-4xl text-darkFont">Nodes</h1>
-            <Button
-              onClick={() => navigate("create")}
-              buttonType="primary"
-              customStyles="bg-primary"
+            <div
+              id="top-container"
+              className="flex flex-row justify-between mt-8"
             >
-              Create node
-            </Button>
-          </div>
-          <input
-            type="search"
-            placeholder="search"
-            className="p-2 w-1/4 rounded-md border border-darkFont"
-            value={query}
-            onChange={handleSearchChange}
-          />
-          {nodeList.data.length === 0 ? (
-            <p>User not created node yet.</p>
-          ) : (
-            <div id="table-container">
-              <Table>
-                <TableHead customStyle="text-2xl">
-                  <tr>
-                    <th className="p-4 max-w-8">No.</th>
-                    <th className="p-4 max-w-48">Name</th>
-                    <th className="p-4 max-w-24">Location</th>
-                    <th className="p-4 max-w-20">Action</th>
-                  </tr>
-                </TableHead>
-                <tbody>
-                  {currentItems.map((node, index) => {
-                    return (
-                      <NodeListItem
-                        key={node.Node.id_node}
-                        node={{
-                          ...node.Node,
-                          serialNumber: generateSerialNumber(
-                            index,
-                            currentPage,
-                            itemsPerPage
-                          ),
-                        }}
-                        onDeleteClick={handleOpenModal}
-                      />
-                    );
-                  })}
-                </tbody>
-              </Table>
+              <h1 className="font-bold text-4xl text-darkFont">Nodes</h1>
+              <Button
+                onClick={() => navigate("create")}
+                buttonType="primary"
+                customStyles="bg-primary"
+              >
+                Create node
+              </Button>
             </div>
-          )}
-          <PaginationButtons
-            totalPages={totalPages}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-        </div>
+            <input
+              type="search"
+              placeholder="search"
+              className="p-2 w-1/4 rounded-md border border-darkFont"
+              value={query}
+              onChange={handleSearchChange}
+            />
+            {nodeList.data.length === 0 ? (
+              <p>User not created node yet.</p>
+            ) : (
+              <div id="table-container">
+                <Table>
+                  <TableHead customStyle="text-2xl">
+                    <tr>
+                      <th className="p-4 max-w-8">No.</th>
+                      <th className="p-4 max-w-48">Name</th>
+                      <th className="p-4 max-w-24">Location</th>
+                      <th className="p-4 max-w-20">Action</th>
+                    </tr>
+                  </TableHead>
+                  <tbody>
+                    {currentItems.map((node, index) => {
+                      return (
+                        <NodeListItem
+                          key={node.Node.id_node}
+                          node={{
+                            ...node.Node,
+                            serialNumber: generateSerialNumber(
+                              index,
+                              currentPage,
+                              itemsPerPage
+                            ),
+                          }}
+                          onDeleteClick={handleOpenModal}
+                        />
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </div>
+            )}
+            <PaginationButtons
+              totalPages={totalPages}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center bg-black bg-opacity-50">
