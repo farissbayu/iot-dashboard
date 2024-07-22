@@ -17,6 +17,7 @@ export default function NodeDetailPage() {
 
   const [nodeDetail, setNodeDetail] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [downloadError, setDownloadError] = useState("");
 
   const { url: nodeDetailUrl, config: nodeDetailConfig } = getNodeDetail(
     token,
@@ -39,7 +40,7 @@ export default function NodeDetailPage() {
 
   const {
     data: feedData,
-    error: feedDataError,
+    // error: feedDataError,
     sendRequest: sendDownloadFeed,
   } = useApi({
     code: -1,
@@ -118,7 +119,6 @@ export default function NodeDetailPage() {
   async function downloadData(startDate, endDate) {
     const { url: downloadDataUrl, config: downloadDataConfig } =
       downloadNodeData(token, nodeId, startDate, endDate);
-
     try {
       await sendDownloadFeed(downloadDataUrl, downloadDataConfig);
     } catch (error) {
@@ -127,7 +127,7 @@ export default function NodeDetailPage() {
   }
 
   useEffect(() => {
-    if (feedData.code !== -1) {
+    if (feedData.code === 200) {
       const jsonData = feedData.data;
       const csvData = jsonToCsv(jsonData);
       let blob = new Blob([csvData], { type: "text/csv" });
@@ -138,7 +138,13 @@ export default function NodeDetailPage() {
       document.body.appendChild(a);
       a.click();
     }
+
+    if (feedData.code === 400) {
+      setDownloadError(feedData.message);
+    }
   }, [feedData]);
+
+  console.log(feedData);
 
   if (loading) {
     return <p>Loading...</p>;
@@ -222,7 +228,8 @@ export default function NodeDetailPage() {
             modalIsOpen={isModalOpen}
             onCancel={() => setIsModalOpen(false)}
             downloadData={downloadData}
-            error={feedDataError}
+            error={downloadError}
+            setError={setDownloadError}
           />
         </div>
       )}

@@ -12,17 +12,21 @@ import DeletionModal from "../../components/DeletionModal.jsx";
 import { generateSerialNumber } from "../../utils/helper.js";
 
 export default function HardwareListPage() {
+  // get auth data
   const { isAdmin } = JSON.parse(localStorage.getItem("userData")) || false;
   const token = localStorage.getItem("token");
 
+  // state for modal use
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hardwareId, setHardwareId] = useState(-1);
 
   const navigate = useNavigate();
 
+  // state and keys for searching functionality
   const [query, setQuery] = useState("");
   const keys = ["name", "type", "description"];
 
+  // state for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
 
@@ -73,14 +77,18 @@ export default function HardwareListPage() {
     hardwareList.data &&
     hardwareList.data.length > 0
   ) {
+    // filter items based on the query
     filteredItems = hardwareList.data.filter((item) =>
       keys.some((key) => item[key].toLowerCase().includes(query))
     );
 
+    // find last index of list
     indexOfLastItem = currentPage * itemsPerPage;
+    // find first item index
     indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    // slice item for current page
     currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-
+    // find total page for filtered items
     totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   }
 

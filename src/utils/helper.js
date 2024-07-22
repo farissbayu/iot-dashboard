@@ -1,3 +1,4 @@
+// custom date format
 function formatDate(dateData) {
   const date = new Date(dateData);
   const year = date.getFullYear();
@@ -7,10 +8,12 @@ function formatDate(dateData) {
   return `${year}-${month}-${day}`;
 }
 
+// function for generate serialize number in table
 function generateSerialNumber(index, currentPage, itemsPerPage) {
   return index + 1 + (currentPage - 1) * itemsPerPage;
 }
 
+// convert json to csv
 function jsonToCsv(jsonData) {
   let csv = "";
   let headers = Object.keys(jsonData[0]);

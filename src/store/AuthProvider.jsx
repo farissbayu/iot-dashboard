@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
+// create context for auth
 const AuthContext = createContext({
   isLoggedIn: false,
   isLoading: true,
@@ -9,6 +10,7 @@ const AuthContext = createContext({
   setUserData: () => {},
 });
 
+// auth provider component
 export default function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

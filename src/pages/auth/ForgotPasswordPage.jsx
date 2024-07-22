@@ -6,6 +6,8 @@ import { forgotPassword } from "../../api/auth-request";
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
+
+  // state for forgot password response and request function
   const { loading, data, error, sendRequest } = useApi({
     code: -1,
     status: "",
@@ -13,6 +15,7 @@ export default function ForgotPasswordPage() {
   });
   const [requestPasswordSuccess, setRequestPasswordSuccess] = useState(false);
 
+  // function handle submission and send request to api
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -30,6 +33,7 @@ export default function ForgotPasswordPage() {
     }
   }
 
+  // change password success
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (data && data.code === 200) {

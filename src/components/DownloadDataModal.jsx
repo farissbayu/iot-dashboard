@@ -8,6 +8,7 @@ export default function DownloadDataModal({
   modalIsOpen,
   downloadData,
   error,
+  setError,
 }) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -16,26 +17,37 @@ export default function DownloadDataModal({
   function handleStartDate(e) {
     setStartDate(e.target.value);
     setDateIsEmpty(false);
+    setError("");
   }
 
   function handleEndDate(e) {
     setEndDate(e.target.value);
     setDateIsEmpty(false);
+    setError("");
   }
 
   function handleDownloadAll() {
+    setError("");
+    setDateIsEmpty(false);
     const startDate = "1970-01-01";
     const endDate = formatDate(new Date());
     downloadData(startDate, endDate);
   }
 
   const handleDownloadInterval = () => {
+    setError("");
+    setDateIsEmpty(false);
     if (startDate && endDate) {
+      console.log("Downloading interval data");
       downloadData(startDate, endDate);
     } else {
       setDateIsEmpty(true);
     }
   };
+
+  let content = "";
+  if (dateIsEmpty) content = "Please select start and end date!";
+  else if (error !== "") content = error;
 
   return (
     <dialog
@@ -64,8 +76,7 @@ export default function DownloadDataModal({
             />
           </div>
         </div>
-        {dateIsEmpty && <p>Please select start and end date!</p>}
-        {error && <p>No data in selected interval!</p>}
+        {content && <p className="text-sm text-red-500">{content}</p>}
         <Button
           onClick={handleDownloadInterval}
           customStyles="w-full py-1 border-secondary"

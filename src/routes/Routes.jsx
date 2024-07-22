@@ -30,6 +30,7 @@ import NodeEditPage from "../pages/node/NodeEditPage";
 import Embed from "../pages/Embed";
 import ErrorPage from "../pages/ErrorPage";
 
+// define route for app
 const router = createBrowserRouter([
   {
     path: "/",

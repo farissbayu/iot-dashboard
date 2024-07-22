@@ -5,20 +5,23 @@ import useApi from "../hooks/useApi";
 import { useEffect, useState } from "react";
 import { formatDate } from "../utils/helper";
 
+// Page for embeded chart
 export default function Embed() {
   const token = localStorage.getItem("token") || "";
-  const { nodeId, sensorIndex } = useParams();
+  const { nodeId, sensorIndex } = useParams(); // get path from url
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
+  const queryParams = new URLSearchParams(location.search); // get query param from url
   const sensorName = queryParams.get("sensor-name");
 
   const [sensor, setSensor] = useState({});
 
+  // get node detail url and config
   const { url: nodeDetailUrl, config: nodeDetailConfig } = getNodeDetail(
     token,
     nodeId
   );
 
+  // get data from api
   const { data, sendRequest } = useApi({
     code: -1,
     status: "",
@@ -46,6 +49,7 @@ export default function Embed() {
       const times = feed ? feed.map((f) => formatDate(f.time)) : [];
       const value = feed ? feed.map((item) => item.value[sensorIndex]) : [];
 
+      // map data into sensor state
       setSensor({
         id_node: node.id_node,
         name: sensorName,
