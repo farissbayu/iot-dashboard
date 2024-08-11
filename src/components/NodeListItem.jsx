@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import IconButton from "../components/ui/IconButton";
 
-export default function NodeListItem({ node, onDeleteClick }) {
+export default function NodeListItem({ node, onDeleteClick, isAdmin }) {
   const navigate = useNavigate();
 
   const handleDetail = () => navigate(`/node/${node.id_node}/detail`);
@@ -12,6 +12,7 @@ export default function NodeListItem({ node, onDeleteClick }) {
   return (
     <tr className="shadow-lg bg-white hover:bg-gray-50">
       <td className="p-4 max-w-8">{node.serialNumber}</td>
+      {isAdmin && <td className="p-4 max-w-8">{node.id_user}</td>}
       <td className="p-4 max-w-48 word-wrap break-words">{node.name}</td>
       <td className="p-4 max-w-24 word-wrap break-words">{node.location}</td>
       <td className="p-4 max-w-20 flex flex-row space-x-2">

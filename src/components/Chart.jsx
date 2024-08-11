@@ -41,6 +41,20 @@ export default function Chart({ sensor, nodeId }) {
                 display: false,
               },
             },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: "X label",
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: "Y label",
+                },
+              },
+            },
           }}
         />
       </div>

@@ -12,6 +12,7 @@ import DeletionModal from "../../components/DeletionModal.jsx";
 import { generateSerialNumber } from "../../utils/helper.js";
 
 export default function NodeListPage() {
+  const { isAdmin } = JSON.parse(localStorage.getItem("userData")) || false;
   const token = localStorage.getItem("token");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,6 +60,8 @@ export default function NodeListPage() {
     setNodeId(-1);
     setNodeName("");
   }, []);
+
+  console.log(nodeList);
 
   let filteredItems = [];
   let indexOfLastItem = -1;
@@ -156,6 +159,7 @@ export default function NodeListPage() {
                   <TableHead customStyle="text-2xl">
                     <tr>
                       <th className="p-4 max-w-8">No.</th>
+                      {isAdmin && <th className="p-4 max-w-12">User Id</th>}
                       <th className="p-4 max-w-48">Name</th>
                       <th className="p-4 max-w-24">Location</th>
                       <th className="p-4 max-w-20">Action</th>
@@ -175,6 +179,7 @@ export default function NodeListPage() {
                             ),
                           }}
                           onDeleteClick={handleOpenModal}
+                          isAdmin={isAdmin}
                         />
                       );
                     })}
