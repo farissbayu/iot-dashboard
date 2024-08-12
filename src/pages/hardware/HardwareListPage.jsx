@@ -26,6 +26,9 @@ export default function HardwareListPage() {
   const [query, setQuery] = useState("");
   const keys = ["name", "type", "description"];
 
+  // state for hardware filter type
+  const [typeFilter, setTypeFilter] = useState("");
+
   // state for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
@@ -77,9 +80,13 @@ export default function HardwareListPage() {
     hardwareList.data &&
     hardwareList.data.length > 0
   ) {
-    // filter items based on the query
+    // filter items based on the query and type
     filteredItems = hardwareList.data.filter((item) =>
-      keys.some((key) => item[key].toLowerCase().includes(query))
+      keys.some(
+        (key) =>
+          item[key].toLowerCase().includes(query) &&
+          (typeFilter === "" || item.type === typeFilter)
+      )
     );
 
     // find last index of list
@@ -98,6 +105,11 @@ export default function HardwareListPage() {
 
   function handleSearchChange(event) {
     setQuery(event.target.value.toLowerCase());
+    setCurrentPage(1);
+  }
+
+  function handleTypeFilterChange(event) {
+    setTypeFilter(event.target.value);
     setCurrentPage(1);
   }
 
@@ -162,6 +174,18 @@ export default function HardwareListPage() {
               value={query}
               onChange={handleSearchChange}
             />
+            <select
+              className="w-1/6 p-2 rounded-md border border-darkFont"
+              value={typeFilter}
+              onChange={handleTypeFilterChange}
+            >
+              <option value="">All</option>
+              <option value="microcontroller unit">Microcontroller unit</option>
+              <option value="single-board computer">
+                Singleboard computer
+              </option>
+              <option value="sensor">Sensor</option>
+            </select>
             {hardwareList.code === -1 || hardwareList.data.length === 0 ? (
               <p>No hardware found.</p>
             ) : (
