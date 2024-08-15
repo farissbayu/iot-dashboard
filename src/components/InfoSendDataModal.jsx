@@ -12,7 +12,7 @@ export default function InfoSendDataModal({
 
   const handleCopy = () => {
     navigator.clipboard.writeText(token).then(() => {
-      setCopyMessage("Request body copied to clipboard!");
+      setCopyMessage("Token copied to clipboard!");
       setTimeout(() => {
         setCopyMessage("");
       }, 2000);

@@ -106,6 +106,16 @@ export default function NodeDetailPage() {
         }
         const field = node.field_sensor[index];
 
+        let xLabel = "X label";
+        if (node.x_label !== null) {
+          xLabel = node.x_label[index] || "";
+        }
+
+        let yLabel = "Y label";
+        if (node.y_label !== null) {
+          yLabel = node.y_label[index] || "";
+        }
+
         return {
           id_feed: index,
           field,
@@ -114,6 +124,8 @@ export default function NodeDetailPage() {
             time: times,
             value,
           },
+          x_label: xLabel,
+          y_label: yLabel,
         };
       });
 
@@ -151,6 +163,8 @@ export default function NodeDetailPage() {
       setDownloadError(feedData.message);
     }
   }, [feedData]);
+
+  console.log(data);
 
   if (loading && !isRefetching) {
     return <p>Loading...</p>;
@@ -227,7 +241,6 @@ export default function NodeDetailPage() {
                     key={data.id_feed}
                     sensor={data}
                     nodeId={node.id_node}
-                    isRefetching={isRefetching}
                   />
                 ))}
               </div>

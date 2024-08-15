@@ -45,13 +45,13 @@ export default function Chart({ sensor, nodeId }) {
               x: {
                 title: {
                   display: true,
-                  text: "X label",
+                  text: sensor.x_label,
                 },
               },
               y: {
                 title: {
                   display: true,
-                  text: "Y label",
+                  text: sensor.y_label,
                 },
               },
             },

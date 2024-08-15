@@ -25,6 +25,8 @@ export default function NodeCreatePage() {
       is_public: false,
     };
 
+    console.log(nodeBody);
+
     const { url, config } = createNode(token, nodeBody);
 
     try {

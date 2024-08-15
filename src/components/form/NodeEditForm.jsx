@@ -90,11 +90,16 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
           (hardware) => hardware.id_hardware === sensor
         );
         const field = node.field_sensor[index];
+        const xLabel = node.x_label[index];
+        const yLabel = node.y_label[index];
+
         return {
           id_hardware,
           name,
           type,
           field,
+          x_label: xLabel,
+          y_label: yLabel,
         };
       });
 
@@ -116,6 +121,8 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
         sensorList.map((sensor) => ({
           hardware_sensor: sensor.id_hardware,
           field_sensor: sensor.field,
+          x_label: sensor.x_label,
+          y_label: sensor.y_label,
         }))
       );
     }
@@ -162,6 +169,8 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
     const fieldSensors = sensors
       .map((sensor) => sensor.field_sensor)
       .filter(Boolean);
+    const xLabels = sensors.map((sensor) => sensor.x_label).filter(Boolean);
+    const yLabels = sensors.map((sensor) => sensor.y_label).filter(Boolean);
 
     const formData = {
       name: e.target.name.value,
@@ -169,6 +178,8 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
       id_hardware_node: parseInt(selectedHardware),
       id_hardware_sensor: hardwareSensors.map(Number),
       field_sensor: fieldSensors,
+      x_label: xLabels,
+      y_label: yLabels,
     };
 
     onSubmit(formData);
@@ -270,13 +281,31 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
                 {index === 0 && (
                   <label className="text-sm font-medium mb-1">X label</label>
                 )}
-                <Input placeholder="X label" type="text" customStyles="w-20" />
+                <Input
+                  id={`x-label-${index}`}
+                  name={`x_label_${index}`}
+                  placeholder="X label"
+                  type="text"
+                  value={sensor.x_label || ""}
+                  onChange={(e) => handleSensorChange(e, index, "x_label")}
+                  required
+                  customStyles="w-20"
+                />
               </div>
               <div className="flex flex-col">
                 {index === 0 && (
                   <label className="text-sm font-medium mb-1">Y label</label>
                 )}
-                <Input placeholder="Y label" type="text" customStyles="w-20" />
+                <Input
+                  id={`y-label-${index}`}
+                  name={`y_label_${index}`}
+                  placeholder="Y label"
+                  type="text"
+                  value={sensor.y_label || ""}
+                  onChange={(e) => handleSensorChange(e, index, "y_label")}
+                  required
+                  customStyles="w-20"
+                />
               </div>
             </div>
             <div className="flex flex-col justify-end h-full pb-1">
