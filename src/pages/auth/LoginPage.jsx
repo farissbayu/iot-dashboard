@@ -65,7 +65,7 @@ export default function LoginPage() {
             IoT Dashboard
           </h1>
           <img
-            src="../public/logo-ipb.png"
+            src="/logo-ipb.png"
             className="w-1/3 mx-auto mt-4 lg:w-[240px] lg:h-[240px]"
           />
         </div>
