@@ -90,8 +90,9 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
           (hardware) => hardware.id_hardware === sensor
         );
         const field = node.field_sensor[index];
-        const xLabel = node.x_label[index];
-        const yLabel = node.y_label[index];
+
+        const xLabel = (node.x_label && node.x_label[index]) || "";
+        const yLabel = (node.y_label && node.y_label[index]) || "";
 
         return {
           id_hardware,
@@ -169,8 +170,10 @@ export default function NodeEditForm({ onSubmit, submitLoading, nodeId }) {
     const fieldSensors = sensors
       .map((sensor) => sensor.field_sensor)
       .filter(Boolean);
-    const xLabels = sensors.map((sensor) => sensor.x_label).filter(Boolean);
-    const yLabels = sensors.map((sensor) => sensor.y_label).filter(Boolean);
+    const xLabels =
+      sensors.map((sensor) => sensor.x_label).filter(Boolean) || [];
+    const yLabels =
+      sensors.map((sensor) => sensor.y_label).filter(Boolean) || [];
 
     const formData = {
       name: e.target.name.value,
