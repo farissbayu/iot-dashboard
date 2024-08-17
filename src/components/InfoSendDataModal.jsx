@@ -2,6 +2,8 @@
 import { useState } from "react";
 import Button from "./ui/Button";
 
+const apiUrl = import.meta.env.VITE_BASE_URL;
+
 export default function InfoSendDataModal({
   onCancel,
   modalIsOpen,
@@ -28,7 +30,7 @@ export default function InfoSendDataModal({
 
       <div className="grid grid-cols-1 gap-y-4 mb-4">
         <div>
-          <strong>API URL:</strong> localhost:8080/api/v1/channel/
+          <strong>API URL:</strong> {`${apiUrl}/channel`}
         </div>
         <div>
           <strong>Method:</strong> POST
