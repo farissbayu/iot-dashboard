@@ -1,19 +1,17 @@
-# Stage 1: Build
-FROM node:20 AS build
+FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json .
+
 RUN npm install
+
+RUN npm i -g serve
+
 COPY . .
+
 RUN npm run build
 
-# Stage 2: Production
-FROM nginx:alpine
+EXPOSE 3000
 
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD [ "serve", "-s", "dist" ]
