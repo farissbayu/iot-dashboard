@@ -9,8 +9,16 @@
     ```bash
     npm install
     ```
-5. Run the code using this script:
-    ```bash
-    npm run dev
-    ```
+5. - For development run the code using this script:
+      ```bash
+      npm run dev
+      ```
+    - For production build the app first using this script:
+      ```bash
+      npm run build
+      ```
+      then run the app using this script:
+      ```bash
+      npm run preview
+      ```
 6. Open the website using the URL shown in the result.

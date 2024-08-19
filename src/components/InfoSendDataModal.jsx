@@ -30,7 +30,7 @@ export default function InfoSendDataModal({
 
       <div className="grid grid-cols-1 gap-y-4 mb-4">
         <div>
-          <strong>API URL:</strong> {`${apiUrl}/channel`}
+          <strong>API URL:</strong> {`${apiUrl}channel`}
         </div>
         <div>
           <strong>Method:</strong> POST
